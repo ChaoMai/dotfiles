@@ -1,0 +1,7 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhist_cnt =5
+let g:netrw_dirhist_1='/home/chaomai/Documents/Codes/Current/GitHub/learning/data_strcture_and_algorithms/algorithms/dynamic_programming'
+let g:netrw_dirhist_2='/home/chaomai/Documents/Codes/Current/GitHub/learning/data_strcture_and_algorithms/algorithms/dynamic_programming/bin'
+let g:netrw_dirhist_3='/home/chaomai/Documents/Codes/Current/GitHub/learning/data_strcture_and_algorithms/algorithms/dynamic_programming'
+let g:netrw_dirhist_4='/home/chaomai/Documents/Codes/Current/GitHub/learning/data_strcture_and_algorithms/algorithms/dynamic_programming/src'
+let g:netrw_dirhist_5='/home/chaomai/Documents/Codes/Current/GitHub/learning/data_strcture_and_algorithms/algorithms/dynamic_programming'

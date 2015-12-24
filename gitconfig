@@ -1,0 +1,10 @@
+[user]
+	email = loneymai@gmail.com
+	name = Chao Mai
+[push]
+	default = simple
+[alias]
+    lgs = log --graph --pretty=oneline --abbrev-commit --decorate
+    lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --date=relative
+[core]
+	autocrlf = input
