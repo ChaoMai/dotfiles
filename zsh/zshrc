@@ -98,3 +98,4 @@ source /home/chaomai/Documents/Codes/Current/GitHub/dotfiles/zsh/zsh-syntax-high
 alias q="exit"
 alias ..="cd .."
 alias caja="caja --browser"
+alias git-token="cat /home/chaomai/Documents/backup_codes_tokens/github_token"

@@ -35,28 +35,28 @@ def main():
     MODE_SPECIFIC = 'SPECIFIC'
     parser = argparse.ArgumentParser(description='upgrading pip3 packages.')
     parser.add_argument(
-            '-mode',
-            nargs='?',
-            default=MODE_ALL,
-            metavar='mode',
-            dest='mode',
-            help='specify upgrading mode. <ALL | SPECIFIC> (default: %(default)s)')
+        '-mode',
+        nargs='?',
+        default=MODE_ALL,
+        metavar='mode',
+        dest='mode',
+        help='specify upgrading mode. <ALL | SPECIFIC> (default: %(default)s)')
     parser.add_argument(
-            '-packages',
-            nargs='*',
-            default='None',
-            metavar='packages...',
-            dest='package_names',
-            help=
-            'if don\'t upgrade all packages, then specify them. (default: %(default)s)')
+        '-packages',
+        nargs='*',
+        default='None',
+        metavar='packages...',
+        dest='package_names',
+        help=
+        'if don\'t upgrade all packages, then specify them. (default: %(default)s)')
     parser.add_argument(
-            '-is-check',
-            nargs='?',
-            default='True',
-            metavar='check or not',
-            dest='is_check',
-            help=
-            'specify whether each package. <True | False> (default: %(default)s)')
+        '-is-check',
+        nargs='?',
+        default='True',
+        metavar='check or not',
+        dest='is_check',
+        help=
+        'specify whether each package. <True | False> (default: %(default)s)')
 
     args = vars(parser.parse_args())
     mode = MODE_ALL if (args['mode']).upper() == MODE_ALL else MODE_SPECIFIC
@@ -64,7 +64,7 @@ def main():
     is_check = args['is_check'] == 'True'
 
     installed_packages = [dist.project_name
-            for dist in get_installed_distributions()]
+                          for dist in get_installed_distributions()]
 
     print('\nmode: {0}\nis check: {1}'.format(mode, is_check))
 

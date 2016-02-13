@@ -12,25 +12,21 @@ if [[ $# = 1 ]]; then
 
   dev_name=$(basename $dev_dir)
 
-  tmux has-session -t $dev_name
+  tmux has-session -t $dev_name 2> /dev/null
 
   if [[ $? != 0  ]]; then
 
     cd $dev_dir
-    tmux new-session -s $dev_name -n source -d
-    tmux send-keys -t $dev_name 'vim'  C-m
-
-    cd $dev_dir/bin
-    tmux new-window -n debug -t $dev_name
+    tmux new-session -s $dev_name -n 'source' -d
 
     cd $dev_dir/build
-    tmux new-window -n build -t $dev_name
+    tmux new-window -n 'build' -t $dev_name
 
     cd $dev_dir
-    tmux new-window -n misc -t $dev_name
+    tmux new-window -n 'misc' -t $dev_name
 
-    cd $dev_dir
     tmux select-window -t $dev_name:1
+    tmux send-keys -t $dev_name 'gvim' C-m
   fi
 
   tmux attach -t $dev_name

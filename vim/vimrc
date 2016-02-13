@@ -28,37 +28,36 @@ Plugin 'gmarik/Vundle.vim'
 
 Plugin 'Chiel92/vim-autoformat'
 Plugin 'Raimondi/delimitMate'
-" Plugin 'SirVer/ultisnips'
-" Plugin 'Valloric/YouCompleteMe'
+Plugin 'SirVer/ultisnips'
+Plugin 'Valloric/YouCompleteMe'
 Plugin 'Xuyuanp/nerdtree-git-plugin'
-Plugin 'Yggdroot/indentLine'
 Plugin 'airblade/vim-gitgutter'
 Plugin 'bling/vim-airline'
 Plugin 'christoomey/vim-tmux-navigator'
 Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'derekwyatt/vim-scala'
-Plugin 'dyng/ctrlsf.vim'
 Plugin 'easymotion/vim-easymotion'
+Plugin 'elzr/vim-json'
+Plugin 'ervandew/supertab'
 Plugin 'fatih/vim-go'
 Plugin 'hdima/python-syntax'
 Plugin 'honza/vim-snippets'
-Plugin 'ivalkeen/vim-ctrlp-tjump'
 Plugin 'jeetsukumaran/vim-buffergator'
-" Plugin 'kshenoy/vim-signature'
+Plugin 'kshenoy/vim-signature'
 Plugin 'majutsushi/tagbar'
 Plugin 'mileszs/ack.vim'
 Plugin 'morhetz/gruvbox'
+Plugin 'nathanaelkane/vim-indent-guides'
 Plugin 'nixprime/cpsm'
-" Plugin 'nsf/gocode', {'rtp': 'vim/'}
-Plugin 'ntpeters/vim-better-whitespace'
+Plugin 'nsf/gocode', {'rtp': 'vim/'}
 Plugin 'octol/vim-cpp-enhanced-highlight'
 Plugin 'scrooloose/nerdcommenter'
 Plugin 'scrooloose/nerdtree'
-" Plugin 'scrooloose/syntastic'
 Plugin 'szw/vim-tags'
 Plugin 'terryma/vim-expand-region'
 Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-surround'
+Plugin 'yonchu/accelerated-smooth-scroll'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -195,8 +194,6 @@ if has('gui_running')
   let g:gruvbox_italic=1
 endif
 
-" let g:gruvbox_contrast_dark='hard'
-" let g:gruvbox_contrast_light='soft'
 colorscheme gruvbox
 
 " Set utf8 as standard encoding and en_US as the standard language
@@ -273,10 +270,10 @@ map k gk
 map <silent> <leader><cr> :noh<cr>
 
 " Smart way to move between windows
-map <C-j> <C-W>j
-map <C-k> <C-W>k
-map <C-h> <C-W>h
-map <C-l> <C-W>l
+map <c-j> <c-w>j
+map <c-k> <c-w>k
+map <c-h> <c-w>h
+map <c-l> <c-w>l
 
 " Useful mappings for managing tabs
 map <leader>tn :tabnew<cr>
@@ -328,7 +325,7 @@ set laststatus=2
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 func! Replace(confirm, wholeword, replace)
   wa
-  let flag = ''
+  let flag=''
 
   if a:confirm
     let flag .= 'gec'
@@ -336,7 +333,7 @@ func! Replace(confirm, wholeword, replace)
     let flag .= 'ge'
   endif
 
-  let search = ''
+  let search=''
 
   if a:wholeword
     let search .= '\<' . escape(expand('<cword>'), '/\.*$^~[') . '\>'
@@ -344,20 +341,26 @@ func! Replace(confirm, wholeword, replace)
     let search .= expand('<cword>')
   endif
 
-  let replace = escape(a:replace, '/\&~')
+  let replace=escape(a:replace, '/\&~')
   execute 'argdo %s/' . search . '/' . replace . '/' . flag . '| update'
 endf
 
-" don't confirm, not whole word
-nnoremap <leader>R :call Replace(0, 0, input('Replace '.expand('<cword>').' with: '))<cr>
-" don't confirm, whole word
-nnoremap <leader>rw :call Replace(0, 1, input('Replace '.expand('<cword>').' with: '))<cr>
 " confirm, not whole word
-nnoremap <leader>rc :call Replace(1, 0, input('Replace '.expand('<cword>').' with: '))<cr>
+nnoremap <leader>r :call Replace(1, 0, input('Replace '.expand('<cword>').' with: '))<cr>
 " confirm, whole word
-nnoremap <leader>rcw :call Replace(1, 1, input('Replace '.expand('<cword>').' with: '))<cr>
+nnoremap <leader>rw :call Replace(1, 1, input('Replace '.expand('<cword>').' with: '))<cr>
 
 map <leader>pp :setlocal paste!<cr>
+
+autocmd FocusLost * :wa
+
+func! TrimWhitespace()
+  let l:save_cursor = getpos('.')
+  %s/\s\+$//e
+  call setpos('.', l:save_cursor)
+endfun
+
+autocmd BufWrite * :call TrimWhitespace()
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -375,91 +378,49 @@ nmap <leader>s? :map <leader>s<cr>
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Omni
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let OmniCpp_DefaultNamespaces=["std", "_GLIBCXX_STD"]
-
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Plugins
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """""""""" YouCompleteMe
-let g:ycm_min_num_of_chars_for_completion=1
-let g:ycm_show_diagnostics_ui=0
-" ☹ ⚑
+" ☹ ⚑ ⚠
 let g:ycm_error_symbol='✗'
-let g:ycm_warning_symbol='⚠'
+let g:ycm_warning_symbol='⚑'
 let g:ycm_always_populate_location_list=1
 let g:ycm_complete_in_comments=1
-let g:ycm_collect_identifiers_from_comments_and_strings=1
 let g:ycm_collect_identifiers_from_tags_files=1
-let g:ycm_add_preview_to_completeopt=0
+let g:ycm_seed_identifiers_with_syntax=1
 let g:ycm_autoclose_preview_window_after_completion=1
 let g:ycm_autoclose_preview_window_after_insertion=1
-let g:ycm_key_list_select_completion=['<C-j>']
-let g:ycm_key_list_previous_completion=['<C-k>']
-let g:ycm_global_ycm_extra_conf='~/.ycm_extra_conf.py'
-let g:ycm_extra_conf_globlist=['~/*']
+let g:ycm_key_list_select_completion=['<c-j>', '<c-n>', '<down>']
+let g:ycm_key_list_previous_completion=['<c-k>', '<c-p>', '<up>']
+let g:ycm_global_ycm_extra_conf='/home/chaomai/Documents/Codes/Current/GitHub/dotfiles/vim/ycm_extra_conf.py'
+let g:ycm_extra_conf_globlist=['/home/chaomai/Documents/Codes/Current/GitHub/dotfiles/vim/*']
+let g:ycm_confirm_extra_conf=1
 let g:ycm_cache_omnifunc=0
+let g:ycm_use_ultisnips_completer=1
+let g:ycm_goto_buffer_command='vertical-split'
 let g:ycm_disable_for_files_larger_than_kb=0
 
-" nnoremap <leader>gd :YcmCompleter GoToDefinitionElseDeclaration<cr>
-" nnoremap <F5> :YcmForceCompileAndDiagnostics<cr>
-nnoremap <leader>gdl :YcmCompleter GoToDeclaration<cr>
-nnoremap <leader>gd :YcmCompleter GoToDefinition<cr>
-nnoremap <leader>g :YcmCompleter GoTo<cr>
+nnoremap <F5> :YcmForceCompileAndDiagnostics<cr>
+nnoremap <leader>ji :YcmCompleter GoToInclude<cr>
+nnoremap <leader>jd :YcmCompleter GoToDeclaration<cr>
+nnoremap <leader>j :YcmCompleter GoTo<cr>
 nnoremap <leader>gt :YcmCompleter GetType<cr>
 nnoremap <leader>gp :YcmCompleter GetParent<cr>
-" go to implementation
-nnoremap <leader>g? :nnoremap <leader>g<cr>
+nnoremap <leader>gd :YcmCompleter GetDoc<cr>
 
-" OmniCppComplete key
-inoremap <leader>; <C-x><C-o>
+nnoremap <leader>g? :nnoremap <leader>g<cr>
+nnoremap <leader>j? :nnoremap <leader>j<cr>
 
 
 """""""""" UltiSnips
-" Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
-let g:UltiSnipsExpandTrigger="<C-e>"
-let g:UltiSnipsJumpForwardTrigger="<C-n>"
-let g:UltiSnipsJumpBackwardTrigger="<C-p>"
-" If you want :UltiSnipsEdit to split your window.
-let g:UltiSnipsEditSplit="vertical"
+let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsJumpForwardTrigger="<tab>"
+let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 
 
-"""""""""" syntastic
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
-
-let g:syntastic_always_populate_loc_list=1
-let g:syntastic_auto_loc_list=0
-let g:syntastic_check_on_open=0
-let g:syntastic_check_on_wq=0
-
-let g:syntastic_error_symbol='✗'
-let g:syntastic_style_error_symbol='⚑'
-let g:syntastic_warning_symbol='⚠'
-let g:syntastic_style_warning_symbol='⚑'
-
-let g:syntastic_c_compiler='clang'
-let g:syntastic_c_compiler_options='-std=c11'
-
-let g:syntastic_cpp_compiler='clang++'
-let g:syntastic_cpp_compiler_options='-std=c++11 -Weverything -Wno-c++11-extensions -Wno-c++98-compat'
-
-nnoremap <leader>ee :call ToggleErrors()<cr>
-
-" try to close the location panel first
-" and check if the last window number is changed or not.
-func! ToggleErrors()
-  let old_last_winnr = winnr('$')
-  lclose
-
-  if old_last_winnr == winnr('$')
-    " Nothing was closed, open syntastic error location panel
-    Errors
-  endif
-endf
+"""""""""" supertab
+let g:SuperTabDefaultCompletionType='<c-n>'
+let g:SuperTabCrMapping= 0
 
 
 """""""""" nerdcommenter
@@ -472,6 +433,7 @@ map <leader>c? :map <leader>c<cr>
 let g:NERDTreeMinimalUI=1
 let g:NERDTreeWinSize=32
 let g:NERDTreeAutoDeleteBuffer=1
+let NERDTreeShowHidden=1
 
 map <F3> :NERDTreeToggle<cr>
 " autocmd VimEnter * NERDTreeToggle
@@ -482,7 +444,7 @@ autocmd QuitPre * NERDTreeClose
 let g:tagbar_compact=1
 let g:tagbar_width=32
 
-let g:tagbar_type_c = {
+let g:tagbar_type_c={
       \ 'kinds': [
       \ 'd:macros:1:0',
       \ 'p:prototypes:1:0',
@@ -501,7 +463,7 @@ let g:tagbar_type_c = {
       \ ]
       \ }
 
-let g:tagbar_type_cpp = {
+let g:tagbar_type_cpp={
       \ 'kinds': [
       \ 'd:macros:1:0',
       \ 'p:prototypes:1:0',
@@ -520,7 +482,7 @@ let g:tagbar_type_cpp = {
       \ ]
       \ }
 
-let g:tagbar_type_scala = {
+let g:tagbar_type_scala={
       \ 'ctagstype': 'scala',
       \ 'sro': '.',
       \ 'kinds': [
@@ -537,7 +499,7 @@ let g:tagbar_type_scala = {
       \ ]
       \ }
 
-let g:tagbar_type_rust = {
+let g:tagbar_type_rust={
       \ 'ctagstype': 'rust',
       \ 'kinds': [
       \ 'T:types,type definitions',
@@ -551,7 +513,7 @@ let g:tagbar_type_rust = {
       \ ]
       \ }
 
-let g:tagbar_type_go = {
+let g:tagbar_type_go={
       \ 'ctagstype': 'go',
       \ 'kinds': [
       \ 'p:package',
@@ -587,14 +549,8 @@ autocmd QuitPre * TagbarClose
 " autocmd BufEnter * nested :call tagbar#autoopen(0)
 
 
-"""""""""" indentLine
-" c, ¦, ┆ or │
-let g:indentLine_char='┆'
-
-
 """""""""" airline
 let g:airline_powerline_fonts=0
-" let g:airline_theme='solarized'
 let g:airline#extensions#tabline#enabled=1
 
 
@@ -609,6 +565,7 @@ map <leader>af :Autoformat<cr>
 let g:formatdef_google_clang_format='"clang-format -style=Google"'
 let g:formatters_cpp=['google_clang_format']
 let g:formatters_c=['google_clang_format']
+let g:formatters_h=['google_clang_format']
 
 let g:formatdef_yapf_format='"yapf --style=google"'
 let g:formatters_python=['yapf_format']
@@ -625,43 +582,15 @@ omap / <Plug>(easymotion-tn)
 " map  n <Plug>(easymotion-next)
 " map  N <Plug>(easymotion-prev)
 
-map <leader>l <Plug>(easymotion-lineforward)
-map <leader>j <Plug>(easymotion-j)
-map <leader>k <Plug>(easymotion-k)
-map <leader>h <Plug>(easymotion-linebackward)
+map <leader><leader>l <Plug>(easymotion-lineforward)
+map <leader><leader>j <Plug>(easymotion-j)
+map <leader><leader>k <Plug>(easymotion-k)
+map <leader><leader>h <Plug>(easymotion-linebackward)
 
 " keep cursor column when JK motion
 let g:EasyMotion_startofline=0
 
 let g:EasyMotion_smartcase=1
-
-
-"""""""""" ctrlp
-" Enabled extensions
-let g:ctrlp_extensions=['tag', 'line', 'buffertag', 'mixed', 'quickfix', 'dir', 'rtscript', 'undo', 'changes', 'bookmarkdir']
-
-" Use the nearest .git directory as the cwd
-" This makes a lot of sense if you are working on a project that is in version
-" control. It also supports works with .svn, .hg, .bzr.
-let g:ctrlp_working_path_mode='ra'
-
-let g:ctrlp_root_markers=['CMakeLists.txt']
-
-let g:ctrlp_max_files=0
-
-let g:ctrlp_match_func={'match': 'cpsm#CtrlPMatch'}
-
-" Easy bindings for its various modes
-nmap <leader>b :CtrlPBuffer<cr>
-nmap <leader>m :CtrlPMixed<cr>
-nmap <leader>r :CtrlPMRU<cr>
-nmap <leader>t :CtrlPTag<cr>
-
-
-"""""""""" CtrlPtjump
-nnoremap <leader>gi :CtrlPtjump<cr>
-vnoremap <leader>gi :CtrlPtjumpVisual<cr>
-let g:ctrlp_tjump_only_silent=1
 
 
 """""""""" buffergator
@@ -687,7 +616,7 @@ nmap <leader>bq :bp <BAR> bd #<cr>
 
 
 """""""""" vim-tags
-set tags=./tags;,~/.vim/tags/stdcpp.tags
+set tags=./tags
 let g:vim_tags_ignore_files=['.gitignore', '.svnignore', '.cvsignore']
 let g:vim_tags_directories=['CMakeLists.txt', 'Makefile']
 let g:vim_tags_use_language_field=0
@@ -695,21 +624,44 @@ let g:vim_tags_project_tags_command='{CTAGS} -R --c-kinds=+p+l+x+c+d+e+f+g+m+n+s
 nmap <leader>tg :TagsGenerate!<cr>
 
 
+"""""""""" vim-tmux-navigator
+let g:tmux_navigator_save_on_switch=1
+
+
+"""""""""" vim-json
+let g:vim_json_syntax_conceal=0
+
+
+"""""""""" vim-indent-guides
+let g:indent_guides_enable_on_vim_startup=1
+let g:indent_guides_auto_colors=0
+let g:indent_guides_guide_size=1
+let g:indent_guides_start_level=2
+let g:indent_guides_exclude_filetypes=['help', 'nerdtree']
+
+
+"""""""""" vim ack
+nnoremap <leader>a :Ack
+
+
+"""""""""" ctrlp
+let g:ctrlp_extensions=['line', 'buffertag', 'mixed', 'quickfix', 'undo', 'changes', 'bookmarkdir']
+let g:ctrlp_working_path_mode='ra'
+let g:ctrlp_root_markers=['CMakeLists.txt']
+let g:ctrlp_max_files=5000
+let g:ctrlp_mruf_relative=1
+let g:ctrlp_mruf_exclude_nomod=1
+let g:ctrlp_reuse_window='netrw\|help\|quickfix'
+
+nmap <leader>m :CtrlPMRU<cr>
+nmap <leader>t :CtrlPBufTag<cr>
+
+let g:ctrlp_buftag_types={
+      \ 'c': '-R --c-kinds=+p+l+x+c+d+e+f+g+m+n+s+t+u+v --c++-kinds=+p+l+x+c+d+e+f+g+m+n+s+t+u+v --fields=+iaSl --extra=+q',
+      \ 'cpp': '-R --c-kinds=+p+l+x+c+d+e+f+g+m+n+s+t+u+v --c++-kinds=+p+l+x+c+d+e+f+g+m+n+s+t+u+v --fields=+iaSl --extra=+q',
+      \}
+
 """""""""" vim-cpp-enhanced-highlight
+let g:cpp_class_scope_highlight=1
+let g:cpp_experimental_template_highlight=1
 let c_no_curly_error=1
-
-
-"""""""""" ctrlsf
-nnoremap <Leader>sf :CtrlSF<CR>
-
-
-"""""""""" vim-better-whitespace
-autocmd BufWrite * StripWhitespace
-autocmd VimEnter * ToggleWhitespace
-" let g:better_whitespace_filetypes_blacklist=[]
-
-
-"""""""""" ack
-if executable('ag')
-  let g:ackprg = 'ag --vimgrep'
-endif
