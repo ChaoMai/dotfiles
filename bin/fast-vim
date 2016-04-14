@@ -1,0 +1,12 @@
+#!/bin/bash
+
+if [[ $# = 1 ]]; then
+
+  vim -u NONE $1
+
+else
+
+  echo 'specify path to file first'
+  echo 'exiting...'
+
+fi

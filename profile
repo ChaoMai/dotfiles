@@ -1,6 +1,9 @@
 # my bin
 export PATH=/home/chaomai/.bin:$PATH
 
+# TERM
+export TERM=xterm-256color
+
 # JAVA_HOME
 JAVA_HOME=/usr/lib/jvm/java-8-openjdk
 export JAVA_HOME
@@ -20,8 +23,8 @@ export CC=/usr/bin/clang
 export CXX=/usr/bin/clang++
 
 # vim
-export EDITOR=/usr/bin/vim
-export VISUAL=/usr/bin/vim
+export EDITOR=/usr/bin/nvim
+export VISUAL=/usr/bin/nvim
 
 # zsh
 export SHELL=/usr/bin/zsh

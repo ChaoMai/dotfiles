@@ -76,26 +76,18 @@ source $ZSH/oh-my-zsh.sh
 # ssh
 # export SSH_KEY_PATH="~/.ssh/dsa_id"
 
-# Set personal aliases, overriding those provided by oh-my-zsh libs,
-# plugins, and themes. Aliases can be placed here, though oh-my-zsh
-# users are encouraged to define aliases within the ZSH_CUSTOM folder.
-# For a full list of active aliases, run `alias`.
-#
-# Example aliases
-# alias zshconfig="mate ~/.zshrc"
-# alias ohmyzsh="mate ~/.oh-my-zsh"
-
 export TERM=xterm-256color
-eval `dircolors /home/chaomai/.dircolors.ansi-dark`
+eval `dircolors /home/chaomai/.dircolors.256dark`
 
 # gruvbox
-source /home/chaomai/.vim/bundle/gruvbox/gruvbox_256palette.sh
-
-# zsh highlighting
-source /home/chaomai/Documents/Codes/Current/GitHub/dotfiles/zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+# unnecessary for neovim
+# source /home/chaomai/.config/nvim/dein.vim/repos/github.com/morhetz/gruvbox/gruvbox_256palette.sh
 
 # alias
 alias q="exit"
 alias ..="cd .."
-alias caja="caja --browser"
-alias git-token="cat /home/chaomai/Documents/backup_codes_tokens/github_token"
+alias caja="caja ."
+alias v="nvim"
+alias vim="nvim"
+alias nvimrc="nvim /home/chaomai/.config/nvim/init.vim"
+alias gittoken="cat /home/chaomai/Documents/backup_codes_tokens/github_token | xclip -selection clipboard"

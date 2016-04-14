@@ -19,7 +19,7 @@ root: /home/chaomai/Documents/Codes/Current/GitHub/ChaoMaisBlog
 # tmux_command: byobu
 
 # Specifies (by name or index) which window will be selected on project startup. If not set, the first window is used.
-startup_window: editor
+startup_window: build
 
 # Controls whether the tmux session should be attached to automatically. Defaults to true.
 # attach: false
@@ -28,9 +28,8 @@ startup_window: editor
 # post: tmux -CC attach -t blog
 
 windows:
-  - editor:
-      panes:
-        - vim
   - build:
+      panes:
+        - gvim
   - theme: cd /home/chaomai/Documents/Codes/Current/GitHub/ChaoMaisBlog/themes
   - misc:

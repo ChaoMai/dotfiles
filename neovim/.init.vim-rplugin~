@@ -1,0 +1,12 @@
+" python3 plugins
+
+
+" ruby plugins
+
+
+" python plugins
+call remote#host#RegisterPlugin('python', '/home/chaomai/Documents/Codes/Current/GitHub/dotfiles/neovim/dein.vim/.dein/rplugin/python/lldb_nvim', [
+      \ {'sync': 0, 'name': 'LLsession', 'type': 'command', 'opts': {'complete': 'customlist,lldb#session#complete', 'nargs': '+'}},
+     \ ])
+
+
