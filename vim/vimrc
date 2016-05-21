@@ -142,7 +142,11 @@ set completeopt-=preview
 
 set cursorline
 
-set colorcolumn=80
+if v:version >= 703
+  set colorcolumn=80
+else
+  autocmd BufWinEnter * let w:m2=matchadd('ErrorMsg', '\%>80v.\+', -1)
+endif
 
 set linespace=3
 
@@ -216,8 +220,10 @@ endif
 set noswapfile
 
 set undolevels=5000
-set undodir=~/.vim/vim_undo_files
-set undofile
+if v:version >= 703
+  set undodir=~/.vim/vim_undo_files
+  set undofile
+endif
 
 set updatecount=10
 
@@ -641,7 +647,9 @@ let g:tagbar_type_go={
 
 map <f3> :TagbarToggle<cr>
 
-autocmd quitpre * TagbarClose
+if v:version >= 703
+  autocmd quitpre * TagbarClose
+endif
 " autocmd vimenter * nested :call tagbar#autoopen(1)
 " autocmd filetype * nested :call tagbar#autoopen(0)
 " autocmd bufenter * nested :call tagbar#autoopen(0)
@@ -661,7 +669,9 @@ let NERDTreeShowHidden=1
 
 map <f2> :NERDTreeToggle<cr>
 " autocmd vimenter * NERDTreeToggle
-autocmd quitpre * NERDTreeClose
+if v:version >= 703
+  autocmd quitpre * NERDTreeClose
+endif
 
 " NERDTress File highlighting
 func! NERDTreeHighlightFile(extension, fg, bg, guifg, guibg)
