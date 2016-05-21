@@ -194,8 +194,11 @@ let g:gruvbox_invert_selection=1
 let g:gruvbox_improved_strings=0
 let g:gruvbox_improved_warnings=1
 
-colorscheme gruvbox
-
+if v:version >= 703
+  colorscheme gruvbox
+else
+  colorscheme desert
+endif
 
 if has('gui_running')
   set guioptions-=l
@@ -316,7 +319,9 @@ set statusline+=%#warningmsg#
 set statusline+=%m
 set statusline+=%*
 
-set statusline+=%{fugitive#statusline()}
+if v:version >= 703
+  set statusline+=%{fugitive#statusline()}
+endif
 
 " display a warning if &et is wrong, or we have mixed-indenting
 set statusline+=%#error#
