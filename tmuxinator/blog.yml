@@ -30,6 +30,6 @@ startup_window: build
 windows:
   - build:
       panes:
-        - gvim
+        - nvim
   - theme: cd /home/chaomai/Documents/Codes/Current/GitHub/ChaoMaisBlog/themes
   - misc:

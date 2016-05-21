@@ -11,6 +11,16 @@ export PATH=$JAVA_HOME:$PATH
 JAVA_OPTS="-Dhttp.proxyHost=192.168.31.1 -Dhttp.proxyPort=1080 -Dhttps.proxyHost=192.168.31.1 -Dhttps.proxyPort=1080"
 export JAVA_OPTS
 
+# hadoop
+HADOOP_HOME=/opt/hadoop-2.7.2
+export HADOOP_HOME
+export PATH=$HADOOP_HOME:$PATH
+
+# hive
+HIVE_HOME=/opt/apache-hive-2.0.0-bin
+export HIVE_HOME
+export PATH=$HIVE_HOME:$PATH
+
 # GRADLE_HOME
 GRADLE_HOME=/usr/share/java/gradle
 export GRADLE_HOME
@@ -37,9 +47,8 @@ export PATH=$GOPATH/bin:$PATH
 GPERFTOOLS_LIB=/usr/lib
 export GPERFTOOLS_LIB
 
-# spark
-SPARK_HOME=/home/chaomai/.bin/spark-1.6.0/bin
-export PATH=$SPARK_HOME:$PATH
-
 # maven
 export MAVEN_OPTS="-Xms1024m -Xmx2048m"
+
+# neovim
+export NVIM_PYTHON_LOG_FILE=/tmp/nvim.log

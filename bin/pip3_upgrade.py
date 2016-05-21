@@ -1,28 +1,28 @@
 #!/bin/python3
 
 import argparse
-from pip import get_installed_distributions
+import pip
 from sys import exit
 from subprocess import call
 
 
-def Update(packages, is_check):
+def update(packages, is_check):
     for package in packages:
         if is_check:
             print('\nupgrade: {0} ?[y/n]: '.format(package))
             is_upgrade = input()
             if is_upgrade == 'y':
-                DoUpdate(package)
+                perform_update(package)
             elif is_upgrade == 'n':
                 print('{0} canceled'.format(package))
             else:
                 print('input y or n')
                 exit(0)
         else:
-            DoUpdate(package)
+            perform_update(package)
 
 
-def DoUpdate(package):
+def perform_update(package):
     upgrade_command = 'sudo pip3 install --upgrade ' + package
     print('\nupgrading {0}'.format(package))
     #  print(upgrade_command.split())
@@ -63,16 +63,16 @@ def main():
     package_names = args['package_names']
     is_check = args['is_check'] == 'True'
 
-    installed_packages = [dist.project_name
-                          for dist in get_installed_distributions()]
+    outdated_packages = [dist.project_name
+                         for dist in pip.get_installed_distributions()]
 
     print('\nmode: {0}\nis check: {1}'.format(mode, is_check))
 
     if mode == MODE_ALL:
-        print('\nto upgraed:\n{0}'.format(installed_packages))
-        Update(installed_packages, is_check)
+        print('\nto upgraed:\n{0}'.format(outdated_packages))
+        update(outdated_packages, is_check)
     else:
-        intalled_set = set(installed_packages)
+        intalled_set = set(outdated_packages)
         specified_set = set(package_names)
         to_upgrade_set = intalled_set.intersection(specified_set)
         to_upgrade = list(to_upgrade_set)
@@ -80,8 +80,13 @@ def main():
             print('\nno such packages installed:\n{0}'.format(package_names))
         else:
             print('\nto upgraed:\n{0}'.format(to_upgrade))
-            Update(to_upgrade, is_check)
+            update(to_upgrade, is_check)
 
+#  def get_packages(is_outdated=True, proxy=''):
+#  commands = pip.commands.list.ListCommand()
+#  opts, args = commands.parser.parse_args()
+#  opts.outdated = is_outdated
+#  commands.run(opts, args)
 
 if __name__ == '__main__':
     main()
