@@ -2,7 +2,8 @@ call plug#begin('~/.vim/plugged')
 
 " code completion
 Plug 'SirVer/ultisnips'
-Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer --gocode-completer --tern-completer --racer-completer' }
+Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer' }
+" Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer --gocode-completer --tern-completer --racer-completer' }
 Plug 'ervandew/supertab'
 Plug 'honza/vim-snippets'
 Plug 'jiangmiao/auto-pairs'
@@ -14,6 +15,7 @@ Plug 'elzr/vim-json'
 Plug 'fatih/vim-go'
 Plug 'hdima/python-syntax'
 Plug 'nsf/gocode', { 'rtp': 'nvim', 'do': '~/.vim/plugged/gocode/nvim/symlink.sh' }
+Plug 'solarnz/thrift.vim'
 
 " git
 Plug 'Xuyuanp/nerdtree-git-plugin', { 'on': 'NERDTreeToggle' }
