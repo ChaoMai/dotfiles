@@ -17,19 +17,14 @@ plugins=(archlinux autojump colored-man docker docker-compose gem git git-extras
 # user configuration
 
 source $ZSH/oh-my-zsh.sh
-export TERM=xterm-256color
-eval `dircolors /home/chaomai/.dircolors.256dark`
+eval `dircolors ~/.dircolors.256dark`
 
 # gruvbox
-# unnecessary for terminal with true color support
-# source /home/chaomai/.config/nvim/dein.vim/repos/github.com/morhetz/gruvbox/gruvbox_256palette.sh
+source ~/.vim/plugged/gruvbox/gruvbox_256palette.sh
 
 # alias
 alias q="exit"
 alias ..="cd .."
 alias caja="caja ."
 alias v="vim"
-# alias vim="nvim"
-# alias nvimdir="cd /home/chaomai/.config/nvim"
-# alias nvimrc="nvim /home/chaomai/.config/nvim/init.vim"
-alias gittoken="cat /home/chaomai/Documents/backup_codes_tokens/github_token | xclip -selection clipboard"
+# alias gittoken="cat ~/Documents/backup_codes_tokens/github_token | xclip -selection clipboard"

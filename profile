@@ -1,3 +1,7 @@
+# ld_library_path
+
+export LD_LIBRARY_PATH=/path/to/my/home/local/lib/:${LD_LIBRARY_PATH}
+
 # my bin
 export PATH=/home/chaomai/.bin:$PATH
 

@@ -1,2 +1,3 @@
 *.pyc
 vim/vim_undo_files/
+vim/plugged/
