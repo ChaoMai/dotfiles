@@ -37,8 +37,8 @@ export CC=/usr/bin/clang
 export CXX=/usr/bin/clang++
 
 # vim
-export EDITOR=/usr/bin/nvim
-export VISUAL=/usr/bin/nvim
+export EDITOR=/usr/bin/vim
+export VISUAL=/usr/bin/vim
 
 # zsh
 export SHELL=/usr/bin/zsh
@@ -53,6 +53,3 @@ export GPERFTOOLS_LIB
 
 # maven
 export MAVEN_OPTS="-Xms1024m -Xmx2048m"
-
-# neovim
-export NVIM_PYTHON_LOG_FILE=/tmp/nvim.log
