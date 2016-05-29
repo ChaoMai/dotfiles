@@ -33,6 +33,7 @@ Plug 'morhetz/gruvbox'
 Plug 'Chiel92/vim-autoformat'
 Plug 'Shougo/unite.vim', { 'on': 'Unite' }
 Plug 'Yggdroot/indentLine'
+Plug 'christoomey/vim-tmux-navigator'
 Plug 'easymotion/vim-easymotion'
 Plug 'jeetsukumaran/vim-buffergator', { 'on': ['BuffergatorMruCyclePrev', 'BuffergatorMruCycleNext', 'BuffergatorToggle'] }
 Plug 'majutsushi/tagbar', { 'on': ['TagbarToggle', 'TagbarClose'] }
@@ -128,6 +129,7 @@ set showmatch
 set noerrorbells
 set novisualbell
 set t_vb=
+set t_ut=
 set tm=500
 
 set foldmethod=indent
@@ -190,7 +192,7 @@ let g:gruvbox_contrast_dark='soft'
 " let g:gruvbox_contrast_light='soft'
 
 let g:gruvbox_bold=0
-let g:gruvbox_italic=1
+let g:gruvbox_italic=0
 let g:gruvbox_invert_signs=0
 let g:gruvbox_invert_selection=1
 let g:gruvbox_improved_strings=0
@@ -784,3 +786,14 @@ map <leader>vg :GitGutterToggle<cr>
 let g:indentLine_char='┊'
 let g:indentLine_concealcursor=''
 let g:indentLine_conceallevel=2
+
+
+
+""""""""""
+let g:tmux_navigator_no_mappings = 1
+
+nnoremap <silent><c-h> :TmuxNavigateLeft<cr>
+nnoremap <silent><c-j> :TmuxNavigateDown<cr>
+nnoremap <silent><c-k> :TmuxNavigateUp<cr>
+nnoremap <silent><c-l> :TmuxNavigateRight<cr>
+" nnoremap <silent> {Previous-Mapping} :TmuxNavigatePrevious<cr>
