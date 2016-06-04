@@ -1,9 +1,8 @@
 # ld_library_path
-
-export LD_LIBRARY_PATH=/path/to/my/home/local/lib/:${LD_LIBRARY_PATH}
+# export LD_LIBRARY_PATH=~/Programs/local/lib/:${LD_LIBRARY_PATH}
 
 # my bin
-export PATH=/home/chaomai/.bin:$PATH
+export PATH=~/.bin:$PATH
 
 # TERM
 export TERM=xterm-256color
@@ -30,7 +29,7 @@ GRADLE_HOME=/usr/share/java/gradle
 export GRADLE_HOME
 
 # gem
-export PATH=/home/chaomai/.gem/ruby/2.3.0/bin:$PATH
+export PATH=~/.gem/ruby/2.3.0/bin:$PATH
 
 # clang and clang++
 export CC=/usr/bin/clang
@@ -44,7 +43,7 @@ export VISUAL=/usr/bin/vim
 export SHELL=/usr/bin/zsh
 
 # go workspace
-export GOPATH=/home/chaomai/Documents/Codes/Current/GitHub/go_workspace
+export GOPATH=~/Documents/Codes/Current/GitHub/go_workspace
 export PATH=$GOPATH/bin:$PATH
 
 # gperftools lib
