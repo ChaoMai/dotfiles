@@ -1,0 +1,12 @@
+#!/usr/bin/env expect
+
+source /home/chaomai/Documents/backup_codes_tokens/back_password.exp
+
+set index [lindex $argv 0]
+
+spawn ssh search$index
+expect "password:"
+send $moni_password
+expect "password:"
+send $back_password
+interact

@@ -303,7 +303,8 @@ set viminfo=h,'500,<10000,s1000,/1000,:1000
 " statusline setup
 set statusline=%#identifier#
 set statusline+=[%f]    " tail of the filename
-set statusline+=%*
+" set statusline+=%*
+set statusline+=%*>
 
 " display a warning if fileformat isnt unix
 set statusline+=%#warningmsg#
