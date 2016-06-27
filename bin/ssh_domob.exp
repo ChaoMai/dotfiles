@@ -2,11 +2,21 @@
 
 source /home/chaomai/Documents/backup_codes_tokens/back_password.exp
 
-set index [lindex $argv 0]
+set server [lindex $argv 0]
 
-spawn ssh search$index
+spawn ssh $server
+
 expect "password:"
 send $moni_password
+
 expect "password:"
 send $back_password
+
+sleep 1
+
+send -- "cd maichao\r"
+send -- "source .profile\r"
+send -- "tmux new -A -s $server\r"
+
 interact
+

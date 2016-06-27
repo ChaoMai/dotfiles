@@ -2,11 +2,19 @@
 
 source /home/chaomai/Documents/backup_codes_tokens/back_password.exp
 
-set index [lindex $argv 0]
+if {$argc < 2} {
+  puts "source... [destination]"
+}
 
-spawn ssh back$index
+set cmd "rsync -uaihv $argv"
+
+spawn {*}$cmd
+
 expect "password:"
 send $moni_password
+
 expect "password:"
 send $back_password
+
 interact
+
