@@ -6,7 +6,7 @@ if {$argc < 2} {
   puts "source... [destination]"
 }
 
-set cmd "rsync -uaihv $argv"
+set cmd "rsync -uaihv --progress $argv"
 
 spawn {*}$cmd
 
