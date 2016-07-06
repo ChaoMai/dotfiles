@@ -93,7 +93,7 @@ autocmd bufnewfile,bufread * setlocal formatoptions-=cro
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Vim user interface
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-set scrolloff=3
+" set scrolloff=0
 set sidescrolloff=6
 set sidescroll=1
 
@@ -140,6 +140,8 @@ set foldcolumn=1
 
 set number
 nmap <leader>nn :set number!<cr>
+
+nmap <leader>ll :set list!<cr>
 
 " set completeopt=menu,preview,longest
 set completeopt-=preview
@@ -341,6 +343,7 @@ set statusline+=%#error#
 set statusline+=%{&paste?'[paste]':''}
 set statusline+=%{&spell?'[spell]':''}
 set statusline+=%{&number?'':'[nonumber]'}
+set statusline+=%{&list?'[list]':''}
 set statusline+=%*
 
 set statusline+=%=      " left/right separator
@@ -474,7 +477,8 @@ func! TrimWhitespace()
   call winrestview(l:winview)
 endfunc
 
-autocmd bufwrite * :call TrimWhitespace()
+nnoremap <leader>tw :call TrimWhitespace()<cr>
+" autocmd bufwrite * :call TrimWhitespace()
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -509,6 +513,7 @@ let g:ycm_filetype_blacklist = {
       \ 'help' : 1
       \}
 
+let g:ycm_show_diagnostics_ui=0
 let g:ycm_error_symbol='✖'
 let g:ycm_warning_symbol='⚑'
 let g:ycm_always_populate_location_list=1
