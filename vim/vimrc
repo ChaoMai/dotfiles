@@ -1,12 +1,7 @@
 silent! call plug#begin('~/.vim/plugged')
 
 " code completion
-Plug 'SirVer/ultisnips'
-Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer' }
-" Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer --gocode-completer --tern-completer --racer-completer' }
-Plug 'ervandew/supertab'
-Plug 'honza/vim-snippets'
-Plug 'jiangmiao/auto-pairs'
+Plug 'ajh17/VimCompletesMe'
 
 " language support
 Plug 'critiqjo/lldb.nvim'
@@ -14,7 +9,6 @@ Plug 'derekwyatt/vim-scala'
 Plug 'elzr/vim-json'
 Plug 'fatih/vim-go'
 Plug 'hdima/python-syntax'
-Plug 'nsf/gocode', { 'rtp': 'nvim', 'do': '~/.vim/plugged/gocode/nvim/symlink.sh' }
 Plug 'solarnz/thrift.vim'
 
 " git
@@ -23,10 +17,6 @@ Plug 'airblade/vim-gitgutter', { 'on': 'GitGutterToggle' }
 Plug 'tpope/vim-fugitive'
 
 " gui related
-Plug 'baskerville/bubblegum'
-Plug 'junegunn/seoul256.vim'
-Plug 'luochen1990/rainbow'
-Plug 'mhartington/oceanic-next'
 Plug 'morhetz/gruvbox'
 
 " misc
@@ -42,7 +32,6 @@ Plug 'scrooloose/nerdcommenter'
 Plug 'scrooloose/nerdtree', { 'on': ['NERDTreeToggle', 'NERDTreeClose'] }
 Plug 'szw/vim-tags', { 'on': 'TagsGenerate' }
 Plug 'terryma/vim-expand-region'
-Plug 'tpope/vim-surround'
 Plug 'tsukkee/unite-tag', { 'on': 'Unite' }
 Plug 'vim-utils/vim-man', { 'on': ['Man' , 'Vman'] }
 
@@ -498,65 +487,65 @@ autocmd filetype svn, *commit* setlocal spell
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => plugins
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"""""""""" YouCompleteMe
-let g:ycm_filetype_blacklist = {
-      \ 'tagbar' : 1,
-      \ 'qf' : 1,
-      \ 'notes' : 1,
-      \ 'markdown' : 1,
-      \ 'unite' : 1,
-      \ 'text' : 1,
-      \ 'vimwiki' : 1,
-      \ 'pandoc' : 1,
-      \ 'infolog' : 1,
-      \ 'mail' : 1,
-      \ 'help' : 1
-      \}
+" """""""""" YouCompleteMe
+" let g:ycm_filetype_blacklist = {
+" \ 'tagbar' : 1,
+" \ 'qf' : 1,
+" \ 'notes' : 1,
+" \ 'markdown' : 1,
+" \ 'unite' : 1,
+" \ 'text' : 1,
+" \ 'vimwiki' : 1,
+" \ 'pandoc' : 1,
+" \ 'infolog' : 1,
+" \ 'mail' : 1,
+" \ 'help' : 1
+" \}
 
-let g:ycm_show_diagnostics_ui=0
-let g:ycm_error_symbol='✖'
-let g:ycm_warning_symbol='⚑'
-let g:ycm_always_populate_location_list=1
-let g:ycm_complete_in_comments=0
-let g:ycm_complete_in_strings=0
-let g:ycm_collect_identifiers_from_tags_files=1
-let g:ycm_server_python_interpreter='/usr/bin/python'
-let g:ycm_seed_identifiers_with_syntax=1
-let g:ycm_autoclose_preview_window_after_completion=1
-let g:ycm_autoclose_preview_window_after_insertion=1
-let g:ycm_key_list_select_completion=['<c-j>', '<c-n>', '<down>']
-let g:ycm_key_list_previous_completion=['<c-k>', '<c-p>', '<up>']
-let g:ycm_global_ycm_extra_conf='~/.vim/ycm_extra_conf.py'
-let g:ycm_extra_conf_globlist=['~/.vim/*']
-let g:ycm_confirm_extra_conf=1
-let g:ycm_cache_omnifunc=0
-let g:ycm_use_ultisnips_completer=1
-let g:ycm_goto_buffer_command='vertical-split'
-let g:ycm_disable_for_files_larger_than_kb=1024
+" let g:ycm_show_diagnostics_ui=0
+" let g:ycm_error_symbol='✖'
+" let g:ycm_warning_symbol='⚑'
+" let g:ycm_always_populate_location_list=1
+" let g:ycm_complete_in_comments=0
+" let g:ycm_complete_in_strings=0
+" let g:ycm_collect_identifiers_from_tags_files=1
+" let g:ycm_server_python_interpreter='/usr/bin/python'
+" let g:ycm_seed_identifiers_with_syntax=1
+" let g:ycm_autoclose_preview_window_after_completion=1
+" let g:ycm_autoclose_preview_window_after_insertion=1
+" let g:ycm_key_list_select_completion=['<c-j>', '<c-n>', '<down>']
+" let g:ycm_key_list_previous_completion=['<c-k>', '<c-p>', '<up>']
+" let g:ycm_global_ycm_extra_conf='~/.vim/ycm_extra_conf.py'
+" let g:ycm_extra_conf_globlist=['~/.vim/*']
+" let g:ycm_confirm_extra_conf=1
+" let g:ycm_cache_omnifunc=0
+" let g:ycm_use_ultisnips_completer=1
+" let g:ycm_goto_buffer_command='vertical-split'
+" let g:ycm_disable_for_files_larger_than_kb=1024
 
-nnoremap <f5> :YcmForceCompileAndDiagnostics<cr>
-nnoremap <leader>ji :YcmCompleter GoToInclude<cr>
-nnoremap <leader>jd :YcmCompleter GoToDeclaration<cr>
-nnoremap <leader>j :YcmCompleter GoTo<cr>
-nnoremap <leader>gt :YcmCompleter GetType<cr>
-nnoremap <leader>gp :YcmCompleter GetParent<cr>
-nnoremap <leader>gd :YcmCompleter GetDoc<cr>
+" nnoremap <f5> :YcmForceCompileAndDiagnostics<cr>
+" nnoremap <leader>ji :YcmCompleter GoToInclude<cr>
+" nnoremap <leader>jd :YcmCompleter GoToDeclaration<cr>
+" nnoremap <leader>j :YcmCompleter GoTo<cr>
+" nnoremap <leader>gt :YcmCompleter GetType<cr>
+" nnoremap <leader>gp :YcmCompleter GetParent<cr>
+" nnoremap <leader>gd :YcmCompleter GetDoc<cr>
 
-nnoremap <leader>g? :nnoremap <leader>g<cr>
-nnoremap <leader>j? :nnoremap <leader>j<cr>
+" nnoremap <leader>g? :nnoremap <leader>g<cr>
+" nnoremap <leader>j? :nnoremap <leader>j<cr>
 
-nnoremap <leader>mm :exe '!c++filt '.expand('<cword>')<cr>
-
-
-"""""""""" UltiSnips
-let g:UltiSnipsExpandTrigger="<tab>"
-let g:UltiSnipsJumpForwardTrigger="<tab>"
-let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
+" nnoremap <leader>mm :exe '!c++filt '.expand('<cword>')<cr>
 
 
-"""""""""" supertab
-let g:SuperTabDefaultCompletionType='<c-n>'
-let g:SuperTabCrMapping= 0
+" """""""""" UltiSnips
+" let g:UltiSnipsExpandTrigger="<tab>"
+" let g:UltiSnipsJumpForwardTrigger="<tab>"
+" let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
+
+
+" """""""""" supertab
+" let g:SuperTabDefaultCompletionType='<c-n>'
+" let g:SuperTabCrMapping= 0
 
 
 """""""""" tagbar
