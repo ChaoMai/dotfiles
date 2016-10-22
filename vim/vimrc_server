@@ -1,8 +1,8 @@
 silent! call plug#begin('~/.vim/plugged')
 
 " code completion
-Plug 'SirVer/ultisnips'
-Plug 'Valloric/YouCompleteMe'
+" Plug 'SirVer/ultisnips'
+" Plug 'Valloric/YouCompleteMe'
 Plug 'ervandew/supertab'
 Plug 'honza/vim-snippets'
 
