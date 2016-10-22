@@ -4,7 +4,14 @@
 [push]
 	default = simple
 [alias]
-    lgs = log --graph --pretty=oneline --abbrev-commit --decorate
-    lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --date=relative
+	lgs = log --graph --pretty=oneline --abbrev-commit --decorate
+	lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --date=relative
 [core]
 	autocrlf = input
+	compression = 0
+	packedGitLimit = 512m 
+	packedGitWindowSize = 512m 
+[pack] 
+	deltaCacheSize = 2047m 
+	packSizeLimit = 2047m 
+	windowMemory = 2047m

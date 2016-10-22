@@ -4,8 +4,8 @@ import logging
 import ycm_core
 
 BASE_FLAGS_CC = [
-    '-Weverything', '-Wno-c++11-extensions', '-Wno-c++98-compat', '-std=c++11',
-    '-x', 'c++', '-I/usr/include/', '-I/usr/include/c++/5.3.0/'
+    '-Weverything', '-Wno-c++11-extensions', '-Wno-c++98-compat', '-Wno-padded',
+    '-std=c++14', '-x', 'c++', '-I/usr/include/', '-I/usr/include/c++/6.2.1/'
 ]
 SOURCE_EXTENSIONS = ['.cpp', '.cxx', '.cc', '.c', '.m', '.mm']
 HEADER_EXTENSIONS = ['.h', '.hxx', '.hpp', '.hh']
@@ -95,8 +95,7 @@ def MakeRelativePathsInFlagsAbsolute(flags, working_directory):
 
 def FlagsForCompilationDatabase(root, filename):
     try:
-        compilation_db_path = os.path.join(
-            os.path.join(root, 'build'), 'compile_commands.json')
+        compilation_db_path = os.path.join(root, 'compile_commands.json')
         compilation_db_dir = os.path.dirname(compilation_db_path)
         logging.info("Set compilation database directory to " +
                      compilation_db_dir)

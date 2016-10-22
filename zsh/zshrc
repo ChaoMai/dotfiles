@@ -12,7 +12,7 @@ COMPLETION_WAITING_DOTS="true"
 
 HIST_STAMPS="yyyy-mm-dd"
 
-plugins=(archlinux autojump colored-man docker docker-compose gem git git-extras go golang man npm pip tmux tmuxniator)
+plugins=(archlinux autojump colored-man docker docker-compose gem git git-extras go golang man npm pip tmux tmuxniator vim-interaction)
 
 # user configuration
 
@@ -28,3 +28,4 @@ alias ..="cd .."
 alias caja="caja ."
 alias v="vim"
 alias gittoken="cat ~/Documents/backup_codes_tokens/github_token"
+alias rm="trash-put"

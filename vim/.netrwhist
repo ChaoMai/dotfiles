@@ -1,4 +1,10 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =2
+let g:netrw_dirhist_cnt =8
 let g:netrw_dirhist_1='/home/chaomai/Documents/Codes/Current/domob/optimize/apname_udf'
 let g:netrw_dirhist_2='/home/chaomai/Documents/Codes/Current/domob/up_service/user_profile'
+let g:netrw_dirhist_3='/home/chaomai/Documents/Codes/Current/domob/rtb_clk_storm'
+let g:netrw_dirhist_4='/home/chaomai/Documents/Codes/Current/domob/dmp_index'
+let g:netrw_dirhist_5='/home/chaomai/Documents/backup_codes_tokens'
+let g:netrw_dirhist_6='/home/chaomai/Documents/Codes/Current/domob/dmp_index_recorder/bin'
+let g:netrw_dirhist_7='/home/chaomai/Documents/Codes/Current/domob/rtb_tag_recorder'
+let g:netrw_dirhist_8='/home/chaomai/Documents/Codes/Current/domob/dmp_index_builder'

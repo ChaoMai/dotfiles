@@ -1,19 +1,23 @@
 silent! call plug#begin('~/.vim/plugged')
 
 " code completion
-Plug 'ajh17/VimCompletesMe'
+Plug 'SirVer/ultisnips'
+Plug 'Valloric/YouCompleteMe'
+Plug 'ervandew/supertab'
+Plug 'honza/vim-snippets'
 
 " language support
-Plug 'critiqjo/lldb.nvim'
 Plug 'derekwyatt/vim-scala'
 Plug 'elzr/vim-json'
 Plug 'fatih/vim-go'
 Plug 'hdima/python-syntax'
+Plug 'keith/tmux.vim'
+Plug 'mrtazz/DoxygenToolkit.vim'
 Plug 'solarnz/thrift.vim'
 
 " git
-Plug 'Xuyuanp/nerdtree-git-plugin', { 'on': 'NERDTreeToggle' }
-Plug 'airblade/vim-gitgutter', { 'on': 'GitGutterToggle' }
+Plug 'Xuyuanp/nerdtree-git-plugin'
+Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-fugitive'
 
 " gui related
@@ -21,19 +25,22 @@ Plug 'morhetz/gruvbox'
 
 " misc
 Plug 'Chiel92/vim-autoformat'
-Plug 'Shougo/unite.vim', { 'on': 'Unite' }
+Plug 'Shougo/unite.vim'
 Plug 'Yggdroot/indentLine'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'easymotion/vim-easymotion'
-Plug 'jeetsukumaran/vim-buffergator', { 'on': ['BuffergatorMruCyclePrev', 'BuffergatorMruCycleNext', 'BuffergatorToggle'] }
-Plug 'majutsushi/tagbar', { 'on': ['TagbarToggle', 'TagbarClose'] }
+Plug 'jeetsukumaran/vim-buffergator'
+Plug 'Raimondi/delimitMate'
+Plug 'majutsushi/tagbar'
+Plug 'metakirby5/codi.vim'
 Plug 'mhinz/vim-grepper'
 Plug 'scrooloose/nerdcommenter'
-Plug 'scrooloose/nerdtree', { 'on': ['NERDTreeToggle', 'NERDTreeClose'] }
-Plug 'szw/vim-tags', { 'on': 'TagsGenerate' }
+Plug 'scrooloose/nerdtree'
+Plug 'szw/vim-tags'
 Plug 'terryma/vim-expand-region'
-Plug 'tsukkee/unite-tag', { 'on': 'Unite' }
-Plug 'vim-utils/vim-man', { 'on': ['Man' , 'Vman'] }
+Plug 'tsukkee/unite-tag'
+Plug 'vim-utils/vim-man'
+Plug 'wakatime/vim-wakatime'
 
 call plug#end()
 
@@ -70,13 +77,14 @@ set tabstop=2
 
 set nowrap
 set nolinebreak
-set textwidth=80
+set textwidth=0
 
 set autoindent
 set smartindent
 
 autocmd filetype markdown setlocal wrap linebreak
 autocmd bufnewfile,bufread * setlocal formatoptions-=cro
+autocmd bufnewfile,bufread SConstruct,sconstruct,SConscript,sconscript set filetype=python
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -100,7 +108,9 @@ set hidden
 set backspace=eol,start,indent
 set whichwrap+=<,>,h,l
 
-" set mouse=a
+set ttyfast
+set mouse=a
+set ttymouse=xterm2
 
 set ignorecase
 set smartcase
@@ -128,20 +138,21 @@ set foldlevel=1
 set foldcolumn=1
 
 set number
-nmap <leader>nn :set number!<cr>
+" set relativenumber
+nmap <leader>nn :call ToggleNumber()<cr>
+
+func! ToggleNumber()
+  set number!
+  " set relativenumber!
+endfunc
 
 nmap <leader>ll :set list!<cr>
 
-" set completeopt=menu,preview,longest
 set completeopt-=preview
 
 set cursorline
 
-if v:version >= 703
-  set colorcolumn=80
-else
-  autocmd BufWinEnter * let w:m2=matchadd('ErrorMsg', '\%>80v.\+', -1)
-endif
+set colorcolumn=80
 
 set linespace=3
 
@@ -149,34 +160,9 @@ set linespace=3
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => colors, gui and fonts
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"""""""""" bubblegum
-" colorscheme bubblegum-256-dark
-
-
-"""""""""" seoul256 dark
-" Range:   233 (darkest) ~ 239 (lightest)
-" Default: 237
-" set background=dark
-" let g:seoul256_background=235
-" colorscheme seoul256
-
-
-"""""""""" seoul256 light
-" Range:   252 (darkest) ~ 256 (lightest)
-" Default: 253
-" set background=light
-" let g:seoul256_background=252
-" colorscheme seoul256-light
-
-
-"""""""""" oceanic-next
-" set background=dark
-" colorscheme OceanicNext
-
-
 """""""""" gruvbox dark
 set background=dark
-let g:gruvbox_contrast_dark='soft'
+let g:gruvbox_contrast_dark='hard'
 
 """""""""" gruvbox light
 " set background=light
@@ -189,11 +175,7 @@ let g:gruvbox_invert_selection=1
 let g:gruvbox_improved_strings=0
 let g:gruvbox_improved_warnings=1
 
-if v:version >= 703
-  colorscheme gruvbox
-else
-  colorscheme desert
-endif
+colorscheme gruvbox
 
 if has('gui_running')
   set guioptions-=l
@@ -218,10 +200,8 @@ endif
 set noswapfile
 
 set undolevels=5000
-if v:version >= 703
-  set undodir=~/.vim/vim_undo_files
-  set undofile
-endif
+set undodir=~/.vim/vim_undo_files
+set undofile
 
 set updatecount=10
 
@@ -230,9 +210,9 @@ set updatecount=10
 " => moving around, tabs, windows and buffers
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 func! ToggleMovement(firstOp, thenOp)
-  let pos = getpos('.')
+  let pos=getpos('.')
   execute "normal! " . a:firstOp
-  if pos == getpos('.')
+  if pos==getpos('.')
     execute "normal! " . a:thenOp
   endif
 endfunc
@@ -315,9 +295,7 @@ set statusline+=%#warningmsg#
 set statusline+=%m
 set statusline+=%*
 
-if v:version >= 703
-  set statusline+=%{fugitive#statusline()}
-endif
+set statusline+=%{fugitive#statusline()}
 
 " display a warning if &et is wrong, or we have mixed-indenting
 set statusline+=%#error#
@@ -467,7 +445,7 @@ func! TrimWhitespace()
 endfunc
 
 nnoremap <leader>tw :call TrimWhitespace()<cr>
-" autocmd bufwrite * :call TrimWhitespace()
+autocmd bufwrite * :call TrimWhitespace()
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -487,54 +465,54 @@ autocmd filetype svn, *commit* setlocal spell
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => plugins
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" """""""""" YouCompleteMe
-" let g:ycm_filetype_blacklist = {
-" \ 'tagbar' : 1,
-" \ 'qf' : 1,
-" \ 'notes' : 1,
-" \ 'markdown' : 1,
-" \ 'unite' : 1,
-" \ 'text' : 1,
-" \ 'vimwiki' : 1,
-" \ 'pandoc' : 1,
-" \ 'infolog' : 1,
-" \ 'mail' : 1,
-" \ 'help' : 1
-" \}
+"""""""""" YouCompleteMe
+let g:ycm_filetype_blacklist={
+\ 'tagbar' : 1,
+\ 'qf' : 1,
+\ 'notes' : 1,
+\ 'markdown' : 1,
+\ 'unite' : 1,
+\ 'text' : 1,
+\ 'vimwiki' : 1,
+\ 'pandoc' : 1,
+\ 'infolog' : 1,
+\ 'mail' : 1,
+\ 'help' : 1
+\}
 
-" let g:ycm_show_diagnostics_ui=0
-" let g:ycm_error_symbol='✖'
-" let g:ycm_warning_symbol='⚑'
-" let g:ycm_always_populate_location_list=1
-" let g:ycm_complete_in_comments=0
-" let g:ycm_complete_in_strings=0
-" let g:ycm_collect_identifiers_from_tags_files=1
-" let g:ycm_server_python_interpreter='/usr/bin/python'
-" let g:ycm_seed_identifiers_with_syntax=1
-" let g:ycm_autoclose_preview_window_after_completion=1
-" let g:ycm_autoclose_preview_window_after_insertion=1
-" let g:ycm_key_list_select_completion=['<c-j>', '<c-n>', '<down>']
-" let g:ycm_key_list_previous_completion=['<c-k>', '<c-p>', '<up>']
-" let g:ycm_global_ycm_extra_conf='~/.vim/ycm_extra_conf.py'
-" let g:ycm_extra_conf_globlist=['~/.vim/*']
-" let g:ycm_confirm_extra_conf=1
-" let g:ycm_cache_omnifunc=0
-" let g:ycm_use_ultisnips_completer=1
-" let g:ycm_goto_buffer_command='vertical-split'
-" let g:ycm_disable_for_files_larger_than_kb=1024
+let g:ycm_show_diagnostics_ui=0
+let g:ycm_error_symbol='✖'
+let g:ycm_warning_symbol='⚑'
+let g:ycm_always_populate_location_list=1
+let g:ycm_complete_in_comments=0
+let g:ycm_complete_in_strings=0
+let g:ycm_collect_identifiers_from_tags_files=1
+let g:ycm_server_python_interpreter='/usr/bin/python'
+let g:ycm_seed_identifiers_with_syntax=1
+let g:ycm_autoclose_preview_window_after_completion=1
+let g:ycm_autoclose_preview_window_after_insertion=1
+let g:ycm_key_list_select_completion=['<c-j>', '<c-n>', '<down>']
+let g:ycm_key_list_previous_completion=['<c-k>', '<c-p>', '<up>']
+let g:ycm_global_ycm_extra_conf='~/.vim/ycm_extra_conf.py'
+let g:ycm_extra_conf_globlist=['~/.vim/*']
+let g:ycm_confirm_extra_conf=1
+let g:ycm_cache_omnifunc=0
+let g:ycm_use_ultisnips_completer=1
+let g:ycm_goto_buffer_command='vertical-split'
+let g:ycm_disable_for_files_larger_than_kb=1024
 
-" nnoremap <f5> :YcmForceCompileAndDiagnostics<cr>
-" nnoremap <leader>ji :YcmCompleter GoToInclude<cr>
-" nnoremap <leader>jd :YcmCompleter GoToDeclaration<cr>
-" nnoremap <leader>j :YcmCompleter GoTo<cr>
-" nnoremap <leader>gt :YcmCompleter GetType<cr>
-" nnoremap <leader>gp :YcmCompleter GetParent<cr>
-" nnoremap <leader>gd :YcmCompleter GetDoc<cr>
+nnoremap <f5> :YcmForceCompileAndDiagnostics<cr>
+nnoremap <leader>ji :YcmCompleter GoToInclude<cr>
+nnoremap <leader>jd :YcmCompleter GoToDeclaration<cr>
+nnoremap <leader>j :YcmCompleter GoTo<cr>
+nnoremap <leader>gt :YcmCompleter GetType<cr>
+nnoremap <leader>gp :YcmCompleter GetParent<cr>
+nnoremap <leader>gd :YcmCompleter GetDoc<cr>
 
-" nnoremap <leader>g? :nnoremap <leader>g<cr>
-" nnoremap <leader>j? :nnoremap <leader>j<cr>
+nnoremap <leader>g? :nnoremap <leader>g<cr>
+nnoremap <leader>j? :nnoremap <leader>j<cr>
 
-" nnoremap <leader>mm :exe '!c++filt '.expand('<cword>')<cr>
+nnoremap <leader>mm :exe '!c++filt '.expand('<cword>')<cr>
 
 
 " """""""""" UltiSnips
@@ -543,9 +521,9 @@ autocmd filetype svn, *commit* setlocal spell
 " let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 
 
-" """""""""" supertab
-" let g:SuperTabDefaultCompletionType='<c-n>'
-" let g:SuperTabCrMapping= 0
+"""""""""" supertab
+let g:SuperTabDefaultCompletionType='<c-n>'
+let g:SuperTabCrMapping=1
 
 
 """""""""" tagbar
@@ -651,9 +629,7 @@ let g:tagbar_type_go={
 
 map <f3> :TagbarToggle<cr>
 
-if v:version >= 703
-  autocmd quitpre * TagbarClose
-endif
+autocmd quitpre * TagbarClose
 " autocmd vimenter * nested :call tagbar#autoopen(1)
 " autocmd filetype * nested :call tagbar#autoopen(0)
 " autocmd bufenter * nested :call tagbar#autoopen(0)
@@ -673,9 +649,7 @@ let NERDTreeShowHidden=1
 
 map <f2> :NERDTreeToggle<cr>
 " autocmd vimenter * NERDTreeToggle
-if v:version >= 703
-  autocmd quitpre * NERDTreeClose
-endif
+autocmd quitpre * NERDTreeClose
 
 " NERDTress File highlighting
 func! NERDTreeHighlightFile(extension, fg, bg, guifg, guibg)
@@ -689,20 +663,14 @@ let python_highlight_all=1
 
 
 """""""""" vim-autoformat
-func! Format()
-  let l:winview=winsaveview()
-  Autoformat
-  call winrestview(l:winview)
-endfunc
+map <leader>af :Autoformat<cr>
 
-map <leader>af :call Format()<cr>
-
-let g:formatdef_google_clang_format='"clang-format -style=Google"'
+let g:formatdef_google_clang_format='"clang-format -style=''{BasedOnStyle: Google}''"'
 let g:formatters_cpp=['google_clang_format']
 let g:formatters_c=['google_clang_format']
 let g:formatters_h=['google_clang_format']
 
-let g:formatdef_yapf_format='"yapf --style=google"'
+let g:formatdef_yapf_format='"yapf --style google"'
 let g:formatters_python=['yapf_format']
 
 
@@ -742,25 +710,21 @@ nmap <leader>bq :bp <BAR> bd #<cr>
 
 
 """""""""" vim-tags
-set tags=./tags
+set tags=./tags;/
 let g:vim_tags_ignore_files=['.gitignore', '.svnignore', '.cvsignore']
-let g:vim_tags_directories=['CMakeLists.txt', 'Makefile']
+let g:vim_tags_directories=['CMakeLists.txt', 'Makefile', 'SConstruct']
 let g:vim_tags_use_language_field=0
 let g:vim_tags_project_tags_command='{CTAGS} -R --c-kinds=+p+l+x+c+d+e+f+g+m+n+s+t+u+v --c++-kinds=+p+l+x+c+d+e+f+g+m+n+s+t+u+v --fields=+iaSl --extra=+q {OPTIONS} {DIRECTORY} 2>/dev/null'
-nmap <leader>tg :TagsGenerate!<cr>
+nmap <f4> :TagsGenerate!<cr>
 
 
 """""""""" vim-json
 let g:vim_json_syntax_conceal=0
 
 
-"""""""""" vim ack
-nnoremap <leader>a :Ack
-
-
 """""""""" vim-gitgutter
-let g:gitgutter_max_signs=5000
-let g:gitgutter_enabled=0
+let g:gitgutter_max_signs=10000
+let g:gitgutter_enabled=1
 let g:gitgutter_map_keys=0
 
 map <leader>vg :GitGutterToggle<cr>
@@ -769,7 +733,7 @@ map <leader>vg :GitGutterToggle<cr>
 """""""""" rainbow
 " if has('gui_running')
 " let g:rainbow_active=1
-" let g:rainbow_conf = {
+" let g:rainbow_conf={
 " \ 'guifgs': ['firebrick', 'brown1', 'gold3', 'purple4', 'blue', 'green'],
 " \ }
 " \ 'ctermfgs': ['red', 'bisque4']
@@ -783,12 +747,18 @@ let g:indentLine_concealcursor=''
 let g:indentLine_conceallevel=2
 
 
-
-""""""""""
-let g:tmux_navigator_no_mappings = 1
+"""""""""" vim-tmux-navigator
+let g:tmux_navigator_no_mappings=1
+let g:tmux_navigator_save_on_switch=1
 
 nnoremap <silent><c-h> :TmuxNavigateLeft<cr>
 nnoremap <silent><c-j> :TmuxNavigateDown<cr>
 nnoremap <silent><c-k> :TmuxNavigateUp<cr>
 nnoremap <silent><c-l> :TmuxNavigateRight<cr>
 " nnoremap <silent> {Previous-Mapping} :TmuxNavigatePrevious<cr>
+
+
+"""""""""" DoxygenToolkit
+let g:DoxygenToolkit_compactDoc = "yes"
+
+nnoremap <silent><leader>dox :Dox<cr>

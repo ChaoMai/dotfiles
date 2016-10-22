@@ -1,3 +1,3 @@
-source /usr/lib/python3.5/site-packages/voltron/entry.py
-voltron init
-set disassembly-flavor intel
+set history save on
+set history filename ~/.gdb_history
+set auto-load safe-path /

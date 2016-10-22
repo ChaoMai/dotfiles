@@ -24,9 +24,13 @@ HIVE_HOME=/opt/apache-hive-2.0.0-bin
 export HIVE_HOME
 export PATH=$HIVE_HOME:$PATH
 
-# GRADLE_HOME
+# gradle
 GRADLE_HOME=/usr/share/java/gradle
 export GRADLE_HOME
+
+# ZooKeeper
+ZOOKEEPER=/opt/zookeeper-3.4.9
+export ZOOKEEPER
 
 # gem
 export PATH=~/.gem/ruby/2.3.0/bin:$PATH
