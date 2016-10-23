@@ -1,0 +1,15 @@
+# HOME
+export HOME=/home/dev/maichao
+
+# ld_library_path
+export LD_LIBRARY_PATH=~/Programs/lib:${LD_LIBRARY_PATH}
+
+# my bin
+export PATH=~/Programs/bin:$PATH
+
+# TERM
+export TERM=xterm-256color
+
+# vim
+export EDITOR=vim
+export VISUAL=vim
