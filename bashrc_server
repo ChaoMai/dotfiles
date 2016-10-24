@@ -1,0 +1,13 @@
+source $HOME/.profile
+
+eval `dircolors ~/.dircolors.256dark`
+
+source ~/.vim/plugged/gruvbox/gruvbox_256palette.sh
+
+stty werase undef
+bind '\C-w:unix-filename-rubout'
+
+alias l="ls -alh"
+alias q=exit
+alias ..="cd .."
+alias v="vim"
