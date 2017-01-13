@@ -20,8 +20,9 @@ Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-fugitive'
 
-" gui related
+" ui related
 Plug 'morhetz/gruvbox'
+Plug 'chriskempson/base16-vim'
 
 " misc
 Plug 'Chiel92/vim-autoformat'
@@ -40,7 +41,6 @@ Plug 'szw/vim-tags'
 Plug 'terryma/vim-expand-region'
 Plug 'tsukkee/unite-tag'
 Plug 'vim-utils/vim-man'
-Plug 'wakatime/vim-wakatime'
 
 call plug#end()
 
@@ -160,36 +160,45 @@ set linespace=3
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => colors, gui and fonts
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"""""""""""""""""""" gruvbox
 """""""""" gruvbox dark
-set background=dark
-let g:gruvbox_contrast_dark='hard'
+" set background=dark
+" let g:gruvbox_contrast_dark='soft'
 
 """""""""" gruvbox light
 " set background=light
 " let g:gruvbox_contrast_light='soft'
 
-let g:gruvbox_bold=0
-let g:gruvbox_italic=0
-let g:gruvbox_invert_signs=0
-let g:gruvbox_invert_selection=1
-let g:gruvbox_improved_strings=0
-let g:gruvbox_improved_warnings=1
+" let g:gruvbox_bold=0
+" let g:gruvbox_italic=0
+" let g:gruvbox_invert_signs=0
+" let g:gruvbox_invert_selection=1
+" let g:gruvbox_improved_strings=0
+" let g:gruvbox_improved_warnings=1
 
-colorscheme gruvbox
+" colorscheme gruvbox
 
-if has('gui_running')
-  set guioptions-=l
-  set guioptions-=L
-  set guioptions-=r
-  set guioptions-=R
-  set guioptions-=m
-  set guioptions-=T
-  set guifont=Source\ Code\ Pro\ Medium\ 13
-  set guifontwide=Source\ Han\ Sans\ CN\ 12
-
-  set lines=38
-  set columns=220
+"""""""""""""""""""" base 16
+if filereadable(expand("~/.vimrc_background"))
+  let base16colorspace=256
+  source ~/.vimrc_background
 endif
+" colorscheme base16-ocean
+colorscheme base16-oceanicnext
+
+" if has('gui_running')
+  " set guioptions-=l
+  " set guioptions-=L
+  " set guioptions-=r
+  " set guioptions-=R
+  " set guioptions-=m
+  " set guioptions-=T
+  " set guifont=Source\ Code\ Pro\ Medium\ 13
+  " set guifontwide=Source\ Han\ Sans\ CN\ 12
+
+  " set lines=38
+  " set columns=220
+" endif
 
 " map<f11> :call system("wmctrl -ir " . v:windowid . " -b toggle,fullscreen")<cr>
 
@@ -487,7 +496,7 @@ let g:ycm_always_populate_location_list=1
 let g:ycm_complete_in_comments=0
 let g:ycm_complete_in_strings=0
 let g:ycm_collect_identifiers_from_tags_files=1
-let g:ycm_server_python_interpreter='/usr/bin/python'
+let g:ycm_server_python_interpreter='/usr/local/bin/python3'
 let g:ycm_seed_identifiers_with_syntax=1
 let g:ycm_autoclose_preview_window_after_completion=1
 let g:ycm_autoclose_preview_window_after_insertion=1
@@ -516,9 +525,9 @@ nnoremap <leader>mm :exe '!c++filt '.expand('<cword>')<cr>
 
 
 """""""""" UltiSnips
-" let g:UltiSnipsExpandTrigger="<tab>"
-" let g:UltiSnipsJumpForwardTrigger="<tab>"
-" let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
+let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsJumpForwardTrigger="<tab>"
+let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 
 
 """""""""" supertab
@@ -665,7 +674,7 @@ let python_highlight_all=1
 """""""""" vim-autoformat
 map <leader>af :Autoformat<cr>
 
-let g:formatdef_google_clang_format='"clang-format -style=''{BasedOnStyle: Google}''"'
+let g:formatdef_google_clang_format='"/usr/local/bin/clang-format -style=''{BasedOnStyle: Google}''"'
 let g:formatters_cpp=['google_clang_format']
 let g:formatters_c=['google_clang_format']
 let g:formatters_h=['google_clang_format']

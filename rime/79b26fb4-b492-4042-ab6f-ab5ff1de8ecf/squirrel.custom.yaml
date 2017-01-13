@@ -1,0 +1,24 @@
+patch:
+  show_notifications_via_notification_center: true
+
+  style:
+    color_scheme: apathy
+
+  preset_color_schemes:
+    apathy:
+      name: "apathy"
+      horizontal: false
+      inline_preedit: true
+      candidate_format: "%c %@ "
+      corner_radius: 2
+      border_height: 5
+      border_width: 7
+      back_color: 0xFFFFFF
+      font_face: "Noto Sans"
+      font_point: 18
+      text_color: 0xAAAAAA
+      comment_text_color: 0xDDDDDD
+      label_font_face: "Noto Sans"
+      label_font_point: 17
+      hilited_candidate_text_color: 0xEE6E00
+      hilited_candidate_back_color: 0xFFFFFF

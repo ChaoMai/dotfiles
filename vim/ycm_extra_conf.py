@@ -5,7 +5,9 @@ import ycm_core
 
 BASE_FLAGS_CC = [
     '-Weverything', '-Wno-c++11-extensions', '-Wno-c++98-compat', '-Wno-padded',
-    '-std=c++14', '-x', 'c++', '-I/usr/include/', '-I/usr/include/c++/6.2.1/'
+    '-std=c++14', '-x', 'c++',
+    '-I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1/',
+    '-I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include'
 ]
 SOURCE_EXTENSIONS = ['.cpp', '.cxx', '.cc', '.c', '.m', '.mm']
 HEADER_EXTENSIONS = ['.h', '.hxx', '.hpp', '.hh']
