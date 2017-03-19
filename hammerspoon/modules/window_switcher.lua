@@ -2,7 +2,7 @@
 --                         ** Something Global **                       --
 -- -----------------------------------------------------------------------
 local filter = hs.window.filter.new()
-local switcher = hs.window.switcher.new(filter:setCurrentSpace(true):setDefaultFilter{})
+local switcher = hs.window.switcher.new(filter:setCurrentSpace(true):setOverrideFilter{visible=true})
 
 switcher.ui.textColor = {0.6, 0.6, 0.6}
 switcher.ui.fontName = 'Helvetica'

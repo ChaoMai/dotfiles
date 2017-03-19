@@ -6,8 +6,9 @@ import ycm_core
 BASE_FLAGS_CC = [
     '-Weverything', '-Wno-c++11-extensions', '-Wno-c++98-compat', '-Wno-padded',
     '-std=c++14', '-x', 'c++',
-    '-I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1/',
-    '-I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include'
+    #  '-I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1/',
+    '-I/usr/local/opt/llvm/include/c++/v1/'
+    '-I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/'
 ]
 SOURCE_EXTENSIONS = ['.cpp', '.cxx', '.cc', '.c', '.m', '.mm']
 HEADER_EXTENSIONS = ['.h', '.hxx', '.hpp', '.hh']
@@ -34,8 +35,10 @@ def GetCompilationInfoForFile(database, filename):
 
 def FindProjectRoot(path):
     files = os.listdir(path)
-    root_marks = ['cmakelists', 'tags', 'makefile', 'readme', '.git',
-                  '.gitignore', 'cmake', 'license', 'src', 'include']
+    root_marks = [
+        'cmakelists', 'tags', 'makefile', 'readme', '.git', '.gitignore',
+        'cmake', 'license', 'src', 'include'
+    ]
     root_flags = set()
     for file in files:
         filename = os.path.splitext(file)[0].lower()
@@ -97,11 +100,10 @@ def MakeRelativePathsInFlagsAbsolute(flags, working_directory):
 
 def FlagsForCompilationDatabase(root, filename):
     try:
-        compilation_db_path = os.path.join(root, 'compile_commands.json')
-        compilation_db_dir = os.path.dirname(compilation_db_path)
+        compilation_db_path = os.path.join(root, 'build')
         logging.info("Set compilation database directory to " +
-                     compilation_db_dir)
-        compilation_db = ycm_core.CompilationDatabase(compilation_db_dir)
+                     compilation_db_path)
+        compilation_db = ycm_core.CompilationDatabase(compilation_db_path)
 
         if not compilation_db:
             logging.info("Compilation database file found but unable to load")
@@ -131,7 +133,7 @@ def FlagsForFile(filename):
     final_flags = BASE_FLAGS_CC
 
     if compilation_db_flags:
-        logging.info("Load compilation_db for" + filename)
+        logging.info("Loaded compilation_db for" + filename)
         final_flags += compilation_db_flags
     else:
         if IsHeaderFile(filename):
