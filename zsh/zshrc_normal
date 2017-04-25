@@ -1,3 +1,6 @@
+# autoload -U promptinit; promptinit
+# prompt pure
+
 # If you come from bash you might have to change your $PATH.
 export PATH=$HOME/bin:/usr/local/bin:$PATH
 
@@ -7,7 +10,7 @@ export ZSH=$HOME/.oh-my-zsh
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-zsh is loaded.
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
-ZSH_THEME="avit"
+ZSH_THEME="pure"
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
@@ -51,37 +54,39 @@ export UPDATE_ZSH_DAYS=7
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(autojump docker docker-compose git mvn npm sbt tmux zsh)
+plugins=(autojump docker docker-compose gitfast mvn npm sbt tmux zsh zsh-syntax-highlighting)
 
 source $ZSH/oh-my-zsh.sh
 
 # User configuration
 
-BASE16_SHELL=$HOME/.base16-shell/
+BASE16_SHELL=$HOME/.base16-shell
 [ -n "$PS1" ] && [ -s $BASE16_SHELL/profile_helper.sh ] && eval "$($BASE16_SHELL/profile_helper.sh)"
 
 # export MANPATH="/usr/local/man:$MANPATH"
-export GOPATH=~/Documents/go
-export PATH=$GOPATH/bin/:$PATH
+export GOPATH=$HOME/Documents/codes/go
+export PATH=$GOPATH/bin:$PATH
 
 export HOMEBREW_NO_AUTO_UPDATE=true
 export HOMEBREW_GITHUB_API_TOKEN="c329f096dfb4ab89b9da0abdd865a3d586455ee3"
 export HOMEBREW_BOTTLE_DOMAIN=https://mirrors.ustc.edu.cn/homebrew-bottles
 
-BREW_LLVM_HOME=/usr/local/opt/llvm
-export CC=$BREW_LLVM_HOME/bin/clang
-export CXX=$BREW_LLVM_HOME/bin/clang++
-export PATH=$BREW_LLVM_HOME/bin/:$PATH
+export CC=clang
+export CXX=clang++
 
 export SHELL=/usr/local/bin/zsh
 export EDITOR=/usr/local/bin/vim
+
+export PYTHONSTARTUP=$HOME/.pythonstartup
 
 export MAVEN_OPTS="-Xmx2g -XX:ReservedCodeCacheSize=512m"
 
 export JAVA_HOME=/Library/Java/Home
 
-export HADOOP_HOME=~/bin/hadoop-2.7.3
-export SPARK_HOME=~/bin/spark-2.1.0-bin-hadoop2.7
+export HADOOP_HOME=$HOME/bin/hadoop-2.7.3
+# export SPARK_2_1_0_HOME=$HOME/bin/spark-2.1.0
+export SPARK_2_0_2_HOME=$HOME/bin/spark-2.0.2
+export SPARK_HOME=$SPARK_2_0_2_HOME
 
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
@@ -109,5 +114,6 @@ alias q="exit"
 alias ..="cd .."
 alias f="open ."
 alias v="vim"
-alias gittoken="cat ~/Documents/archive/backup_codes_tokens/github_token"
+alias e="emacs"
+alias gittoken="cat $HOME/Documents/OneDrive/Documents/archive-Chao’s\ MacBook\ Pro/backup_codes_tokens/github_token"
 alias cnpm="npm --registry=https://registry.npm.taobao.org"

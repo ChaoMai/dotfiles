@@ -1,4 +1,5 @@
 [repositories]
   local
-  aliyun-maven: http://maven.aliyun.com/nexus/content/groups/public/
-  typesafe-ivy: http://repo.typesafe.com/typesafe/ivy-releases/, [organization]/[module]/(scala_[scalaVersion]/)(sbt_[sbtVersion]/)[revision]/[type]s/[artifact](-[classifier]).[ext]
+  Aliyun Maven: http://maven.aliyun.com/nexus/content/groups/public/
+  Typesafe-ivy: http://repo.typesafe.com/typesafe/ivy-releases/, [organization]/[module]/(scala_[scalaVersion]/)(sbt_[sbtVersion]/)[revision]/[type]s/[artifact](-[classifier]).[ext]
+  Maven: https://repo1.maven.org/maven2/

@@ -35,10 +35,10 @@ end
 -- -----------------------------------------------------------------------
 local utils = require("utils")
 
-utils.keyBind({"alt"}, {
-  tab = nextWindow
-})
+-- utils.keyBind({"alt"}, {
+  -- tab = nextWindow
+-- })
 
-utils.keyBind({"alt", "shift"}, {
-  tab = previousWindow
-})
+-- utils.keyBind({"alt", "shift"}, {
+  -- tab = previousWindow
+-- })
