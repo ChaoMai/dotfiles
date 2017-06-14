@@ -14,12 +14,12 @@ screenwatcher:start()
 -- Set screen grid depending on resolution
 for _index,screen in pairs(hs.screen.allScreens()) do
   if screen:frame().w / screen:frame().h > 2 then
-    grid.setGrid('42 * 18', screen)
+    grid.setGrid('45 * 20', screen)
   else
     if screen:frame().w < screen:frame().h then
-      grid.setGrid('18 * 32', screen)
+      grid.setGrid('20 * 32', screen)
     else
-      grid.setGrid('32 * 18', screen)
+      grid.setGrid('32 * 20', screen)
     end
   end
 end
@@ -207,6 +207,18 @@ local function topDown()
   end
 end
 
+local function zoomInWindow()
+  local this = current:new()
+  bottomDown()
+  rightToRight()
+end
+
+local function zoomOutWindow()
+  local this = current:new()
+  bottomUp()
+  rightToLeft()
+end
+
 -- -----------------------------------------------------------------------
 --                           ** Key Binding **                          --
 -- -----------------------------------------------------------------------
@@ -231,7 +243,9 @@ utils.keyBind({"ctrl", "alt", "cmd"}, {
   h = leftHalf,
   l = rightHalf,
   k = topHalf,
-  j = bottomHalf
+  j = bottomHalf,
+  s = zoomOutWindow,
+  b = zoomInWindow
 })
 
 -- * Set Window Position on screen

@@ -30,4 +30,4 @@ utils.keyBind({"ctrl", "alt", "cmd"}, {
   r = reload
 })
 
--- hs.notify.new({title="Hammerspoon", informativeText="Config loaded"}):send()
+hs.notify.new({title="Hammerspoon", informativeText="Config loaded"}):send()

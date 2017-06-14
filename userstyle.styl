@@ -11,9 +11,11 @@ CONFIG = {
   'Helvetica'          : 'ENG',
   'Impact'             : 'ENG',
   'Lucida Grande'      : 'ENG',
+  'Khula'              : 'ENG',
   'Mceinline'          : 'ENG',
   'Palatino Linotype'  : 'ENG',
   'Segoe UI'           : 'ENG',
+  'Source Sans Pro'    : 'ENG',
   'Tahoma Bold'        : 'ENG',
   'Tahoma'             : 'ENG',
   'Times CY'           : 'ENG',
@@ -68,12 +70,15 @@ CONFIG = {
 }
 
 CJKFONT  = 'Noto Serif CJK SC'
-ENGFONT  = 'Helvetica Neue'
+ENGFONT  = 'Times New Roman'
 MONOFONT = 'Fira Code'
 
 body
   -webkit-font-smoothing subpixel-antialiased !important
   font-family CJKFONT
+
+p
+  line-height: 1.8
 
 .markdown-body
   -webkit-font-smoothing: subpixel-antialiased !important;
