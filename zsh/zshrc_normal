@@ -8,7 +8,7 @@ export ZSH=$HOME/.oh-my-zsh
 # it'll load a random theme each time that oh-my-zsh is loaded.
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
 # Handle by pure
-ZSH_THEME=""
+ZSH_THEME="avit"
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
@@ -58,21 +58,22 @@ source $ZSH/oh-my-zsh.sh
 
 # User configuration
 
-autoload -U promptinit; promptinit
-prompt pure
+# autoload -U promptinit; promptinit
+# prompt pure
 
-PURE_PROMPT_SYMBOL='=>'
+# PURE_PROMPT_SYMBOL='=>'
 
 BASE16_SHELL=$HOME/.base16-shell
 [ -n "$PS1" ] && [ -s $BASE16_SHELL/profile_helper.sh ] && eval "$($BASE16_SHELL/profile_helper.sh)"
 
 # export MANPATH="/usr/local/man:$MANPATH"
-export GOPATH=$HOME/Documents/codes/go
+export GOPATH=$HOME/Documents/workspace/go
 export PATH=$GOPATH/bin:$PATH
 
 export HOMEBREW_NO_AUTO_UPDATE=true
 export HOMEBREW_GITHUB_API_TOKEN=$(cat $HOME/Documents/backup_codes_tokens/brew_api_token)
 export HOMEBREW_BOTTLE_DOMAIN=https://mirrors.ustc.edu.cn/homebrew-bottles
+# export HOMEBREW_BOTTLE_DOMAIN=https://mirrors.tuna.tsinghua.edu.cn/homebrew-bottles
 
 export CC=clang
 export CXX=clang++
@@ -120,7 +121,9 @@ alias ..="cd .."
 alias f="open ."
 alias v="vim"
 alias e="emacs"
+alias rm="rm -i"
 alias gittoken="cat $HOME/Documents/backup_codes_tokens/github_token"
 alias cnpm="npm --registry=https://registry.npm.taobao.org"
 alias ssproxy='export http_proxy=http://127.0.0.1:1087 https_proxy=http://127.0.0.1:1087'
+alias ssproxy_lantern='export http_proxy=http://127.0.0.1:51300 https_proxy=http://127.0.0.1:51300'
 alias noproxy='unset http_proxy https_proxy'

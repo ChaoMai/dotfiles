@@ -12,15 +12,18 @@ end)
 screenwatcher:start()
 
 -- Set screen grid depending on resolution
-for _index,screen in pairs(hs.screen.allScreens()) do
-  if screen:frame().w / screen:frame().h > 2 then
-    grid.setGrid('45 * 20', screen)
+for _index, screen in pairs(hs.screen.allScreens()) do
+  -- grid.setGrid('45 * 20', screen)
+  if screen:frame().w / screen:frame().h == 16 / 9 then
+    grid.setGrid('48 * 27', screen)
+  elseif screen:frame().w / screen:frame().h == 9 / 16 then
+    grid.setGrid('27 * 48', screen)
+  elseif screen:frame().w / screen:frame().h == 16 / 10 then
+    grid.setGrid('48 * 30', screen)
+  elseif screen:frame().w / screen:frame().h == 30 / 16 then
+    grid.setGrid('30 * 48', screen)
   else
-    if screen:frame().w < screen:frame().h then
-      grid.setGrid('20 * 32', screen)
-    else
-      grid.setGrid('32 * 20', screen)
-    end
+    grid.setGrid('40 * 30', screen)
   end
 end
 
@@ -100,6 +103,13 @@ end
 local function throwRight()
   local this = current:new()
   this.window:moveOneScreenEast()
+end
+
+local function centerHalf()
+  local this = current:new()
+  local cell = Cell(0.15 * this.screenGrid.w, 0.1 * this.screenGrid.h, 0.7 * this.screenGrid.w, 0.8 * this.screenGrid.h)
+  grid.set(this.window, cell, this.screen)
+  this.window.setShadows(true)
 end
 
 local function leftHalf()
@@ -211,12 +221,14 @@ local function zoomInWindow()
   local this = current:new()
   bottomDown()
   rightToRight()
+  centerOnScreen()
 end
 
 local function zoomOutWindow()
   local this = current:new()
   bottomUp()
   rightToLeft()
+  centerOnScreen()
 end
 
 -- -----------------------------------------------------------------------
@@ -239,6 +251,7 @@ utils.keyBind({"ctrl", "shift"}, {
 -- * Set Window Position on screen
 utils.keyBind({"ctrl", "alt", "cmd"}, {
   m = maximizeWindow,
+  n = centerHalf,
   c = centerOnScreen,
   h = leftHalf,
   l = rightHalf,

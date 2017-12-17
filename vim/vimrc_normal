@@ -2,7 +2,7 @@ silent! call plug#begin('~/.vim/plugged')
 
 " code completion
 Plug 'SirVer/ultisnips'
-Plug 'Valloric/YouCompleteMe'
+" Plug 'Valloric/YouCompleteMe'
 Plug 'ervandew/supertab'
 Plug 'honza/vim-snippets'
 
@@ -29,7 +29,6 @@ Plug 'tpope/vim-fugitive'
 " ui related
 Plug 'Yggdroot/indentLine'
 Plug 'chriskempson/base16-vim'
-Plug 'junegunn/vim-emoji'
 Plug 'morhetz/gruvbox'
 Plug 'scrooloose/nerdtree'
 
@@ -87,6 +86,9 @@ set textwidth=0
 
 set autoindent
 set smartindent
+
+set diffopt+=iwhite
+set diffexpr=""
 
 autocmd filetype markdown setlocal wrap linebreak
 autocmd filetype scss set iskeyword+=-
@@ -459,7 +461,7 @@ func! TrimWhitespace()
 endfunc
 
 nnoremap <leader>tw :call TrimWhitespace()<cr>
-autocmd bufwrite * :call TrimWhitespace()
+" autocmd bufwrite * :call TrimWhitespace()
 
 vnoremap < <v
 vnoremap > >v
@@ -506,8 +508,8 @@ let g:ycm_always_populate_location_list=1
 let g:ycm_complete_in_comments=0
 let g:ycm_complete_in_strings=0
 let g:ycm_collect_identifiers_from_tags_files=1
-let g:ycm_server_python_interpreter='/usr/local/bin/python2'
-let g:ycm_python_binary_path='/usr/local/bin/python2'
+let g:ycm_server_python_interpreter='/usr/local/bin/python3'
+let g:ycm_python_binary_path='/usr/local/bin/python3'
 let g:ycm_seed_identifiers_with_syntax=1
 let g:ycm_autoclose_preview_window_after_completion=1
 let g:ycm_autoclose_preview_window_after_insertion=1
@@ -681,7 +683,7 @@ map <leader>c? :map <leader>c<cr>
 
 """""""""" nerdtree
 let g:NERDTreeMinimalUI=1
-let g:NERDTreeWinSize=25
+let g:NERDTreeWinSize=30
 let g:NERDTreeAutoDeleteBuffer=1
 let NERDTreeShowHidden=1
 
@@ -703,7 +705,7 @@ let python_highlight_all=1
 """""""""" vim-autoformat
 map <leader>af :Autoformat<cr>
 
-let g:formatdef_google_clang_format='"/usr/local/bin/clang-format -style=''{BasedOnStyle: Google}''"'
+let g:formatdef_google_clang_format='"/usr/local/bin/clang-format -style=''{BasedOnStyle: WebKit}''"'
 let g:formatters_cpp=['google_clang_format']
 let g:formatters_c=['google_clang_format']
 let g:formatters_h=['google_clang_format']

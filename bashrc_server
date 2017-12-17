@@ -1,8 +1,18 @@
+# .bashrc
+
+# Source global definitions
+[ ! -t 0 ] && return
+
+if [ -f /etc/bashrc ]; then
+    . /etc/bashrc
+fi
+
+# User specific aliases and functions
+
 source $HOME/.profile
 
-eval `dircolors ~/.dircolors.256dark`
-
-source ~/.vim/plugged/gruvbox/gruvbox_256palette.sh
+BASE16_SHELL=$HOME/.base16-shell
+[ -n "$PS1" ] && [ -s $BASE16_SHELL/profile_helper.sh ] && eval "$($BASE16_SHELL/profile_helper.sh)"
 
 stty werase undef
 bind '\C-w:unix-filename-rubout'
