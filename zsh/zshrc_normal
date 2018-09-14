@@ -52,9 +52,11 @@ export UPDATE_ZSH_DAYS=7
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(autojump docker docker-compose gitfast mvn npm sbt tmux zsh zsh-syntax-highlighting)
+plugins=(autojump docker docker-compose gitfast mvn npm sbt tmux zsh)
 
 source $ZSH/oh-my-zsh.sh
+source '/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc'
+source '/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc'
 
 # User configuration
 
@@ -63,8 +65,10 @@ source $ZSH/oh-my-zsh.sh
 
 # PURE_PROMPT_SYMBOL='=>'
 
-# BASE16_SHELL=$HOME/.base16-shell
-# [ -n "$PS1" ] && [ -s $BASE16_SHELL/profile_helper.sh ] && eval "$($BASE16_SHELL/profile_helper.sh)"
+BASE16_SHELL=$HOME/.base16-shell
+[ -n "$PS1" ] && [ -s $BASE16_SHELL/profile_helper.sh ] && eval "$($BASE16_SHELL/profile_helper.sh)"
+
+export TERM=xterm-256color
 
 # export MANPATH="/usr/local/man:$MANPATH"
 export GOPATH=$HOME/Documents/workspace/go
@@ -74,6 +78,9 @@ export HOMEBREW_NO_AUTO_UPDATE=true
 export HOMEBREW_GITHUB_API_TOKEN=$(cat $HOME/Documents/backup_codes_tokens/brew_api_token)
 export HOMEBREW_BOTTLE_DOMAIN=https://mirrors.ustc.edu.cn/homebrew-bottles
 # export HOMEBREW_BOTTLE_DOMAIN=https://mirrors.tuna.tsinghua.edu.cn/homebrew-bottles
+
+export LANG=en_US.UTF-8
+export LC_ALL=en_US.UTF-8
 
 export CC=clang
 export CXX=clang++
@@ -87,10 +94,9 @@ export MAVEN_OPTS="-Xmx2g -XX:ReservedCodeCacheSize=512m"
 
 export JAVA_HOME=/Library/Java/Home
 
-export HADOOP_HOME=$HOME/bin/hadoop-2.7.3
-export SPARK_2_1_1_HOME=$HOME/bin/spark-2.1.1
-export SPARK_2_0_2_HOME=$HOME/bin/spark-2.0.2
-export SPARK_HOME=$SPARK_2_1_1_HOME
+export GNUBIN_COREUTILS=/usr/local/opt/coreutils/libexec/gnubin
+export GNUBIN_FINDUTILS=/usr/local/opt/findutils/libexec/gnubin
+# export PATH=$GNUBIN_COREUTILS:$GNUBIN_FINDUTILS:$PATH
 
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
@@ -112,18 +118,165 @@ export SPARK_HOME=$SPARK_2_1_1_HOME
 # plugins, and themes. Aliases can be placed here, though oh-my-zsh
 # users are encouraged to define aliases within the ZSH_CUSTOM folder.
 # For a full list of active aliases, run `alias`.
-function gi() { proxychains4 curl -L -s https://www.gitignore.io/api/$@ }
 
-function t() { tmux new -A -s $@ }
+############################################################ Common
+function _trim()
+{
+    local trimmed="$1"
+
+    # Strip leading space.
+    trimmed="${trimmed## }"
+    # Strip trailing space.
+    trimmed="${trimmed%% }"
+
+    echo "$trimmed"
+}
 
 alias q="exit"
 alias ..="cd .."
 alias f="open ."
 alias v="vim"
-alias e="emacs"
 alias rm="rm -i"
-alias gittoken="cat $HOME/Documents/backup_codes_tokens/github_token"
-alias cnpm="npm --registry=https://registry.npm.taobao.org"
+
+############################################################ Proxy
 alias ssproxy='export http_proxy=http://127.0.0.1:1087 https_proxy=http://127.0.0.1:1087'
 alias ssproxy_lantern='export http_proxy=http://127.0.0.1:51300 https_proxy=http://127.0.0.1:51300'
 alias noproxy='unset http_proxy https_proxy'
+
+############################################################ Docker
+alias docker_update_images='docker image ls --format "{{.Repository}}:{{.Tag}}" | xargs -n 1 docker pull'
+
+############################################################ npm
+alias cnpm="npm --registry=https://registry.npm.taobao.org"
+
+############################################################ Git
+function gi() { proxychains4 curl -L -s https://www.gitignore.io/api/$@ }
+
+alias gittoken="cat $HOME/Documents/backup_codes_tokens/github_token"
+
+############################################################ Tmux
+function t() { tmux new -A -s $@ }
+
+############################################################ SSH
+function _ssdev()
+{
+    local num=$1
+    if [ -z "$num" ];
+    then
+        echo "index of machine isn't set"
+        return -1
+    fi
+
+    local user=$2
+    if [ -z "$user" ];
+    then
+        user="maichao"
+    fi
+
+    ssh $user@domob-${num}.domob-inc.cn
+}
+
+function _ss_langfang()
+{
+    local machine=$1
+    if [ "$machine" = "back" ];
+    then
+        machine="search-back"
+    fi
+
+    local num=$2
+    if [ -z "$num" ];
+    then
+        echo "index of machine isn't set"
+        return -1
+    fi
+
+    local user=$3
+    if [ -z "$user" ];
+    then
+        user="dev"
+    fi
+
+    local start_tmux=$4
+    if [ -z "$start_tmux" ];
+    then
+        ssh -A -t -p1422 maichao@console01.domob.cn ssh -A -t ${user}@${machine}${num}.domob.cn
+    else
+        ssh -A -t -p1422 maichao@console01.domob.cn "ssh -A -t ${user}@${machine}${num}.domob.cn \"cd maichao; bash init.sh\""
+    fi
+}
+
+# ssdomob machine num user
+function ssdomob()
+{
+
+    while test $# != 0
+    do
+      case $1 in
+           -m) shift; machine=$1; shift;;
+           -n) shift; num=$1; shift;;
+           -u) shift; user=$1; shift;;
+           -t) shift; start_tmux=$1; shift;;
+            *) shift;;
+      esac
+    done
+
+    if [ "$machine" = "dev" ];
+    then
+        _ssdev "$num" "$user" "$start_tmux"
+    # elif [ "$machine" = "back" ] || [ "$machine" = "dmp" ];
+    # then
+        # _ss_langfang "$machine" "$num" "$user"
+    else
+        _ss_langfang "$machine" "$num" "$user" "$start_tmux"
+        # echo "machine isn't valid"
+        return -1
+    fi
+}
+
+############################################################ Python
+
+############################## Python3
+export PYTHON3_USER_BASE=/Users/chaomai/Library/Python/3.7
+export PATH=$PYTHON3_USER_BASE/bin:$PATH
+
+function pip3()
+{
+    local command=$1
+    local args=""
+    shift
+
+    if [ "$command" = "install" ];
+    then
+        args="install --user $@"
+    else
+        args="$command $@"
+    fi
+
+    echo $args | xargs pip3
+}
+
+alias pip3_home="python3 -m site --user-base"
+
+############################## Python2
+export PYTHON2_USER_BASE=/Users/chaomai/Library/Python/2.7
+export PATH=$PYTHON2_USER_BASE/bin:$PATH
+
+function pip2()
+{
+    local command=$1
+    local args=""
+    shift
+
+    if [ "$command" = "install" ];
+    then
+        args="install --user $@"
+    else
+        args="$command $@"
+    fi
+
+    echo $args | xargs pip2
+}
+
+alias pip2_home="python2 -m site --user-base"
+

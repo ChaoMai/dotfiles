@@ -11,6 +11,7 @@
 	compression = 0
 	packedGitLimit = 512m 
 	packedGitWindowSize = 512m 
+	quotepath = false
 [pack] 
 	deltaCacheSize = 2047m 
 	packSizeLimit = 2047m 
