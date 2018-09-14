@@ -152,87 +152,10 @@ alias cnpm="npm --registry=https://registry.npm.taobao.org"
 ############################################################ Git
 function gi() { proxychains4 curl -L -s https://www.gitignore.io/api/$@ }
 
-alias gittoken="cat $HOME/Documents/backup_codes_tokens/github_token"
+alias gittoken="pbcopy < $HOME/Documents/backup_codes_tokens/github_token"
 
 ############################################################ Tmux
 function t() { tmux new -A -s $@ }
-
-############################################################ SSH
-function _ssdev()
-{
-    local num=$1
-    if [ -z "$num" ];
-    then
-        echo "index of machine isn't set"
-        return -1
-    fi
-
-    local user=$2
-    if [ -z "$user" ];
-    then
-        user="maichao"
-    fi
-
-    ssh $user@domob-${num}.domob-inc.cn
-}
-
-function _ss_langfang()
-{
-    local machine=$1
-    if [ "$machine" = "back" ];
-    then
-        machine="search-back"
-    fi
-
-    local num=$2
-    if [ -z "$num" ];
-    then
-        echo "index of machine isn't set"
-        return -1
-    fi
-
-    local user=$3
-    if [ -z "$user" ];
-    then
-        user="dev"
-    fi
-
-    local start_tmux=$4
-    if [ -z "$start_tmux" ];
-    then
-        ssh -A -t -p1422 maichao@console01.domob.cn ssh -A -t ${user}@${machine}${num}.domob.cn
-    else
-        ssh -A -t -p1422 maichao@console01.domob.cn "ssh -A -t ${user}@${machine}${num}.domob.cn \"cd maichao; bash init.sh\""
-    fi
-}
-
-# ssdomob machine num user
-function ssdomob()
-{
-
-    while test $# != 0
-    do
-      case $1 in
-           -m) shift; machine=$1; shift;;
-           -n) shift; num=$1; shift;;
-           -u) shift; user=$1; shift;;
-           -t) shift; start_tmux=$1; shift;;
-            *) shift;;
-      esac
-    done
-
-    if [ "$machine" = "dev" ];
-    then
-        _ssdev "$num" "$user" "$start_tmux"
-    # elif [ "$machine" = "back" ] || [ "$machine" = "dmp" ];
-    # then
-        # _ss_langfang "$machine" "$num" "$user"
-    else
-        _ss_langfang "$machine" "$num" "$user" "$start_tmux"
-        # echo "machine isn't valid"
-        return -1
-    fi
-}
 
 ############################################################ Python
 
@@ -280,3 +203,5 @@ function pip2()
 
 alias pip2_home="python2 -m site --user-base"
 
+############################## Domob
+source /Users/chaomai/Documents/workspace/domob/utils/shell_utils.sh
