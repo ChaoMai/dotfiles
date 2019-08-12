@@ -23,6 +23,7 @@ function reload()
 end
 
 local myWatcher = hs.pathwatcher.new(os.getenv("HOME") .. "/.hammerspoon/", reloadConfig):start()
+local scrWatcher = hs.screen.watcher.newWithActiveScreen(reload)
 
 local utils = require("utils")
 

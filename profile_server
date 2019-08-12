@@ -1,11 +1,15 @@
 # HOME
-export HOME=/home/dev/maichao
+export HOME=/home/maichao
+# export HOME=/home/dev/maichao
 
 # ld_library_path
 export LD_LIBRARY_PATH=~/Programs/lib:${LD_LIBRARY_PATH}
 
 # my bin
 export PATH=~/Programs/bin:$PATH
+# export PATH=~/Programs/bin:~/Programs/local/go/bin:~/Documents/go/bin:/usr/lib64/openmpi/bin:$PATH
+# export GOROOT=~/Programs/local/go
+# export GOPATH=~/Documents/go
 
 # TERM
 export TERM=xterm-256color

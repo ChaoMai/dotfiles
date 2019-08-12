@@ -1,53 +1,35 @@
 silent! call plug#begin('~/.vim/plugged')
 
+" text edit
+Plug 'Chiel92/vim-autoformat'
+Plug 'Raimondi/delimitMate'
+Plug 'Yggdroot/indentLine'
+Plug 'scrooloose/nerdcommenter'
+Plug 'terryma/vim-expand-region'
+
+" search and explore
+Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
+
 " code completion
-Plug 'SirVer/ultisnips'
 " Plug 'Valloric/YouCompleteMe'
-Plug 'ervandew/supertab'
-Plug 'honza/vim-snippets'
 
 " lint
 " Plug 'w0rp/ale'
 
 " language support
-Plug 'blockloop/vim-swigjs'
-Plug 'cakebaker/scss-syntax.vim'
-Plug 'derekwyatt/vim-scala'
-Plug 'elzr/vim-json'
+Plug 'sheerun/vim-polyglot'
 Plug 'fatih/vim-go'
-Plug 'hdima/python-syntax'
-Plug 'keith/tmux.vim'
-Plug 'mrtazz/DoxygenToolkit.vim'
-Plug 'solarnz/thrift.vim'
-Plug 'vim-utils/vim-man'
 
 " git
 Plug 'Xuyuanp/nerdtree-git-plugin'
-Plug 'airblade/vim-gitgutter'
-Plug 'tpope/vim-fugitive'
+Plug 'mhinz/vim-signify'
 
 " ui related
-Plug 'Yggdroot/indentLine'
-Plug 'chriskempson/base16-vim'
-Plug 'morhetz/gruvbox'
-Plug 'scrooloose/nerdtree'
-Plug 'Erichain/vim-monokai-pro'
-Plug 'dracula/vim'
+Plug 'rakr/vim-one'
 
 " misc
-Plug 'Chiel92/vim-autoformat'
-Plug 'Shougo/unite.vim'
 Plug 'christoomey/vim-tmux-navigator'
-Plug 'easymotion/vim-easymotion'
-Plug 'jeetsukumaran/vim-buffergator'
-Plug 'Raimondi/delimitMate'
-Plug 'majutsushi/tagbar'
-Plug 'metakirby5/codi.vim'
-Plug 'mhinz/vim-grepper'
-Plug 'scrooloose/nerdcommenter'
-Plug 'szw/vim-tags'
-Plug 'terryma/vim-expand-region'
-Plug 'tsukkee/unite-tag'
+Plug 'scrooloose/nerdtree'
 
 call plug#end()
 
@@ -171,8 +153,6 @@ set linespace=3
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => colors, gui and fonts
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" colorscheme monokai_pro
-
 """""""""""""""""""" gruvbox
 """""""""" gruvbox dark
 " set background=dark
@@ -189,10 +169,16 @@ set linespace=3
 " colorscheme gruvbox
 
 """""""""""""""""""" base 16
-if filereadable(expand("~/.vimrc_background"))
-  let base16colorspace=256
-  source ~/.vimrc_background
-endif
+" if filereadable(expand("~/.vimrc_background"))
+  " let base16colorspace=256
+  " source ~/.vimrc_background
+" endif
+
+"""""""""""""""""""" vim-one
+set termguicolors
+let g:one_allow_italics = 1
+set background=dark
+colorscheme one
 
 " if has('gui_running')
 " set guioptions-=l
@@ -209,6 +195,8 @@ endif
 " endif
 
 " map<f11> :call system("wmctrl -ir " . v:windowid . " -b toggle,fullscreen")<cr>
+
+highlight Normal guibg=NONE ctermbg=NONE
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -237,43 +225,35 @@ endfunc
 " the original carat 0 swap
 nnoremap <silent>0 :call ToggleMovement('^', '0')<cr>
 
-" how about ; and ,
-nnoremap <silent>; :call ToggleMovement(';', ',')<cr>
-nnoremap <silent>, :call ToggleMovement(',', ';')<cr>
-
-" how about h and l
+" h and l
 nnoremap <silent>H :call ToggleMovement('H', 'L')<cr>
 nnoremap <silent>L :call ToggleMovement('L', 'H')<cr>
 
-" how about g and gg
+" g and gg
 nnoremap <silent>G :call ToggleMovement('G', 'gg')<cr>
 nnoremap <silent>gg :call ToggleMovement('gg', 'G')<cr>
 
 nnoremap <silent><bs> :nohlsearch<cr>
 
-nnoremap <c-j> <c-w>j
-nnoremap <c-k> <c-w>k
-nnoremap <c-h> <c-w>h
-nnoremap <c-l> <c-w>l
-
-map <leader>tn :tabnew<cr>
-map <leader>to :tabonly<cr>
-map <leader>tc :tabclose<cr>
-map <leader>tm :tabmove
-map <leader>t<leader> :tabnext
-map <leader>t? :map <leader>t <cr>
-
-map <leader>1 :tabnext1<cr>
-map <leader>2 :tabnext2<cr>
-map <leader>3 :tabnext3<cr>
-map <leader>4 :tabnext4<cr>
-map <leader>5 :tabnext5<cr>
-map <leader>6 :tabnext6<cr>
-map <leader>7 :tabnext7<cr>
-map <leader>8 :tabnext8<cr>
-map <leader>9 :tabnext9<cr>
-
-map <leader>te :tabedit <c-r>=expand("%:p:h")<cr>/
+" use hotkey for tab
+noremap <silent>\tc :tabnew<cr>
+noremap <silent>\tq :tabclose<cr>
+noremap <silent>\te :tabedit <c-r>=expand("%:p:h")<cr>
+noremap <silent>\tn :tabnext<cr>
+noremap <silent>\tp :tabprev<cr>
+noremap <silent>\to :tabonly<cr>
+noremap <silent>\1 :tabn 1<cr>
+noremap <silent>\2 :tabn 2<cr>
+noremap <silent>\3 :tabn 3<cr>
+noremap <silent>\4 :tabn 4<cr>
+noremap <silent>\5 :tabn 5<cr>
+noremap <silent>\6 :tabn 6<cr>
+noremap <silent>\7 :tabn 7<cr>
+noremap <silent>\8 :tabn 8<cr>
+noremap <silent>\9 :tabn 9<cr>
+noremap <silent>\0 :tabn 10<cr>
+noremap <silent><s-tab> :tabnext<CR>
+inoremap <silent><s-tab> <ESC>:tabnext<CR>
 
 set switchbuf=useopen,usetab,newtab
 
@@ -312,7 +292,7 @@ set statusline+=%#warningmsg#
 set statusline+=%m
 set statusline+=%*
 
-set statusline+=%{fugitive#statusline()}
+" set statusline+=%{fugitive#statusline()}
 
 " display a warning if &et is wrong, or we have mixed-indenting
 set statusline+=%#error#
@@ -462,7 +442,7 @@ func! TrimWhitespace()
 endfunc
 
 nnoremap <leader>tw :call TrimWhitespace()<cr>
-" autocmd bufwrite * :call TrimWhitespace()
+autocmd bufwrite * :call TrimWhitespace()
 
 vnoremap < <v
 vnoremap > >v
@@ -477,7 +457,6 @@ nmap <leader>sn :echo 'Next misspelled word' <bar> ]s<cr>
 nmap <leader>sp [s
 nmap <leader>sa zg
 nmap <leader>sg z=
-nmap <leader>s? :map <leader>s<cr>
 
 autocmd filetype svn, *commit* setlocal spell
 
@@ -538,16 +517,6 @@ nnoremap <leader>j? :nnoremap <leader>j<cr>
 nnoremap <leader>mm :exe '!c++filt '.expand('<cword>')<cr>
 
 
-"""""""""" UltiSnips
-let g:UltiSnipsExpandTrigger="<tab>"
-let g:UltiSnipsJumpForwardTrigger="<tab>"
-let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
-
-
-"""""""""" supertab
-let g:SuperTabDefaultCompletionType='<c-n>'
-let g:SuperTabCrMapping=1
-
 """""""""" ale
 let g:ale_linters={
       \   'sh' : ['shellcheck'],
@@ -566,120 +535,8 @@ let g:ale_statusline_format=['E•%d', 'W•%d', 'OK']
 nmap <leader>en <plug>(ale_next)
 nmap <leader>ep <plug>(ale_previous)
 
-
-"""""""""" tagbar
-let g:tagbar_compact=1
-let g:tagbar_width=32
-
-let g:tagbar_type_c={
-      \ 'kinds': [
-      \ 'd:macros:1:0',
-      \ 'p:prototypes:1:0',
-      \ 'g:enums',
-      \ 'e:enumerators:0:0',
-      \ 't:typedefs:0:0',
-      \ 'n:namespaces',
-      \ 'c:classes',
-      \ 's:structs',
-      \ 'u:unions',
-      \ 'f:functions',
-      \ 'm:members:0:0',
-      \ 'v:variables:0:0',
-      \ 'x:external:0:0',
-      \ 'l:local:0:0'
-      \ ]
-      \ }
-
-let g:tagbar_type_cpp={
-      \ 'kinds': [
-      \ 'd:macros:1:0',
-      \ 'p:prototypes:1:0',
-      \ 'g:enums',
-      \ 'e:enumerators:0:0',
-      \ 't:typedefs:0:0',
-      \ 'n:namespaces',
-      \ 'c:classes',
-      \ 's:structs',
-      \ 'u:unions',
-      \ 'f:functions',
-      \ 'm:members:0:0',
-      \ 'v:variables:0:0',
-      \ 'x:external:0:0',
-      \ 'l:local:0:0'
-      \ ]
-      \ }
-
-let g:tagbar_type_scala={
-      \ 'ctagstype': 'scala',
-      \ 'sro': '.',
-      \ 'kinds': [
-      \ 'p:packages',
-      \ 'T:types:1',
-      \ 't:traits',
-      \ 'o:objects',
-      \ 'O:case objects',
-      \ 'c:classes',
-      \ 'C:case classes',
-      \ 'm:methods',
-      \ 'V:values:1',
-      \ 'v:variables:1'
-      \ ]
-      \ }
-
-let g:tagbar_type_rust={
-      \ 'ctagstype': 'rust',
-      \ 'kinds': [
-      \ 'T:types,type definitions',
-      \ 'f:functions,function definitions',
-      \ 'g:enum,enumeration names',
-      \ 's:structure names',
-      \ 'm:modules,module names',
-      \ 'c:consts,static constants',
-      \ 't:traits,traits',
-      \ 'i:impls,trait implementations',
-      \ ]
-      \ }
-
-let g:tagbar_type_go={
-      \ 'ctagstype': 'go',
-      \ 'kinds': [
-      \ 'p:package',
-      \ 'i:imports:1',
-      \ 'c:constants',
-      \ 'v:variables',
-      \ 't:types',
-      \ 'n:interfaces',
-      \ 'w:fields',
-      \ 'e:embedded',
-      \ 'm:methods',
-      \ 'r:constructor',
-      \ 'f:functions'
-      \ ],
-      \ 'sro': '.',
-      \ 'kind2scope': {
-      \ 't': 'ctype',
-      \ 'n': 'ntype'
-      \ },
-      \ 'scope2kind': {
-      \ 'ctype': 't',
-      \ 'ntype': 'n'
-      \ },
-      \ 'ctagsbin': 'gotags',
-      \ 'ctagsargs': '-sort -silent'
-      \ }
-
-map <f3> :TagbarToggle<cr>
-
-autocmd quitpre * TagbarClose
-" autocmd vimenter * nested :call tagbar#autoopen(1)
-" autocmd filetype * nested :call tagbar#autoopen(0)
-" autocmd bufenter * nested :call tagbar#autoopen(0)
-
-
 """""""""" nerdcommenter
 let g:NERDSpaceDelims=1
-
-map <leader>c? :map <leader>c<cr>
 
 
 """""""""" nerdtree
@@ -699,10 +556,6 @@ func! NERDTreeHighlightFile(extension, fg, bg, guifg, guibg)
 endfunc
 
 
-"""""""""" python syntax
-let python_highlight_all=1
-
-
 """""""""" vim-autoformat
 map <leader>af :Autoformat<cr>
 
@@ -713,62 +566,6 @@ let g:formatters_h=['google_clang_format']
 
 let g:formatdef_yapf_format='"yapf --style google"'
 let g:formatters_python=['yapf_format']
-
-
-"""""""""" vim-easymotion
-map <leader><leader>l <Plug>(easymotion-lineforward)
-map <leader><leader>j <Plug>(easymotion-j)
-map <leader><leader>k <Plug>(easymotion-k)
-map <leader><leader>h <Plug>(easymotion-linebackward)
-map <leader><leader>. <Plug>(easymotion-repeat)
-
-" keep cursor column when JK motion
-let g:EasyMotion_startofline=0
-
-let g:EasyMotion_smartcase=1
-
-
-"""""""""" buffergator
-" Use the right side of the screen
-let g:buffergator_viewport_split_policy='R'
-
-" Disable default keys
-let g:buffergator_suppress_keymaps=1
-
-let g:buffergator_autoexpand_on_split=0
-
-" Go to the previous buffer open
-nmap <leader>jj :BuffergatorMruCyclePrev<cr>
-
-" Go to the next buffer open
-nmap <leader>kk :BuffergatorMruCycleNext<cr>
-
-" Toggle the entire list of buffers open
-nmap <f1> :BuffergatorToggle<cr>
-
-nmap <leader>bn :enew<cr>
-nmap <leader>bq :bp <BAR> bd #<cr>
-
-
-"""""""""" vim-tags
-set tags=./tags;/
-let g:vim_tags_ignore_files=['.gitignore', '.svnignore', '.cvsignore']
-let g:vim_tags_directories=['CMakeLists.txt', 'Makefile', 'SConstruct']
-let g:vim_tags_use_language_field=0
-let g:vim_tags_project_tags_command='{CTAGS} -R --c-kinds=+p+l+x+c+d+e+f+g+m+n+s+t+u+v --c++-kinds=+p+l+x+c+d+e+f+g+m+n+s+t+u+v --fields=+iaSl --extra=+q {OPTIONS} {DIRECTORY} 2>/dev/null'
-nmap <f4> :TagsGenerate!<cr>
-
-
-"""""""""" vim-json
-let g:vim_json_syntax_conceal=0
-
-
-"""""""""" vim-gitgutter
-let g:gitgutter_max_signs=10000
-let g:gitgutter_enabled=1
-let g:gitgutter_map_keys=0
-
-map <leader>vg :GitGutterToggle<cr>
 
 
 """""""""" indentLine
@@ -788,8 +585,3 @@ nnoremap <silent><c-k> :TmuxNavigateUp<cr>
 nnoremap <silent><c-l> :TmuxNavigateRight<cr>
 " nnoremap <silent> {Previous-Mapping} :TmuxNavigatePrevious<cr>
 
-
-"""""""""" DoxygenToolkit
-let g:DoxygenToolkit_compactDoc="yes"
-
-nnoremap <silent><leader>dox :Dox<cr>

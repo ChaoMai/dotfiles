@@ -1,6 +1,6 @@
 [user]
 	email = loneymai@gmail.com
-	name = Chao Mai
+	name = chaomai
 [push]
 	default = simple
 [alias]
@@ -9,10 +9,14 @@
 [core]
 	autocrlf = input
 	compression = 0
-	packedGitLimit = 512m 
-	packedGitWindowSize = 512m 
+	packedGitLimit = 512m
+	packedGitWindowSize = 512m
 	quotepath = false
-[pack] 
-	deltaCacheSize = 2047m 
-	packSizeLimit = 2047m 
+[pack]
+	deltaCacheSize = 2047m
+	packSizeLimit = 2047m
 	windowMemory = 2047m
+[diff]
+	tool = vimdiff
+[credential]
+	helper = store

@@ -23,11 +23,11 @@ switcher.ui.showSelectedTitle = false
 -- -----------------------------------------------------------------------
 
 local function nextWindow()
-  switcher:next()
+    switcher:next()
 end
 
 local function previousWindow()
-  switcher:previous()
+    switcher:previous()
 end
 
 -- -----------------------------------------------------------------------
@@ -36,9 +36,9 @@ end
 local utils = require("utils")
 
 -- utils.keyBind({"alt"}, {
-  -- tab = nextWindow
+    -- tab = nextWindow
 -- })
 
 -- utils.keyBind({"alt", "shift"}, {
-  -- tab = previousWindow
+    -- tab = previousWindow
 -- })
