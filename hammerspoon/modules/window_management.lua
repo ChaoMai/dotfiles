@@ -96,8 +96,6 @@ local function throwRight()
 end
 
 local function verticalMaxToggle()
-    -- cursize.w = 1440
-    -- cursize.h = 876
     local this = current:new()
 
     if this.windowGrid.h == this.screenGrid.h then
@@ -133,7 +131,7 @@ local function maxToggle()
     if (this.windowGrid.w == this.screenGrid.w and this.windowGrid.h == this.screenGrid.h) then
         local cursize = win:size()
         cursize.w = 1440
-        cursize.h = 877
+        cursize.h = 900
         this.window:setSize(cursize)
         -- local cell = Cell(this.windowGrid.x, this.windowGrid.y, this.screenGrid.w * 0.75, this.screenGrid.h * 0.75)
         grid.set(this.window, cell, this.screen)

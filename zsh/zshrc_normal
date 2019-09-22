@@ -167,21 +167,21 @@ function t() { tmux new -A -s $@ }
 export PYTHON3_USER_BASE=/Users/chaomai/Library/Python/3.7
 export PATH=$PYTHON3_USER_BASE/bin:$PATH
 
-function pip3()
-{
-    local command=$1
-    local args=""
-    shift
+# function pip3()
+# {
+    # local command=$1
+    # local args=""
+    # shift
 
-    if [ "$command" = "install" ];
-    then
-        args="install --user $@"
-    else
-        args="$command $@"
-    fi
+    # if [ "$command" = "install" ];
+    # then
+        # args="install --user $@"
+    # else
+        # args="$command $@"
+    # fi
 
-    echo $args | xargs pip3
-}
+    # echo $args | xargs pip3
+# }
 
 alias pip3_home="python3 -m site --user-base"
 
@@ -189,21 +189,21 @@ alias pip3_home="python3 -m site --user-base"
 export PYTHON2_USER_BASE=/Users/chaomai/Library/Python/2.7
 export PATH=$PYTHON2_USER_BASE/bin:$PATH
 
-function pip2()
-{
-    local command=$1
-    local args=""
-    shift
+# function pip2()
+# {
+    # local command=$1
+    # local args=""
+    # shift
 
-    if [ "$command" = "install" ];
-    then
-        args="install --user $@"
-    else
-        args="$command $@"
-    fi
+    # if [ "$command" = "install" ];
+    # then
+        # args="install --user $@"
+    # else
+        # args="$command $@"
+    # fi
 
-    echo $args | xargs pip2
-}
+    # echo $args | xargs pip2
+# }
 
 alias pip2_home="python2 -m site --user-base"
 
