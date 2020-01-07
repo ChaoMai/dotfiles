@@ -488,8 +488,8 @@ let g:ycm_always_populate_location_list=1
 let g:ycm_complete_in_comments=0
 let g:ycm_complete_in_strings=0
 let g:ycm_collect_identifiers_from_tags_files=1
-let g:ycm_server_python_interpreter='/usr/local/bin/python3'
-let g:ycm_python_binary_path='/usr/local/bin/python3'
+let g:ycm_server_python_interpreter='/usr/local/Caskroom/miniconda/base/envs/python3/bin/python3'
+let g:ycm_python_binary_path='/usr/local/Caskroom/miniconda/base/envs/python3/bin/python3'
 let g:ycm_seed_identifiers_with_syntax=1
 let g:ycm_autoclose_preview_window_after_completion=1
 let g:ycm_autoclose_preview_window_after_insertion=1
@@ -559,7 +559,7 @@ endfunc
 """""""""" vim-autoformat
 map <leader>af :Autoformat<cr>
 
-let g:formatdef_google_clang_format='"/usr/local/bin/clang-format -style=''{BasedOnStyle: WebKit}''"'
+let g:formatdef_google_clang_format='"/usr/local/bin/clang-format -style=''{BasedOnStyle: Google, IndentWidth: 4}''"'
 let g:formatters_cpp=['google_clang_format']
 let g:formatters_c=['google_clang_format']
 let g:formatters_h=['google_clang_format']
