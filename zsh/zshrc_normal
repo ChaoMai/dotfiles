@@ -8,7 +8,8 @@ zinit wait lucid for \
     light-mode zsh-users/zsh-syntax-highlighting \
     light-mode zsh-users/zsh-history-substring-search \
     light-mode zdharma/history-search-multi-word \
-    light-mode esc/conda-zsh-completion
+    light-mode esc/conda-zsh-completion \
+    light-mode greymd/docker-zsh-completion
 
 zinit wait lucid atload"zicompinit; zicdreplay" blockf
 zinit light zsh-users/zsh-completions
@@ -19,10 +20,6 @@ zinit snippet OMZ::lib/git.zsh
 zinit snippet OMZ::lib/key-bindings.zsh
 zinit snippet OMZ::lib/theme-and-appearance.zsh
 zinit snippet OMZ::plugins/colored-man-pages/colored-man-pages.plugin.zsh
-
-# zinit ice lucid wait atload="zpcompinit; zpcdreplay"
-# zinit snippet OMZ::plugins/git/git.plugin.zsh
-# zinit snippet OMZ::plugins/golang/golang.plugin.zsh
 
 # zinit ice svn
 # zinit snippet PZT::modules/docker
@@ -135,8 +132,16 @@ function toggle_linux_dev() {
     cd -
 }
 
-############################## Utils
+############################################################ z.lua
+function j() {
+    if [[ "$argv[1]" == "-"* ]]; then
+        _zlua "$@"
+    else
+        cd "$@" 2> /dev/null || _zlua "$@"
+    fi
+}
 
+############################################################ Uilts
 iconv_to_utf8() {
     local filename=$1
     local dir=$(dirname $filename)
@@ -156,10 +161,10 @@ upgrade_spaceship() {
     cd -
 }
 
-############################## Domob
+############################################################ Domob
 source /Users/chaomai/Documents/workspace/domob/utils/shell_utils.sh
 
-############################## conda
+############################################################ conda
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
 # __conda_setup="$('/usr/local/Caskroom/miniconda/base/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
