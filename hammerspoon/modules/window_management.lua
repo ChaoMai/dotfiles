@@ -114,10 +114,10 @@ local function horizontalMaxToggle()
     local this = current:new()
 
     if this.windowGrid.w == this.screenGrid.w then
-        local cell = Cell(0, this.windowGrid.y, this.screenGrid.w * 0.75, this.windowGrid.h)
+        local cell = Cell(0, this.windowGrid.y, this.screenGrid.w * 0.675, this.windowGrid.h)
         grid.set(this.window, cell, this.screen)
-    elseif this.screenGrid.w - this.windowGrid.x < this.screenGrid.w * 0.75 then
-        local cell = Cell(this.screenGrid.w - this.screenGrid.w * 0.75, 0, this.screenGrid.w * 0.75, this.windowGrid.h)
+    elseif this.screenGrid.w - this.windowGrid.x < this.screenGrid.w * 0.675 then
+        local cell = Cell(this.screenGrid.w - this.screenGrid.w * 0.675, 0, this.screenGrid.w * 0.675, this.windowGrid.h)
         grid.set(this.window, cell, this.screen)
     else
         local cell = Cell(0, this.windowGrid.y, this.screenGrid.w, this.windowGrid.h)
@@ -129,12 +129,19 @@ local function maxToggle()
     local this = current:new()
 
     if (this.windowGrid.w == this.screenGrid.w and this.windowGrid.h == this.screenGrid.h) then
-        local cursize = win:size()
-        cursize.w = 1280
-        cursize.h = 800
-        this.window:setSize(cursize)
-        -- local cell = Cell(this.windowGrid.x, this.windowGrid.y, this.screenGrid.w * 0.75, this.screenGrid.h * 0.75)
-        grid.set(this.window, cell, this.screen)
+        if (this.screenGrid.w / this.screenGrid.h == 16 / 10) then
+            -- local cursize = win:size()
+            -- cursize.w = 1024
+            -- cursize.h = 640
+            -- this.window:setSize(cursize)
+            local cell = Cell(this.windowGrid.x, this.windowGrid.y, this.screenGrid.w * 0.75, this.screenGrid.h * 0.75)
+            grid.set(this.window, cell, this.screen)
+        else
+            local sh = this.screenGrid.h * 0.75
+            local sw = this.screenGrid.w * 0.675
+            local cell = Cell(this.windowGrid.x, this.windowGrid.y, sw, sh)
+            grid.set(this.window, cell, this.screen)
+        end
     else
         hs.grid.maximizeWindow(this.window)
     end

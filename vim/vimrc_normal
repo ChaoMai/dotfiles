@@ -176,7 +176,7 @@ set linespace=3
 
 """""""""""""""""""" vim-one
 set termguicolors
-let g:one_allow_italics = 1
+let g:one_allow_italics = 0
 set background=dark
 colorscheme one
 
