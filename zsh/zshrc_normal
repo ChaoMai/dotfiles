@@ -21,12 +21,6 @@ zinit snippet OMZ::lib/key-bindings.zsh
 zinit snippet OMZ::lib/theme-and-appearance.zsh
 zinit snippet OMZ::plugins/colored-man-pages/colored-man-pages.plugin.zsh
 
-# zinit ice svn
-# zinit snippet PZT::modules/docker
-
-# zinit ice mv="*.zsh -> _exa" as="completion"
-# zinit snippet 'https://github.com/ogham/exa/blob/master/contrib/completions.zsh'
-
 eval "$(starship init zsh)"
 export STARSHIP_CONFIG=~/.starship
 
