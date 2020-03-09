@@ -1,5 +1,6 @@
 *.pyc
 aria2/dht.dat
+vim/autoload/
 vim/bundles/
 vim/cache/
 vim/tmp/
