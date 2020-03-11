@@ -19,12 +19,6 @@ fi
 alias l="ls -l"
 alias ll="ls -al"
 
-# proxy
-if [[ $ISONSERVER == false ]]; then
-    alias ssproxy='export http_proxy=http://127.0.0.1:1087 https_proxy=http://127.0.0.1:1087'
-    alias noproxy='unset http_proxy https_proxy'
-fi
-
 # git
 function gi() { curl -L -s https://www.gitignore.io/api/$@ }
 
@@ -78,6 +72,10 @@ if [[ $OSTYPE == "Darwin" ]]; then
     alias rm="rmtrash"
     alias srm="/bin/rm"
 
+    # proxy
+    alias ssproxy="export http_proxy=http://127.0.0.1:1087 https_proxy=http://127.0.0.1:1087"
+    alias noproxy="unset http_proxy https_proxy"
+
     # util
     iconv_to_utf8() {
         local filename=$1
@@ -124,6 +122,11 @@ elif [[ $OSTYPE == "Linux" ]]; then
     # export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk-13.0.1.jdk/Contents/Home
 
     # alias
+    if [[ ! $ISONSERVER ]]; then
+        alias ssproxy="export http_proxy=http://192.168.96.1:1087 https_proxy=http://192.168.96.1:1087"
+        alias noproxy="unset http_proxy https_proxy"
+    fi
+
     function rm() {
         local trash_path="$HOME/.Trash"
 
