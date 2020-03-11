@@ -15,12 +15,12 @@ zinit wait lucid for \
         load zsh-users/zsh-completions \
 
 zinit snippet OMZ::lib/git.zsh
+zinit snippet OMZ::lib/key-bindings.zsh
 zinit snippet OMZ::lib/theme-and-appearance.zsh
 
 zinit wait lucid for \
     OMZ::lib/clipboard.zsh \
     OMZ::lib/completion.zsh \
-    OMZ::lib/key-bindings.zsh \
     OMZ::plugins/colored-man-pages/colored-man-pages.plugin.zsh \
     OMZ::plugins/node/node.plugin.zsh
 
