@@ -4,15 +4,18 @@ source ~/.zinit/zinit.zsh
 
 zinit wait lucid for \
     light-mode skywind3000/z.lua \
-    light-mode zsh-users/zsh-autosuggestions \
-    light-mode zsh-users/zsh-syntax-highlighting \
+    atload"!_zsh_autosuggest_start" \
+        light-mode zsh-users/zsh-autosuggestions \
+    atinit"ZINIT[COMPINIT_OPTS]=-C; zicompinit; zicdreplay" \
+        zdharma/fast-syntax-highlighting \
     light-mode zsh-users/zsh-history-substring-search \
     light-mode zdharma/history-search-multi-word \
-    light-mode esc/conda-zsh-completion \
-    light-mode greymd/docker-zsh-completion
-
-zinit wait lucid atload"zicompinit; zicdreplay" blockf
-zinit light zsh-users/zsh-completions
+    atload"zicompinit; zicdreplay" blockf \
+        light-mode zsh-users/zsh-completions \
+    atload"zicompinit; zicdreplay" blockf \
+        light-mode esc/conda-zsh-completion \
+    atload"zicompinit; zicdreplay" blockf \
+        light-mode greymd/docker-zsh-completion
 
 zinit snippet OMZ::lib/clipboard.zsh
 zinit snippet OMZ::lib/completion.zsh
