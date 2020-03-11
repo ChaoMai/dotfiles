@@ -9,9 +9,6 @@ export MAVEN_OPTS="-Xmx2g -XX:ReservedCodeCacheSize=512m"
 
 export stack="stack --resolver lts-15.0"
 
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-
 # alias
 if [[ $ISONSERVER == false ]]; then
     DISABLE_LS_COLORS=true

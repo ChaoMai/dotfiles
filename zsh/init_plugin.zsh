@@ -12,19 +12,20 @@ zinit wait lucid for \
     light-mode zdharma/history-search-multi-word \
     atload"zicompinit; zicdreplay" blockf \
         light-mode zsh-users/zsh-completions \
-    atload"zicompinit; zicdreplay" blockf \
+    atload"zicompinit; zicdreplay" \
         light-mode esc/conda-zsh-completion \
-    atload"zicompinit; zicdreplay" blockf \
-        light-mode greymd/docker-zsh-completion
+    atload"zicompinit; zicdreplay" \
+        light-mode greymd/docker-zsh-completion \
 
-zinit snippet OMZ::lib/clipboard.zsh
-zinit snippet OMZ::lib/completion.zsh
-zinit snippet OMZ::lib/git.zsh
-zinit snippet OMZ::lib/key-bindings.zsh
-zinit snippet OMZ::lib/theme-and-appearance.zsh
-zinit snippet OMZ::plugins/colored-man-pages/colored-man-pages.plugin.zsh
-zinit snippet OMZ::plugins/node/node.plugin.zsh
-zinit snippet OMZ::plugins/nvm/nvm.plugin.zsh
+zinit wait lucid for \
+    OMZ::lib/clipboard.zsh \
+    OMZ::lib/completion.zsh \
+    OMZ::lib/git.zsh \
+    OMZ::lib/key-bindings.zsh \
+    OMZ::lib/theme-and-appearance.zsh \
+    OMZ::plugins/colored-man-pages/colored-man-pages.plugin.zsh \
+    OMZ::plugins/node/node.plugin.zsh \
+    OMZ::plugins/nvm/nvm.plugin.zsh
 
 # zlua conf
 alias zc='z -c'      # 严格匹配当前路径的子路径
