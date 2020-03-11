@@ -1,184 +1,23 @@
 # for profile
 zmodload zsh/zprof
 
+# setup HOME, for shared accout on server
+ISONSERVER=false
+# export HOME=
+
+# detect os
+OSTYPE=$(uname)
+
 # get real path of zshrc
-cur_path=$(/usr/local/opt/coreutils/libexec/gnubin/readlink -f ${(%):-%x})
-cur_dir=$(dirname $cur_path)
-source ${cur_dir}/zinit/zinit.zsh
+if [[ $OSTYPE == "Darwin" ]]; then
+    cur_path=$(/usr/local/opt/coreutils/libexec/gnubin/readlink -f ${(%):-%x})
+else
+    cur_path=$(readlink -f ${(%):-%x})
+fi
 
-zinit wait lucid for \
-    light-mode skywind3000/z.lua \
-    atload"!_zsh_autosuggest_start" \
-        light-mode zsh-users/zsh-autosuggestions \
-    atinit"ZINIT[COMPINIT_OPTS]=-C; zicompinit; zicdreplay" \
-        zdharma/fast-syntax-highlighting \
-    light-mode zsh-users/zsh-history-substring-search \
-    light-mode zdharma/history-search-multi-word \
-    atload"zicompinit; zicdreplay" blockf \
-        light-mode zsh-users/zsh-completions \
-    atload"zicompinit; zicdreplay" blockf \
-        light-mode esc/conda-zsh-completion \
-    atload"zicompinit; zicdreplay" blockf \
-        light-mode greymd/docker-zsh-completion
+ZSHRC_DIR=$(dirname $cur_path)
 
-zinit snippet OMZ::lib/clipboard.zsh
-zinit snippet OMZ::lib/completion.zsh
-zinit snippet OMZ::lib/git.zsh
-zinit snippet OMZ::lib/key-bindings.zsh
-zinit snippet OMZ::lib/theme-and-appearance.zsh
-zinit snippet OMZ::plugins/colored-man-pages/colored-man-pages.plugin.zsh
+source ${ZSHRC_DIR}/init_basic.zsh
+source ${ZSHRC_DIR}/init_config.zsh
+source ${ZSHRC_DIR}/init_plugin.zsh
 
-eval "$(starship init zsh)"
-export STARSHIP_CONFIG=~/.starship
-
-BASE16_SHELL=$HOME/.base16-shell
-[ -n "$PS1" ] && [ -s $BASE16_SHELL/profile_helper.sh ] && eval "$($BASE16_SHELL/profile_helper.sh)"
-
-# export TERM=xterm-256color-italic
-export TERM=xterm-256color
-
-# export MANPATH="/usr/local/man:$MANPATH"
-export GOPATH=$HOME/Documents/workspace/go
-export PATH=$GOPATH/bin:$PATH
-
-export HOMEBREW_NO_AUTO_UPDATE=true
-export HOMEBREW_GITHUB_API_TOKEN=$(cat $HOME/Documents/onedrive/backup_codes_tokens/brew_api_token)
-# export HOMEBREW_BOTTLE_DOMAIN=https://mirrors.ustc.edu.cn/homebrew-bottles
-# export HOMEBREW_BOTTLE_DOMAIN=https://mirrors.tuna.tsinghua.edu.cn/homebrew-bottles
-
-export LANG=en_US.UTF-8
-export LC_ALL=en_US.UTF-8
-
-export CC=/usr/local/opt/llvm/bin/clang
-export CXX=/usr/local/opt/llvm/bin/clang++
-
-export SHELL=/bin/zsh
-export EDITOR=/usr/local/bin/vim
-
-export PYTHONSTARTUP=$HOME/.pythonstartup
-
-export MAVEN_OPTS="-Xmx2g -XX:ReservedCodeCacheSize=512m"
-
-export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk-13.0.1.jdk/Contents/Home
-
-# export PATH=/usr/local/opt/protobuf@2.5/bin:$PATH
-
-export stack="stack --resolver lts-15.0"
-
-export GNUBIN_COREUTILS=/usr/local/opt/coreutils/libexec/gnubin
-export GNUBIN_FINDUTILS=/usr/local/opt/findutils/libexec/gnubin
-export GNUBIN_INETUTILS=/usr/local/opt/inetutils/libexec/gnubin
-
-export HISTSIZE=1000000000
-export SAVEHIST=$HISTSIZE
-setopt BANG_HIST                 # Treat the '!' character specially during expansion.
-setopt EXTENDED_HISTORY          # Write the history file in the ":start:elapsed;command" format.
-setopt INC_APPEND_HISTORY        # Write to the history file immediately, not when the shell exits.
-setopt SHARE_HISTORY             # Share history between all sessions.
-setopt HIST_EXPIRE_DUPS_FIRST    # Expire duplicate entries first when trimming history.
-setopt HIST_IGNORE_DUPS          # Don't record an entry that was just recorded again.
-setopt HIST_IGNORE_ALL_DUPS      # Delete old recorded entry if new entry is a duplicate.
-setopt HIST_FIND_NO_DUPS         # Do not display a line previously found.
-setopt HIST_IGNORE_SPACE         # Don't record an entry starting with a space.
-setopt HIST_SAVE_NO_DUPS         # Don't write duplicate entries in the history file.
-setopt HIST_REDUCE_BLANKS        # Remove superfluous blanks before recording entry.
-setopt HIST_VERIFY               # Don't execute immediately upon history expansion.
-setopt HIST_BEEP                 # Beep when accessing nonexistent history.
-
-############################################################ Common
-alias q="exit"
-alias ..="cd .."
-alias f="open ."
-alias v="vim"
-alias rm="rmtrash"
-alias srm="/bin/rm"
-
-DISABLE_LS_COLORS=true
-alias ls="exa"
-alias l="ls -l"
-alias ll="ls -al"
-
-alias zc='z -c'      # 严格匹配当前路径的子路径
-alias zz='z -i'      # 使用交互式选择模式
-alias zf='z -I'      # 使用 fzf 对多个结果进行选择
-alias zb='z -b'      # 快速回到父目录
-
-############################################################ Proxy
-alias ssproxy='export http_proxy=http://127.0.0.1:1087 https_proxy=http://127.0.0.1:1087'
-alias noproxy='unset http_proxy https_proxy'
-
-############################################################ Docker
-alias docker_update_images='docker image ls --format "{{.Repository}}:{{.Tag}}" | xargs -n 1 docker pull'
-
-############################################################ Git
-function gi() { curl -L -s https://www.gitignore.io/api/$@ }
-
-alias gittoken="pbcopy < $HOME/Documents/backup_codes_tokens/github_token"
-
-############################################################ Tmux
-function t() { tmux new -A -s $@ }
-
-############################################################ Docker
-
-function toggle_linux_dev() {
-    cd /Users/chaomai/Documents/workspace/Docker/LinuxDev
-
-    action=$1
-    if [ "$action" = "" ]; then
-        ./control.sh toggle
-    else
-        ./control.sh "$action"
-    fi
-
-    cd -
-}
-
-############################################################ z.lua
-function j() {
-    if [[ "$argv[1]" == "-"* ]]; then
-        _zlua "$@"
-    else
-        cd "$@" 2> /dev/null || _zlua "$@"
-    fi
-}
-
-############################################################ Uilts
-iconv_to_utf8() {
-    local filename=$1
-    local dir=$(dirname $filename)
-    local file=$(basename $filename)
-    local bakfile=${file}_bak
-    local tmpfile=${file}_tmp
-
-    cp $dir/$file $dir/$bakfile
-
-    iconv -f GB18030 -t UTF-8 $dir/$file > $dir/$tmpfile
-    mv $dir/$tmpfile $dir/$file
-}
-
-upgrade_spaceship() {
-    cd "$ZSH_CUSTOM/themes/spaceship-prompt"
-    git pull
-    cd -
-}
-
-############################################################ Domob
-source /Users/chaomai/Documents/workspace/domob/utils/shell_utils.sh
-
-############################################################ conda
-# >>> conda initialize >>>
-# !! Contents within this block are managed by 'conda init' !!
-# __conda_setup="$('/usr/local/Caskroom/miniconda/base/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
-# if [ $? -eq 0 ]; then
-  # eval "$__conda_setup"
-# else
-  if [ -f "/usr/local/Caskroom/miniconda/base/etc/profile.d/conda.sh" ]; then
-      . "/usr/local/Caskroom/miniconda/base/etc/profile.d/conda.sh"
-  else
-      export PATH="/usr/local/Caskroom/miniconda/base/bin:$PATH"
-  fi
-# fi
-# unset __conda_setup
-# <<< conda initialize <<<
-
-# conda activate python3
