@@ -1,6 +1,10 @@
+# for profile
 zmodload zsh/zprof
 
-source ~/.zinit/zinit.zsh
+# get real path of zshrc
+cur_path=$(/usr/local/opt/coreutils/libexec/gnubin/readlink -f ${(%):-%x})
+cur_dir=$(dirname $cur_path)
+source ${cur_dir}/zinit/zinit.zsh
 
 zinit wait lucid for \
     light-mode skywind3000/z.lua \
