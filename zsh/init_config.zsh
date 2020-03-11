@@ -16,8 +16,8 @@ else
     alias ls="ls --color"
 fi
 
-alias l="$ls -l"
-alias ll="$ls -al"
+alias l="ls -l"
+alias ll="ls -al"
 
 # proxy
 if [[ $ISONSERVER == false ]]; then
@@ -41,7 +41,7 @@ alias docker_update_images='docker image ls --format "{{.Repository}}:{{.Tag}}" 
 function toggle_linux_dev() {
     cd /Users/chaomai/Documents/workspace/Docker/LinuxDev
 
-    action=$1
+    local action=$1
     if [ "$action" = "" ]; then
         ./control.sh toggle
     else
@@ -58,21 +58,21 @@ if [[ $OSTYPE == "Darwin" ]]; then
     export HOMEBREW_GITHUB_API_TOKEN=$(cat $HOME/Documents/onedrive/backup_codes_tokens/brew_api_token)
     # export HOMEBREW_BOTTLE_DOMAIN=https://mirrors.ustc.edu.cn/homebrew-bottles
     # export HOMEBREW_BOTTLE_DOMAIN=https://mirrors.tuna.tsinghua.edu.cn/homebrew-bottles
-    
+
     export CC=/usr/local/opt/llvm/bin/clang
     export CXX=/usr/local/opt/llvm/bin/clang++
-    
+
     export SHELL=/bin/zsh
     export EDITOR=/usr/local/bin/vim
-    
+
     export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk-13.0.1.jdk/Contents/Home
-    
+
     # export PATH=/usr/local/opt/protobuf@2.5/bin:$PATH
-    
+
     export GNUBIN_COREUTILS=/usr/local/opt/coreutils/libexec/gnubin
     export GNUBIN_FINDUTILS=/usr/local/opt/findutils/libexec/gnubin
     export GNUBIN_INETUTILS=/usr/local/opt/inetutils/libexec/gnubin
-        
+
     # alias
     alias f="open ."
     alias rm="rmtrash"
@@ -85,19 +85,19 @@ if [[ $OSTYPE == "Darwin" ]]; then
         local file=$(basename $filename)
         local bakfile=${file}_bak
         local tmpfile=${file}_tmp
-    
+
         cp $dir/$file $dir/$bakfile
-    
+
         iconv -f GB18030 -t UTF-8 $dir/$file > $dir/$tmpfile
         mv $dir/$tmpfile $dir/$file
     }
-    
+
     # conda
     # >>> conda initialize >>>
     # !! Contents within this block are managed by 'conda init' !!
     # __conda_setup="$('/usr/local/Caskroom/miniconda/base/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
     # if [ $? -eq 0 ]; then
-        # eval "$__conda_setup"
+    # eval "$__conda_setup"
     # else
     if [ -f "/usr/local/Caskroom/miniconda/base/etc/profile.d/conda.sh" ]; then
         . "/usr/local/Caskroom/miniconda/base/etc/profile.d/conda.sh"
@@ -107,20 +107,21 @@ if [[ $OSTYPE == "Darwin" ]]; then
     # fi
     # unset __conda_setup
     # <<< conda initialize <<<
-    
+
     # conda activate python3
 
     # domob
     source /Users/chaomai/Documents/workspace/domob/utils/shell_utils.sh
 
 elif [[ $OSTYPE == "Linux" ]]; then
-    export CC=/usr/local/opt/llvm/bin/clang
-    export CXX=/usr/local/opt/llvm/bin/clang++
-    
-    export SHELL=/bin/zsh
-    export EDITOR=/usr/local/bin/vim
-    
-    export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk-13.0.1.jdk/Contents/Home
+    # environment variables
+    export CC=/usr/bin/clang
+    export CXX=/usr/bin/clang++
+
+    export SHELL=/usr/bin/zsh
+    export EDITOR=/usr/bin/vim
+
+    # export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk-13.0.1.jdk/Contents/Home
 
     # alias
     function rm() {
@@ -132,5 +133,8 @@ elif [[ $OSTYPE == "Linux" ]]; then
 
         mv $0 ${trash_path}
     }
+
+    # path
+    export PATH=$HOME/bin:$PATH
 fi
 

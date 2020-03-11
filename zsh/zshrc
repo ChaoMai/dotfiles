@@ -17,7 +17,7 @@ fi
 
 ZSHRC_DIR=$(dirname $cur_path)
 
-source ${ZSHRC_DIR}/init_basic.zsh
-source ${ZSHRC_DIR}/init_config.zsh
-source ${ZSHRC_DIR}/init_plugin.zsh
+source $ZSHRC_DIR/init_basic.zsh
+source $ZSHRC_DIR/init_config.zsh
+source $ZSHRC_DIR/init_plugin.zsh
 
