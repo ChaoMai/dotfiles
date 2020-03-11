@@ -9,6 +9,10 @@ export MAVEN_OPTS="-Xmx2g -XX:ReservedCodeCacheSize=512m"
 
 export stack="stack --resolver lts-15.0"
 
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+
+# alias
 if [[ $ISONSERVER == false ]]; then
     DISABLE_LS_COLORS=true
     alias ls="exa"
@@ -69,12 +73,12 @@ if [[ $OSTYPE == "Darwin" ]]; then
 
     # alias
     alias f="open ."
-    alias rm="rmtrash"
+    alias rm="safe-rm"
     alias srm="/bin/rm"
 
     # proxy
     alias ssproxy="export http_proxy=http://127.0.0.1:1087 https_proxy=http://127.0.0.1:1087"
-    alias noproxy="unset http_proxy https_proxy"
+    alias unproxy="unset http_proxy https_proxy"
 
     # util
     iconv_to_utf8() {
@@ -124,18 +128,11 @@ elif [[ $OSTYPE == "Linux" ]]; then
     # alias
     if [[ $ISONSERVER == false ]]; then
         alias ssproxy="export http_proxy=http://192.168.96.1:1087 https_proxy=http://192.168.96.1:1087"
-        alias noproxy="unset http_proxy https_proxy"
+        alias unproxy="unset http_proxy https_proxy"
     fi
 
-    function rm() {
-        local trash_path="$HOME/.Trash"
-
-        if [[ ! -d "${trash_path}" ]]; then
-            mkdir -p "${trash_path}"
-        fi
-
-        mv $0 ${trash_path}
-    }
+    alias rm="safe-rm"
+    alias srm="/bin/rm"
 
     # path
     export PATH=$HOME/bin:$PATH

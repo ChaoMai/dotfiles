@@ -2,10 +2,10 @@
 
 source ${ZSHRC_DIR}/zinit/zinit.zsh
 
+zinit load zsh-users/zsh-autosuggestions
+
 zinit wait lucid for \
     light-mode skywind3000/z.lua \
-    atload"!_zsh_autosuggest_start" \
-        light-mode zsh-users/zsh-autosuggestions \
     atinit"ZINIT[COMPINIT_OPTS]=-C; zicompinit; zicdreplay" \
         zdharma/fast-syntax-highlighting \
     light-mode zsh-users/zsh-history-substring-search \
@@ -23,6 +23,8 @@ zinit snippet OMZ::lib/git.zsh
 zinit snippet OMZ::lib/key-bindings.zsh
 zinit snippet OMZ::lib/theme-and-appearance.zsh
 zinit snippet OMZ::plugins/colored-man-pages/colored-man-pages.plugin.zsh
+zinit snippet OMZ::plugins/node/node.plugin.zsh
+zinit snippet OMZ::plugins/nvm/nvm.plugin.zsh
 
 # zlua conf
 alias zc='z -c'      # 严格匹配当前路径的子路径
