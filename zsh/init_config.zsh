@@ -122,7 +122,7 @@ elif [[ $OSTYPE == "Linux" ]]; then
     # export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk-13.0.1.jdk/Contents/Home
 
     # alias
-    if [[ ! $ISONSERVER ]]; then
+    if [[ $ISONSERVER == false ]]; then
         alias ssproxy="export http_proxy=http://192.168.96.1:1087 https_proxy=http://192.168.96.1:1087"
         alias noproxy="unset http_proxy https_proxy"
     fi
