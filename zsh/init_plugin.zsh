@@ -2,30 +2,27 @@
 
 source ${ZSHRC_DIR}/zinit/zinit.zsh
 
-zinit load zsh-users/zsh-autosuggestions
+zinit light zsh-users/zsh-autosuggestions
+zinit light zdharma/fast-syntax-highlighting
 
 zinit wait lucid for \
-    light-mode skywind3000/z.lua \
-    atinit"ZINIT[COMPINIT_OPTS]=-C; zicompinit; zicdreplay" \
-        zdharma/fast-syntax-highlighting \
-    light-mode zsh-users/zsh-history-substring-search \
-    light-mode zdharma/history-search-multi-word \
+    load skywind3000/z.lua \
+    load zsh-users/zsh-history-substring-search \
+    load zdharma/history-search-multi-word \
+    load esc/conda-zsh-completion \
+    load greymd/docker-zsh-completion \
     atload"zicompinit; zicdreplay" blockf \
-        light-mode zsh-users/zsh-completions \
-    atload"zicompinit; zicdreplay" \
-        light-mode esc/conda-zsh-completion \
-    atload"zicompinit; zicdreplay" \
-        light-mode greymd/docker-zsh-completion \
+        load zsh-users/zsh-completions \
+
+zinit snippet OMZ::lib/git.zsh
+zinit snippet OMZ::lib/theme-and-appearance.zsh
 
 zinit wait lucid for \
     OMZ::lib/clipboard.zsh \
     OMZ::lib/completion.zsh \
-    OMZ::lib/git.zsh \
     OMZ::lib/key-bindings.zsh \
-    OMZ::lib/theme-and-appearance.zsh \
     OMZ::plugins/colored-man-pages/colored-man-pages.plugin.zsh \
-    OMZ::plugins/node/node.plugin.zsh \
-    OMZ::plugins/nvm/nvm.plugin.zsh
+    OMZ::plugins/node/node.plugin.zsh
 
 # zlua conf
 alias zc='z -c'      # 严格匹配当前路径的子路径

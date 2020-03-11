@@ -9,6 +9,18 @@ export MAVEN_OPTS="-Xmx2g -XX:ReservedCodeCacheSize=512m"
 
 export stack="stack --resolver lts-15.0"
 
+export NVM_DIR="$HOME/.nvm"
+# this is slow
+# [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
+
+DEFAULT_NODE_VER='default';
+while [ -s "$NVM_DIR/alias/$DEFAULT_NODE_VER" ]; do
+    DEFAULT_NODE_VER="$(<$NVM_DIR/alias/$DEFAULT_NODE_VER)"
+done;
+
+export PATH="$NVM_DIR/versions/node/v${DEFAULT_NODE_VER#v}/bin:$PATH"
+alias nvm='unalias nvm; [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" --no-use; nvm'
+
 # alias
 if [[ $ISONSERVER == false ]]; then
     DISABLE_LS_COLORS=true

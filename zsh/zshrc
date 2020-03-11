@@ -1,5 +1,5 @@
-# for profile
-zmodload zsh/zprof
+# zsh performance profile
+# zmodload zsh/zprof
 
 # setup HOME, for shared accout on server
 ISONSERVER=false
