@@ -74,11 +74,6 @@ if [[ $OSTYPE == "Darwin" ]]; then
 
     export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk-13.0.1.jdk/Contents/Home
 
-    # don't use default python
-    # don't install vim related package to pollute other's env
-    alias vim="PYTHONPATH=/usr/local/Caskroom/miniconda/base/envs/vim_env_python3.7/lib/python3.7/site-packages vim"
-    alias v="PYTHONPATH=/usr/local/Caskroom/miniconda/base/envs/vim_env_python3.7/lib/python3.7/site-packages vim"
-
     # export PATH=/usr/local/opt/protobuf@2.5/bin:$PATH
 
     export GNUBIN_COREUTILS=/usr/local/opt/coreutils/libexec/gnubin
@@ -89,6 +84,11 @@ if [[ $OSTYPE == "Darwin" ]]; then
     alias f="open ."
     alias rm="safe-rm"
     alias srm="/bin/rm"
+
+    # don't use default python
+    # don't install vim related package to pollute other's env
+    alias vim="PYTHONPATH=/usr/local/Caskroom/miniconda/base/envs/vim_env_python3.7/lib/python3.7/site-packages vim"
+    alias v="PYTHONPATH=/usr/local/Caskroom/miniconda/base/envs/vim_env_python3.7/lib/python3.7/site-packages vim"
 
     # proxy
     alias ssproxy="export http_proxy=http://127.0.0.1:1087 https_proxy=http://127.0.0.1:1087"
@@ -147,6 +147,11 @@ elif [[ $OSTYPE == "Linux" ]]; then
 
     alias rm="safe-rm"
     alias srm="/bin/rm"
+
+    # don't use default python
+    # don't install vim related package to pollute other's env
+    alias vim="vim"
+    alias v="vim"
 
     # path
     export PATH=$HOME/Programs/bin:$PATH
