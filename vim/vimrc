@@ -1,2 +1,2 @@
+let g:is_on_server=0
 source ~/.vim/vim-init/init.vim
-

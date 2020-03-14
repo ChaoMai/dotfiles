@@ -9,10 +9,8 @@ zinit wait lucid for \
     load skywind3000/z.lua \
     load zsh-users/zsh-history-substring-search \
     load zdharma/history-search-multi-word \
-    load esc/conda-zsh-completion \
-    load greymd/docker-zsh-completion \
     atload"zicompinit; zicdreplay" blockf \
-        load zsh-users/zsh-completions \
+        load zsh-users/zsh-completions
 
 zinit snippet OMZ::lib/git.zsh
 zinit snippet OMZ::lib/key-bindings.zsh
@@ -21,8 +19,10 @@ zinit snippet OMZ::lib/theme-and-appearance.zsh
 zinit wait lucid for \
     OMZ::lib/clipboard.zsh \
     OMZ::lib/completion.zsh \
-    OMZ::plugins/colored-man-pages/colored-man-pages.plugin.zsh \
-    OMZ::plugins/node/node.plugin.zsh
+    OMZ::plugins/colored-man-pages/colored-man-pages.plugin.zsh
+
+zinit ice wait lucid pick'_docker' atload"zicompinit; zicdreplay" blockf
+zinit snippet OMZ::plugins/docker/_docker
 
 # zlua conf
 alias zc='z -c'      # 严格匹配当前路径的子路径

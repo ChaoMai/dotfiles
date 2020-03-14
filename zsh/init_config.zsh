@@ -74,6 +74,11 @@ if [[ $OSTYPE == "Darwin" ]]; then
 
     export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk-13.0.1.jdk/Contents/Home
 
+    # don't use default python
+    # don't install vim related package to pollute other's env
+    alias vim="PYTHONPATH=/usr/local/Caskroom/miniconda/base/envs/vim_env_python3.7/lib/python3.7/site-packages vim"
+    alias v="PYTHONPATH=/usr/local/Caskroom/miniconda/base/envs/vim_env_python3.7/lib/python3.7/site-packages vim"
+
     # export PATH=/usr/local/opt/protobuf@2.5/bin:$PATH
 
     export GNUBIN_COREUTILS=/usr/local/opt/coreutils/libexec/gnubin
@@ -144,6 +149,6 @@ elif [[ $OSTYPE == "Linux" ]]; then
     alias srm="/bin/rm"
 
     # path
-    export PATH=$HOME/bin:$PATH
+    export PATH=$HOME/Programs/bin:$PATH
 fi
 
