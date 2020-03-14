@@ -124,8 +124,6 @@ if [[ $OSTYPE == "Darwin" ]]; then
     # unset __conda_setup
     # <<< conda initialize <<<
 
-    # conda activate python3
-
     # domob
     source /Users/chaomai/Documents/workspace/domob/utils/shell_utils.sh
 
@@ -136,6 +134,8 @@ elif [[ $OSTYPE == "Linux" ]]; then
 
     export SHELL=/usr/bin/zsh
     export EDITOR=/usr/bin/vim
+
+    export PATH=$HOME/Programs/bin:$PATH
 
     # export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk-13.0.1.jdk/Contents/Home
 
@@ -153,7 +153,20 @@ elif [[ $OSTYPE == "Linux" ]]; then
     alias vim="vim"
     alias v="vim"
 
-    # path
-    export PATH=$HOME/Programs/bin:$PATH
+    # conda
+    # >>> conda initialize >>>
+    # !! Contents within this block are managed by 'conda init' !!
+    # __conda_setup="$('/home/chaomai/Programs/opt/miniconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+    # if [ $? -eq 0 ]; then
+    # eval "$__conda_setup"
+    # else
+    if [ -f "/home/chaomai/Programs/opt/miniconda3/etc/profile.d/conda.sh" ]; then
+        . "/home/chaomai/Programs/opt/miniconda3/etc/profile.d/conda.sh"
+    else
+        export PATH="/home/chaomai/Programs/opt/miniconda3/bin:$PATH"
+    fi
+    # fi
+    # unset __conda_setup
+    # <<< conda initialize <<<
 fi
 
