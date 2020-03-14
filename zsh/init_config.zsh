@@ -150,8 +150,8 @@ elif [[ $OSTYPE == "Linux" ]]; then
 
     # don't use default python
     # don't install vim related package to pollute other's env
-    alias vim="vim"
-    alias v="vim"
+    alias vim="PYTHONPATH=/home/chaomai/Programs/opt/miniconda3/envs/vim_env_python3.8/lib/python3.8/site-packages vim"
+    alias v="PYTHONPATH=/home/chaomai/Programs/opt/miniconda3/envs/vim_env_python3.8/lib/python3.8/site-packages vim"
 
     # conda
     # >>> conda initialize >>>
