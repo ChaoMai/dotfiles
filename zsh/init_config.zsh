@@ -85,6 +85,8 @@ if [[ $OSTYPE == "Darwin" ]]; then
     alias rm="safe-rm"
     alias srm="/bin/rm"
 
+    alias readlink="$GNUBIN_COREUTILS/readlink"
+
     # don't use default python
     # don't install vim related package to pollute other's env
     alias vim="PYTHONPATH=/usr/local/Caskroom/miniconda/base/envs/vim_env_python3.7/lib/python3.7/site-packages vim"
