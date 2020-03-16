@@ -39,15 +39,14 @@ function j() {
 }
 
 # starship
-# if [[ $ISONSERVER == false &&  ]]; then
-check_starship=$(command -v starship >/dev/null 2>&1 || echo $?)
+if [[ $ISONSERVER == false ]]; then
+    check_starship=$(command -v starship >/dev/null 2>&1 || echo $?)
 
-if [[ $check_starship -eq 1 ]]; then
-    mkdir -p $HOME/bin
-    curl -fsSL https://starship.rs/install.sh | bash -s -- -b $HOME/bin
-fi
+    if [[ $check_starship -eq 1 ]]; then
+        mkdir -p $HOME/bin
+        curl -fsSL https://starship.rs/install.sh | bash -s -- -b $HOME/bin
+    fi
 
-if [[ $ISONSERVER == false && $check_starship -eq 0 ]]; then
     eval "$(starship init zsh)"
     export STARSHIP_CONFIG=$ZSHRC_DIR/starship
 fi

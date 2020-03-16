@@ -6,7 +6,7 @@ export LC_ALL=en_US.UTF-8
 export TERM=xterm-256color
 
 # history
-export HISTFILE=~/.zsh_history
+export HISTFILE=${HOME}/.zsh_history
 export HISTSIZE=1000000000
 export SAVEHIST=$HISTSIZE
 setopt BANG_HIST                 # Treat the '!' character specially during expansion.

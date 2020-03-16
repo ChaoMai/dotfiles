@@ -89,8 +89,15 @@ if [[ $OSTYPE == "Darwin" ]]; then
 
     # don't use default python
     # don't install vim related package to pollute other's env
-    alias vim="PYTHONPATH=/usr/local/Caskroom/miniconda/base/envs/vim_env_python3.7/lib/python3.7/site-packages vim"
-    alias v="PYTHONPATH=/usr/local/Caskroom/miniconda/base/envs/vim_env_python3.7/lib/python3.7/site-packages vim"
+    check_nvim=$(command -v nvim >/dev/null 2>&1 || echo $?)
+
+    if [[ $check_nvim -eq 1 ]]; then
+        alias vim="PYTHONPATH=/usr/local/Caskroom/miniconda/base/envs/vim_env_python3.8/lib/python3.8/site-packages vim"
+        alias v="PYTHONPATH=/usr/local/Caskroom/miniconda/base/envs/vim_env_python3.8/lib/python3.8/site-packages vim"
+    else
+        alias vim="nvim"
+        alias v="nvim"
+    fi
 
     # proxy
     alias ssproxy="export http_proxy=http://127.0.0.1:1087 https_proxy=http://127.0.0.1:1087"
@@ -152,20 +159,29 @@ elif [[ $OSTYPE == "Linux" ]]; then
 
     # don't use default python
     # don't install vim related package to pollute other's env
-    alias vim="PYTHONPATH=/home/chaomai/Programs/opt/miniconda3/envs/vim_env_python3.8/lib/python3.8/site-packages vim"
-    alias v="PYTHONPATH=/home/chaomai/Programs/opt/miniconda3/envs/vim_env_python3.8/lib/python3.8/site-packages vim"
+    if [[ $ISONSERVER == false ]]; then
+        check_nvim=$(command -v nvim >/dev/null 2>&1 || echo $?)
+
+        if [[ $check_nvim -eq 1 ]]; then
+            alias vim="PYTHONPATH=${HOME}/Programs/opt/miniconda3/envs/vim_env_python3.8/lib/python3.8/site-packages vim"
+            alias v="PYTHONPATH=${HOME}/Programs/opt/miniconda3/envs/vim_env_python3.8/lib/python3.8/site-packages vim"
+        else
+            alias vim="nvim"
+            alias v="nvim"
+        fi
+    fi
 
     # conda
     # >>> conda initialize >>>
     # !! Contents within this block are managed by 'conda init' !!
-    # __conda_setup="$('/home/chaomai/Programs/opt/miniconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+    # __conda_setup="$('${HOME}/Programs/opt/miniconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
     # if [ $? -eq 0 ]; then
     # eval "$__conda_setup"
     # else
-    if [ -f "/home/chaomai/Programs/opt/miniconda3/etc/profile.d/conda.sh" ]; then
-        . "/home/chaomai/Programs/opt/miniconda3/etc/profile.d/conda.sh"
+    if [ -f "${HOME}/Programs/opt/miniconda3/etc/profile.d/conda.sh" ]; then
+        . "${HOME}/Programs/opt/miniconda3/etc/profile.d/conda.sh"
     else
-        export PATH="/home/chaomai/Programs/opt/miniconda3/bin:$PATH"
+        export PATH="${HOME}/Programs/opt/miniconda3/bin:$PATH"
     fi
     # fi
     # unset __conda_setup
