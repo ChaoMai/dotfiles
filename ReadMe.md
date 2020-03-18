@@ -1,6 +1,18 @@
+# setup
+```bash
+git clone --recurse-submodules https://github.com/chaomai/dotfiles.git
+```
+
+
+## zsh
+```bash
+ln -s ~/Documents/workspace/dotfiles/zsh/zshrc .zshrc
+```
+
 # requirement
 ## zsh
 ```bash
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash
 npm install -g safe-rm
 ```
 
@@ -52,7 +64,6 @@ pip install jsbeautifier
 ln -s ~/Documents/workspace/dotfiles/base16-shell .base16-shell
 ln -s ~/Documents/workspace/dotfiles/gitconfig .gitconfig
 ln -s ~/Documents/workspace/dotfiles/pythonstartup .pythonstartup
-ln -s ~/Documents/workspace/dotfiles/zsh/zshrc .zshrc
 ln -s ~/Documents/workspace/dotfiles/tmux/tmux.conf .tmux.conf
 ```
 
