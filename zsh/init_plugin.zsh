@@ -43,8 +43,8 @@ if [[ $ISONSERVER == false ]]; then
     check_starship=$(command -v starship >/dev/null 2>&1 || echo $?)
 
     if [[ $check_starship -eq 1 ]]; then
-        mkdir -p $HOME/bin
-        curl -fsSL https://starship.rs/install.sh | bash -s -- -b $HOME/bin
+        mkdir -p $HOME/Programs/bin
+        curl -fsSL https://starship.rs/install.sh | bash -s -- -b $HOME/Programs/bin
     fi
 
     eval "$(starship init zsh)"

@@ -3,11 +3,18 @@
 git clone --recurse-submodules https://github.com/chaomai/dotfiles.git
 ```
 
-
 ## zsh
 ```bash
 ln -s ~/Documents/workspace/dotfiles/zsh/zshrc .zshrc
+apt install exa
+
+# get into zsh, do initialization
+zsh
+
+npm install -g safe-rm
 ```
+
+## neovim
 
 # requirement
 ## zsh
