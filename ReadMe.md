@@ -43,7 +43,6 @@ bash Miniconda3-latest-Linux-x86_64.sh
 eval "$(/root/Programs/opt/miniconda3/bin/conda shell.bash hook)"
 conda create --name vim_env_python3.8 python=3.8
 conda activate vim_env_python3.8
-pip install pdir2
 
 ln -s ~/Documents/workspace/dotfiles/pythonstartup .pythonstartup
 ```
