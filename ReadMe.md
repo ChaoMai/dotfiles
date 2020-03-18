@@ -1,13 +1,34 @@
 # requirement
+## zsh
+```bash
+npm install -g safe-rm
+```
+
 ## neovim
 ```bash
 npm install -g pynvim
 pip install pynvim
+brew install bat
+# apt install bat
 ```
 
-## zsh
+# nerdfont
+Some plugins in neovim need glyphs to dislay special icons. Install a [nerd font](https://github.com/ryanoasis/nerd-fonts) or patch your own.
+
 ```bash
-npm install -g safe-rm
+brew cask install font-firacode-nerd-font
+```
+
+**patch**
+```bash
+brew install fontforge
+git clone https://github.com/ryanoasis/nerd-fonts.git
+
+# add following lines to font-patcher
+# import site;
+# site.addsitedir("/usr/local/lib/python3.7/site-packages")
+chmod +x font-patcher
+./font-patcher -c --careful PATH_TO_FONT
 ```
 
 ## defx
@@ -32,6 +53,7 @@ ln -s ~/Documents/workspace/dotfiles/base16-shell .base16-shell
 ln -s ~/Documents/workspace/dotfiles/gitconfig .gitconfig
 ln -s ~/Documents/workspace/dotfiles/pythonstartup .pythonstartup
 ln -s ~/Documents/workspace/dotfiles/zsh/zshrc .zshrc
+ln -s ~/Documents/workspace/dotfiles/tmux/tmux.conf .tmux.conf
 ```
 
 # neovim

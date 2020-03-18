@@ -2,8 +2,11 @@
 export LANG=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
 
-# export TERM=xterm-256color-italic
-export TERM=xterm-256color
+if [[ "$TMUX" == "" ]]; then
+    export TERM="xterm-256color"
+else
+    export TERM="screen-256color"
+fi
 
 # history
 export HISTFILE=${HOME}/.zsh_history
