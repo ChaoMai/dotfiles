@@ -40,7 +40,7 @@ bash Miniconda3-latest-Linux-x86_64.sh
 # don't run conda init
 
 # cannot use conda at this moment, manually init it
-eval "$(/root/Programs/opt/miniconda3/bin/conda shell.bash hook)"
+eval "$(~/Programs/opt/miniconda3/bin/conda shell.bash hook)"
 conda create --name vim_env_python3.8 python=3.8
 conda activate vim_env_python3.8
 
@@ -222,5 +222,27 @@ cmake --build Release
 apt install clang cmake libclang-dev llvm-dev rapidjson-dev
 cmake -H. -BRelease
 cmake --build Release
+```
+
+# vimspector
+```bash
+cd ~/.local/share/nvim/plugged/vimspector
+conda activate vim_env_python3.8
+./install_gadget.py --enable-c --enable-python --enable-go
+conda deactivate
+```
+
+# emacs
+
+## install
+
+```bash
+# macos
+brew tap d12frosted/emacs-plus
+brew install emacs-plus
+ln -s /usr/local/opt/emacs-plus/Emacs.app /Applications/Emacs.app
+
+# debian
+apt install emacs
 ```
 

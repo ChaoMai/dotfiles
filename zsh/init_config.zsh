@@ -1,4 +1,4 @@
-# environment variables
+######################################## environment variables
 # export MANPATH="/usr/local/man:$MANPATH"
 export GOPATH=$HOME/Documents/workspace/go
 export PATH=$GOPATH/bin:$PATH
@@ -9,6 +9,7 @@ export MAVEN_OPTS="-Xmx2g -XX:ReservedCodeCacheSize=512m"
 
 export stack="stack --resolver lts-15.0"
 
+#################### nvm
 export NVM_DIR="$HOME/.nvm"
 # this is slow
 # [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
@@ -21,7 +22,7 @@ done;
 export PATH="$NVM_DIR/versions/node/v${DEFAULT_NODE_VER#v}/bin:$PATH"
 alias nvm='unalias nvm; [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" --no-use; nvm'
 
-# alias
+######################################## alias
 if [[ $ISONSERVER == false ]]; then
     DISABLE_LS_COLORS=true
     alias ls="exa"
@@ -32,17 +33,17 @@ fi
 alias l="ls -l"
 alias ll="ls -al"
 
-# git
+######################################## git
 function gi() { curl -L -s https://www.gitignore.io/api/$@ }
 
 if [[ $ISONSERVER == false && $OSTYPE == "Darwin" ]]; then
     alias gittoken="pbcopy < /Users/chaomai/Documents/onedrive/backup_codes_tokens/github_token"
 fi
 
-# tmux
+######################################## tmux
 function t() { tmux new -A -s $@ }
 
-# docker
+######################################## docker
 alias docker_update_images='docker image ls --format "{{.Repository}}:{{.Tag}}" | xargs -n 1 docker pull'
 
 function toggle_linux_dev() {
@@ -58,9 +59,12 @@ function toggle_linux_dev() {
     cd -
 }
 
-# config by os type
+######################################## nvim coc
+export NVIM_COC_LOG_FILE=/tmp/coc_nvim.log
+
+######################################## config by os type
 if [[ $OSTYPE == "Darwin" ]]; then
-    # environment variables
+    ####################  environment variables
     export HOMEBREW_NO_AUTO_UPDATE=true
     export HOMEBREW_GITHUB_API_TOKEN=$(cat $HOME/Documents/onedrive/backup_codes_tokens/brew_api_token)
     # export HOMEBREW_BOTTLE_DOMAIN=https://mirrors.ustc.edu.cn/homebrew-bottles
@@ -80,13 +84,14 @@ if [[ $OSTYPE == "Darwin" ]]; then
     export GNUBIN_FINDUTILS=/usr/local/opt/findutils/libexec/gnubin
     export GNUBIN_INETUTILS=/usr/local/opt/inetutils/libexec/gnubin
 
-    # alias
+    #################### alias
     alias f="open ."
     alias rm="safe-rm"
     alias srm="/bin/rm"
 
     alias readlink="$GNUBIN_COREUTILS/readlink"
 
+    #################### vim
     # don't use default python
     # don't install vim related package to pollute other's env
     check_nvim=$(command -v nvim >/dev/null 2>&1 || echo $?)
@@ -99,11 +104,11 @@ if [[ $OSTYPE == "Darwin" ]]; then
         alias v="nvim"
     fi
 
-    # proxy
+    #################### proxy
     alias ssproxy="export http_proxy=http://127.0.0.1:1087 https_proxy=http://127.0.0.1:1087"
     alias unproxy="unset http_proxy https_proxy"
 
-    # util
+    #################### util
     iconv_to_utf8() {
         local filename=$1
         local dir=$(dirname $filename)
@@ -117,7 +122,7 @@ if [[ $OSTYPE == "Darwin" ]]; then
         mv $dir/$tmpfile $dir/$file
     }
 
-    # conda
+    #################### conda
     # >>> conda initialize >>>
     # !! Contents within this block are managed by 'conda init' !!
     # __conda_setup="$('/usr/local/Caskroom/miniconda/base/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
@@ -133,11 +138,11 @@ if [[ $OSTYPE == "Darwin" ]]; then
     # unset __conda_setup
     # <<< conda initialize <<<
 
-    # domob
+    #################### domob
     source /Users/chaomai/Documents/workspace/domob/utils/shell_utils.sh
 
 elif [[ $OSTYPE == "Linux" ]]; then
-    # environment variables
+    #################### environment variables
     export CC=/usr/bin/clang
     export CXX=/usr/bin/clang++
 
@@ -148,7 +153,7 @@ elif [[ $OSTYPE == "Linux" ]]; then
 
     # export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk-13.0.1.jdk/Contents/Home
 
-    # alias
+    #################### alias
     if [[ $ISONSERVER == false ]]; then
         alias ssproxy="export http_proxy=http://192.168.96.1:1087 https_proxy=http://192.168.96.1:1087"
         alias unproxy="unset http_proxy https_proxy"
@@ -157,6 +162,7 @@ elif [[ $OSTYPE == "Linux" ]]; then
     alias rm="safe-rm"
     alias srm="/bin/rm"
 
+    #################### vim
     # don't use default python
     # don't install vim related package to pollute other's env
     if [[ $ISONSERVER == false ]]; then
@@ -171,7 +177,7 @@ elif [[ $OSTYPE == "Linux" ]]; then
         fi
     fi
 
-    # conda
+    #################### conda
     # >>> conda initialize >>>
     # !! Contents within this block are managed by 'conda init' !!
     # __conda_setup="$('${HOME}/Programs/opt/miniconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"

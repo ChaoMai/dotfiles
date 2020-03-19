@@ -1,4 +1,4 @@
-# basic environment variables
+######################################## basic environment variables
 export LANG=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
 
@@ -8,7 +8,7 @@ else
     export TERM="screen-256color"
 fi
 
-# history
+######################################## history
 export HISTFILE=${HOME}/.zsh_history
 export HISTSIZE=1000000000
 export SAVEHIST=$HISTSIZE
@@ -26,7 +26,7 @@ setopt HIST_REDUCE_BLANKS        # Remove superfluous blanks before recording en
 setopt HIST_VERIFY               # Don't execute immediately upon history expansion.
 setopt HIST_BEEP                 # Beep when accessing nonexistent history.
 
-# alias
+######################################## alias
 alias q="exit"
 alias ..="cd .."
 

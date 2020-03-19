@@ -1,4 +1,4 @@
-# init zinit
+######################################## init zinit
 
 source ${ZSHRC_DIR}/zinit/zinit.zsh
 
@@ -24,7 +24,7 @@ zinit wait lucid for \
 zinit ice wait lucid pick'_docker' atload"zicompinit; zicdreplay" blockf
 zinit snippet OMZ::plugins/docker/_docker
 
-# zlua conf
+######################################## zlua conf
 alias zc='z -c'      # 严格匹配当前路径的子路径
 alias zz='z -i'      # 使用交互式选择模式
 alias zf='z -I'      # 使用 fzf 对多个结果进行选择
@@ -38,7 +38,7 @@ function j() {
     fi
 }
 
-# starship
+######################################## starship
 if [[ $ISONSERVER == false ]]; then
     check_starship=$(command -v starship >/dev/null 2>&1 || echo $?)
 
@@ -51,7 +51,7 @@ if [[ $ISONSERVER == false ]]; then
     export STARSHIP_CONFIG=$ZSHRC_DIR/starship
 fi
 
-# shell color scheme
+######################################## shell color scheme
 BASE16_SHELL=$HOME/.base16-shell
 [ -n "$PS1" ] && [ -s $BASE16_SHELL/profile_helper.sh ] && eval "$($BASE16_SHELL/profile_helper.sh)"
 
