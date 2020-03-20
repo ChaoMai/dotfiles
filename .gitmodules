@@ -18,6 +18,3 @@
 	path = tmux/plugins/tpm
 	url = https://github.com/tmux-plugins/tpm
 
-[submodule "emacs/doom-emacs"]
-	path = emacs/doom-emacs
-	url = https://github.com/hlissner/doom-emacs

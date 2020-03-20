@@ -240,9 +240,16 @@ conda deactivate
 # macos
 brew tap d12frosted/emacs-plus
 brew install emacs-plus
-ln -s /usr/local/opt/emacs-plus/Emacs.app /Applications/Emacs.app
 
 # debian
 apt install emacs
+```
+
+## configuration
+
+```bash
+git clone https://github.com/hlissner/doom-emacs ~/.emacs.d
+ln -s ~/Documents/workspace/dotfiles/emacs/doom.d .doom.d
+~/.emacs.d/bin/doom install
 ```
 

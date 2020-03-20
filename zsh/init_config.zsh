@@ -138,9 +138,6 @@ if [[ $OSTYPE == "Darwin" ]]; then
     # unset __conda_setup
     # <<< conda initialize <<<
 
-    #################### domob
-    source /Users/chaomai/Documents/workspace/domob/utils/shell_utils.sh
-
 elif [[ $OSTYPE == "Linux" ]]; then
     #################### environment variables
     export CC=/usr/bin/clang
