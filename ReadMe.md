@@ -155,12 +155,7 @@ brew cask install font-firacode-nerd-font
 ```bash
 brew install fontforge
 git clone https://github.com/ryanoasis/nerd-fonts.git
-
-# add following lines to font-patcher
-# import site;
-# site.addsitedir("/usr/local/lib/python3.7/site-packages")
-chmod +x font-patcher
-./font-patcher -c --careful PATH_TO_FONT
+fontforge -script font-patcher -c -ext otf --careful PATH_TO_FONT
 ```
 
 ## defx
@@ -251,5 +246,52 @@ apt install emacs
 git clone https://github.com/hlissner/doom-emacs ~/.emacs.d
 ln -s ~/Documents/workspace/dotfiles/emacs/doom.d .doom.d
 ~/.emacs.d/bin/doom install
+```
+
+# other
+
+```bash
+# tmux
+
+* libevent
+
+​```bash
+./configure --prefix=/home/maichao/Programs
+​```
+
+* tmux
+
+​```bash
+./configure CFLAGS="-I../../Programs/include" LDFLAGS="-L../../Programs/lib" --prefix=/home/maichao/Programs
+​```
+
+# vim
+
+​```bash
+CFLAGS="-I../../Programs/include"
+LDFLAGS="-L../../Programs/lib"
+./configure --with-features=huge \
+            --enable-multibyte \
+            --enable-rubyinterp=yes \
+            --enable-pythoninterp=yes \
+            --with-python-config-dir=/usr/local/bin/python2.7-config \
+            --enable-python3interp=yes \
+            --with-python3-config-dir=/usr/bin/python3.5-config \
+            --enable-luainterp=yes \
+            --enable-gui=gtk2 \
+            --enable-cscope \
+            --prefix=/home/maichao/Programs
+
+./configure --with-features=huge \
+            --enable-multibyte \
+            --enable-rubyinterp=yes \
+            --enable-pythoninterp=yes \
+            --with-python-config-dir=/usr/local/bin/python2.7-config \
+            --enable-luainterp=yes \
+            --enable-gui=gtk2 \
+            --enable-cscope \
+            --prefix=/home/dev/maichao/Programs
+​```
+
 ```
 

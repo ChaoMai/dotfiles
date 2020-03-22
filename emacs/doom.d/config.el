@@ -6,6 +6,7 @@
 
 ;; Some functionality uses this to identify you, e.g. GPG configuration, email
 ;; clients, file templates and snippets.
+
 (setq user-full-name "chaomai"
       user-mail-address "loneymai@gmail.com")
 
@@ -19,12 +20,18 @@
 ;;
 ;; They all accept either a font-spec, font string ("Input Mono-12"), or xlfd
 ;; font string. You generally only need these two:
-(setq doom-font (font-spec :family "Fira Code" :size 13))
+(setq doom-font (font-spec :family "Sarasa Mono SC" :size 14 :weight 'light))
 
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
-(setq doom-theme 'doom-one)
+                                        ;(setq doom-theme 'doom-one)
+
+(setq doom-theme 'spacemacs-dark
+      spacemacs-theme-comment-bg nil
+      spacemacs-theme-comment-italic t)
+
+(setq-default line-spacing 5)
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
@@ -51,3 +58,64 @@
 ;;
 ;; You can also try 'gd' (or 'C-c g d') to jump to their definition and see how
 ;; they are implemented.
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; projectile
+;; project root is same with vim's configuration
+(setq projectile-require-project-root t)
+(setq projectile-project-root-files '(".ccls-root" ".idea" "go.mod" ".bzr" "_darcs"
+                                      "build.xml" ".project" ".root" ".svn" ".git"))
+
+(setq projectile-project-root-files-functions '(projectile-root-top-down
+                                                projectile-root-top-down-recurring
+                                                projectile-root-bottom-up
+                                                projectile-root-local))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; format
+;(after! format
+; (set-formatter!
+;   'clang-format
+;   '("clang-format"
+;     ("-assume-filename=%S" (or buffer-file-name mode-result ""))
+;     ("-style='{BasedOnStyle: Google, IndentWidth: 4, SortIncludes: false}'"))
+;   :modes
+;   '((c-mode ".c")
+;     (c++-mode ".cpp")
+;     (java-mode ".java")
+;     (objc-mode ".m")
+;     (protobuf-mode ".proto"))))
+
+;(after! format
+;  (set-formatter!
+;    'black "black -q -" :modes '(python-mode)))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; lsp, ccls
+(after! ccls
+  :config
+  ;; overlay is slow
+  ;; Use https://github.com/emacs-mirror/emacs/commits/feature/noverlay
+  (setq ccls-sem-highlight-method 'font-lock)
+  (add-hook 'lsp-after-open-hook #'ccls-code-lens-mode)
+  (ccls-use-default-rainbow-sem-highlight)
+
+  ;; https://github.com/maskray/ccls/blob/master/src/config.h
+  (setq ccls-executable "~/Documents/workspace/github/ccls/Release/ccls"
+        ccls-args '("--log-file=/tmp/ccls-emacs.log")
+        ccls-initialization-options `(:capabilities (:foldingRangeProvider :json-false)
+                                                    :cache (:directory ".ccls-cache/emacs")
+                                                    :completion (:caseSensitivity 0)
+                                                    :compilationDatabaseDirectory "cmake-build"
+                                                    :client (:snippetSupport t)
+                                                    :codeLens (:localVariables t)
+                                                    :diagnostics (:onChang 100
+                                                                           :onOpen 100
+                                                                           :onSave 100)
+                                                    :highlight (:lsRanges t)
+                                                    :index (:threads 4)))
+  (evil-set-initial-state 'ccls-tree-mode 'emacs))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; company
+(setq company-idle-delay 0)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; modern-cpp-font-lock
+(use-package! modern-cpp-font-lock
+  :hook (c++-mode . modern-c++-font-lock-mode))

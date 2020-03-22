@@ -35,12 +35,12 @@
        indent-guides     ; highlighted indent columns
        modeline          ; snazzy, Atom-inspired modeline, plus API
        nav-flash         ; blink the current line after jumping
-       neotree           ; a project drawer, like NERDTree for vim
+       ;;neotree           ; a project drawer, like NERDTree for vim
        ophints           ; highlight the region an operation acts on
        (popup +defaults)   ; tame sudden yet inevitable temporary windows
        ;;pretty-code       ; replace bits of code with pretty symbols
        ;;tabs              ; an tab bar for Emacs
-       ;;treemacs          ; a project drawer, like neotree but cooler
+       treemacs          ; a project drawer, like neotree but cooler
        ;;unicode           ; extended unicode support for various languages
        vc-gutter         ; vcs diff in the fringe
        vi-tilde-fringe   ; fringe tildes to mark beyond EOB
@@ -49,10 +49,10 @@
        ;;zen               ; distraction-free coding or writing
 
        :editor
-       ;;(evil +everywhere); come to the dark side, we have cookies
+       (evil +everywhere); come to the dark side, we have cookies
        file-templates    ; auto-snippets for empty files
        fold              ; (nigh) universal code folding
-       ;;(format +onsave)  ; automated prettiness
+       (format +onsave)  ; automated prettiness
        ;;god               ; run Emacs commands without modifier keys
        ;;lispy             ; vim for lisp, for people who don't like vim
        ;;multiple-cursors  ; editing in many places at once
@@ -76,8 +76,8 @@
 
        :checkers
        syntax              ; tasing you for every semicolon you forget
-       ;;spell             ; tasing you for misspelling mispelling
-       ;;grammar           ; tasing grammar mistake every you make
+       spell             ; tasing you for misspelling mispelling
+       grammar           ; tasing grammar mistake every you make
 
        :tools
        ;;ansible
@@ -104,20 +104,20 @@
        :lang
        ;;agda              ; types of types of types of types...
        ;;assembly          ; assembly for fun or debugging
-       (cc +lsp)           ; C/C++/Obj-C madness
+       (cc +lsp)                ; C/C++/Obj-C madness
        ;;clojure           ; java with a lisp
        ;;common-lisp       ; if you've seen one lisp, you've seen them all
        ;;coq               ; proofs-as-programs
        ;;crystal           ; ruby at the speed of c
        ;;csharp            ; unity, .NET, and mono shenanigans
-       data                ; config/data formats
+       data              ; config/data formats
        ;;elixir            ; erlang done right
        ;;elm               ; care for a cup of TEA?
-       emacs-lisp          ; drown in parentheses
+       emacs-lisp        ; drown in parentheses
        ;;erlang            ; an elegant language for a more civilized age
        ;;ess               ; emacs speaks statistics
        ;;faust             ; dsp, but you get to keep your soul
-       ;;fsharp            ; ML stands for Microsoft's Language
+       ;;fsharp           ; ML stands for Microsoft's Language
        ;;fstar             ; (dependent) types and (monadic) effects and Z3
        ;;go                ; the hipster dialect
        ;;(haskell +dante)  ; a language that's lazier than I am
@@ -132,17 +132,17 @@
        ;;factor
        ;;ledger            ; an accounting system in Emacs
        ;;lua               ; one-based indices? one-based indices
-       ;;markdown          ; writing docs for people to ignore
+       markdown          ; writing docs for people to ignore
        ;;nim               ; python + lisp at the speed of c
        ;;nix               ; I hereby declare "nix geht mehr!"
        ;;ocaml             ; an objective camel
        (org              ; organize your plain life in plain text
-         +dragndrop       ; drag & drop files/images into org buffers
-         ;;+hugo            ; use Emacs for hugo blogging
-         ;;+jupyter        ; ipython/jupyter support for babel
-         ;;+pandoc          ; export-with-pandoc support
-         ;;+pomodoro        ; be fruitful with the tomato technique
-         +present)        ; using org-mode for presentations
+        +dragndrop       ; drag & drop files/images into org buffers
+        ;;+hugo            ; use Emacs for hugo blogging
+        ;;+jupyter        ; ipython/jupyter support for babel
+        ;;+pandoc          ; export-with-pandoc support
+        ;;+pomodoro        ; be fruitful with the tomato technique
+        +present)        ; using org-mode for presentations
        ;;perl              ; write code no one else can comprehend
        ;;php               ; perl's insecure younger brother
        ;;plantuml          ; diagrams for confusing people more
@@ -156,7 +156,7 @@
        ;;rust              ; Fe2O3.unwrap().unwrap().unwrap().unwrap()
        ;;scala             ; java, but good
        ;;scheme            ; a fully conniving family of lisps
-       ;;sh                ; she sells {ba,z,fi}sh shells on the C xor
+       sh                ; she sells {ba,z,fi}sh shells on the C xor
        ;;solidity          ; do you need a blockchain? No.
        ;;swift             ; who asked for emoji variables?
        ;;terra             ; Earth and Moon in alignment for performance.

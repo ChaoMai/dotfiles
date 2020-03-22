@@ -50,18 +50,8 @@
 ;; our package manager can't deal with; see raxod502/straight.el#279)
 ;(package! builtin-package :recipe (:branch "develop"))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; MELPA, ELPA or emacsmirror packages
-(setq ccls-executable "~/Documents/workspace/github/ccls/Release/ccls")
-(setq ccls-args '("log-file=/tmp/ccls_emacs.log"))
-
-;;;;;;;;;; ccls config
-(setq ccls-initialization-options
-      '(:capabilities (:foldingRangeProvider json-false)
-                      :cache (:directory ".ccls-cache/emacs")
-                      :completion (:caseSensitivity 0)
-                      :compilationDatabaseDirectory "cmake-build"
-                      :codeLens (:localVariables json-false)
-                      :client (:snippetSupport t)
-                      )
-      )
-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; MELPA, ELPA or emacsmirror packages
+(package! spacemacs-theme)
+(package! modern-cpp-font-lock)
+(package! fzf :ignore t)
+(package! rg)

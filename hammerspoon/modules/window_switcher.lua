@@ -21,7 +21,6 @@ switcher.ui.showSelectedTitle = false
 -- -----------------------------------------------------------------------
 --                          ** Functions **                             --
 -- -----------------------------------------------------------------------
-
 local function nextWindow()
     switcher:next()
 end
