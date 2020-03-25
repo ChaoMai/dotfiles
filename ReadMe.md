@@ -27,6 +27,7 @@ git clone --recurse-submodules https://github.com/chaomai/dotfiles.git
 ```
 
 # python
+
 ```bash
 # macos
 brew cask install miniconda
@@ -188,6 +189,7 @@ apt install -y vim-nox
 ```
 
 ## configuration
+
 ```bash
 ln -s ~/Documents/workspace/dotfiles/vim/vimrc .vimrc
 
@@ -195,13 +197,15 @@ ln -s ~/Documents/workspace/dotfiles/vim/vimrc .vimrc
 :PlugUpdate
 ```
 
-# ccls
+## ccls
+
 ```bash
 mkdir -p ~/Documents/workspace/github
 git clone https://github.com/MaskRay/ccls.git
 ```
 
-## build
+### build
+
 **macos**
 
 ```bash
@@ -219,7 +223,8 @@ cmake -H. -BRelease
 cmake --build Release
 ```
 
-# vimspector
+## vimspector
+
 ```bash
 cd ~/.local/share/nvim/plugged/vimspector
 conda activate vim_env_python3.8
@@ -228,6 +233,49 @@ conda deactivate
 ```
 
 # emacs
+
+## build
+
+```bash
+-I/usr/local/opt/gnutls/include
+-I/usr/local/opt/nettle/include
+-I/usr/local/opt/libtasn1/include
+-I/usr/local/opt/p11-kit/include
+
+-L/usr/local/opt/lib
+-L/usr/local/opt/nettle/lib
+-L/usr/local/opt/libtasn1/lib
+-L/usr/local/opt/p11-kit/lib
+
+
+export CC='/usr/bin/clang'
+export CXX='/usr/bin/clang++'
+export CPPFLAGS="-I/usr/local/opt/libxml2/include/libxml2 -I/usr/local/opt/gmp/include -I/usr/local/opt/mpfr/include -I/usr/local/opt/libmpc/include -I/usr/local/opt/isl/include"
+export CFLAGS=${CPPFLAGS}
+export LDFLAGS="-L/usr/local/opt/libxml2/lib -L/usr/local/opt/gmp/lib -L/usr/local/opt/mpfr/lib -L/usr/local/opt/libmpc/lib -L/usr/local/opt/isl/lib"
+export DYLD_LIBRARY_PATH="/Users/chaomai/Downloads/gcc_build9/lib/"
+
+
+./configure --with-nativecomp --without-ns --with-json
+
+
+export CC='/usr/bin/clang'
+export CXX='/usr/bin/clang++'
+./configure \
+--prefix=/Users/chaomai/Downloads/gcc_build9 \
+--disable-nls \
+--enable-checking=release \
+--enable-languages=c,c++,objc,obj-c++,jit \
+--enable-host-shared \
+--with-gmp=/usr/local/opt/gmp \
+--with-mpfr=/usr/local/opt/mpfr \
+--with-mpc=/usr/local/opt/libmpc \
+--with-isl=/usr/local/opt/isl \
+--with-system-zlib \
+--disable-multilib \
+--disable-bootstrap \
+--with-sysroot=/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk
+```
 
 ## install
 
@@ -292,6 +340,5 @@ LDFLAGS="-L../../Programs/lib"
             --enable-cscope \
             --prefix=/home/dev/maichao/Programs
 ​```
-
 ```
 

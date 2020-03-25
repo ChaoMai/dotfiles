@@ -3,7 +3,7 @@
 source ${ZSHRC_DIR}/zinit/zinit.zsh
 
 zinit light zsh-users/zsh-autosuggestions
-zinit light zdharma/fast-syntax-highlighting
+zinit light zsh-users/zsh-syntax-highlighting
 
 zinit wait lucid for \
     load skywind3000/z.lua \

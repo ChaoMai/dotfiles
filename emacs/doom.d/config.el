@@ -71,22 +71,23 @@
                                                 projectile-root-local))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; format
-;(after! format
-; (set-formatter!
-;   'clang-format
-;   '("clang-format"
-;     ("-assume-filename=%S" (or buffer-file-name mode-result ""))
-;     ("-style='{BasedOnStyle: Google, IndentWidth: 4, SortIncludes: false}'"))
-;   :modes
-;   '((c-mode ".c")
-;     (c++-mode ".cpp")
-;     (java-mode ".java")
-;     (objc-mode ".m")
-;     (protobuf-mode ".proto"))))
+(after! format
+ (set-formatter! 'clang-format
+   '("clang-format"
+     "-style={BasedOnStyle: Google, IndentWidth: 4, SortIncludes: false}"
+     ("-assume-filename=%S" (or buffer-file-name mode-result "")))
+   ))
 
-;(after! format
-;  (set-formatter!
-;    'black "black -q -" :modes '(python-mode)))
+;; :modes
+;; '((c-mode ".c")
+;;   (c++-mode ".cpp")
+;;   (java-mode ".java")
+;;   (objc-mode ".m")
+;;   (protobuf-mode ".proto"))))
+
+;; (after! format
+;;  (set-formatter!
+;;    'black "black -q -" :modes '(python-mode)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; lsp, ccls
 (after! ccls
