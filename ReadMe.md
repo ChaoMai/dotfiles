@@ -137,7 +137,7 @@ make install
 
 ## configuration
 ```bash
-npm install -g pynvim
+npm install -g neovim
 pip install pynvim
 
 mkdir -p ~/.config/nvim
