@@ -20,6 +20,8 @@ apt install -y git curl wget
 
 # no installation privilege
 # setup $HOME
+# setup $PATH
+export PATH=/home/maichao/Programs/bin/:$PATH
 
 mkdir -p ~/Documents/workspace
 cd ~/Documents/workspace
@@ -58,7 +60,8 @@ brew install exa lua zsh
 apt install -y exa lua5.3 zsh
 
 # no installation privilege
-# build
+./configure --prefix=/home/maichao/Programs
+make install
 ```
 
 ## configuration
@@ -88,7 +91,8 @@ brew install tmux
 apt install -y tmux
 
 # no installation privilege
-# build
+./configure --prefix=~/Programs
+./configure --prefix=/home/maichao/Programs
 ```
 
 ## configuration
@@ -127,7 +131,8 @@ apt install -y neovim
 
 # no installation privilege
 # https://github.com/neovim/neovim/releases
-# install at ~/Programs/
+make -j 8 CMAKE_EXTRA_FLAGS="-DCMAKE_INSTALL_PREFIX=/home/maichao/Programs" CMAKE_BUILD_TYPE=Release
+make install
 ```
 
 ## configuration

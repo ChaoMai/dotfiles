@@ -102,7 +102,7 @@
   (setq ccls-executable "~/Documents/workspace/github/ccls/Release/ccls"
         ccls-args '("--log-file=/tmp/ccls-emacs.log")
         ccls-initialization-options `(:capabilities (:foldingRangeProvider :json-false)
-                                                    :cache (:directory ".ccls-cache/emacs")
+                                                    :cache (:directory ".ccls-cache")
                                                     :completion (:caseSensitivity 0)
                                                     :compilationDatabaseDirectory "cmake-build"
                                                     :client (:snippetSupport t)
