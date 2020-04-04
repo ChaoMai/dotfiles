@@ -1,20 +1,25 @@
 [submodule "vim-init"]
 	path = vim/vim-init
 	url = https://github.com/chaomai/vim-init
+    branch = master
 
 [submodule "base16-iterm2"]
 	path = base16-iterm2
 	url = https://github.com/chriskempson/base16-iterm2
+    branch = master
 
 [submodule "base16-shell"]
 	path = base16-shell
 	url = https://github.com/chriskempson/base16-shell
+    branch = master
 
 [submodule "zinit"]
 	path = zsh/zinit
 	url = https://github.com/zdharma/zinit
+    branch = master
 
 [submodule "tpm"]
 	path = tmux/plugins/tpm
 	url = https://github.com/tmux-plugins/tpm
+    branch = master
 
