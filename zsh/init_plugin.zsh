@@ -39,7 +39,7 @@ function j() {
 }
 
 ######################################## starship
-check_starship=$(command -v starship >/dev/null 2>&1 || echo $?)
+local check_starship=$(command -v starship >/dev/null 2>&1 || echo $?)
 
 if [[ $check_starship -eq 1 ]]; then
     mkdir -p $HOME/Programs/bin

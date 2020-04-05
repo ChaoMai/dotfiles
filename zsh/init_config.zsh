@@ -14,9 +14,9 @@ export NVM_DIR="$HOME/.nvm"
 # this is slow
 # [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
 
-DEFAULT_NODE_VER='default';
+local DEFAULT_NODE_VER='default';
 while [ -s "$NVM_DIR/alias/$DEFAULT_NODE_VER" ]; do
-    DEFAULT_NODE_VER="$(<$NVM_DIR/alias/$DEFAULT_NODE_VER)"
+    local DEFAULT_NODE_VER="$(<$NVM_DIR/alias/$DEFAULT_NODE_VER)"
 done;
 
 export PATH="$NVM_DIR/versions/node/v${DEFAULT_NODE_VER#v}/bin:$PATH"
@@ -88,7 +88,7 @@ if [[ $OSTYPE == "Darwin" ]]; then
     #################### vim
     # don't use default python
     # don't install vim related package to pollute other's env
-    check_nvim=$(command -v nvim >/dev/null 2>&1 || echo $?)
+    local check_nvim=$(command -v nvim >/dev/null 2>&1 || echo $?)
 
     if [[ $check_nvim -eq 1 ]]; then
         alias vim="PYTHONPATH=/usr/local/Caskroom/miniconda/base/envs/vim_env_python3.8/lib/python3.8/site-packages vim"
@@ -150,7 +150,7 @@ elif [[ $OSTYPE == "Linux" ]]; then
     #################### vim
     # don't use default python
     # don't install vim related package to pollute other's env
-    check_nvim=$(command -v nvim >/dev/null 2>&1 || echo $?)
+    local check_nvim=$(command -v nvim >/dev/null 2>&1 || echo $?)
 
     if [[ $check_nvim -eq 1 ]]; then
         alias vim="PYTHONPATH=${HOME}/Programs/opt/miniconda3/envs/vim_env_python3.8/lib/python3.8/site-packages vim"

@@ -1,7 +1,5 @@
 # dotfiles setup
-In a development or online environment,  multiple users may share one account. Settings can be messed up.
-
-Before performing following steps, make sure `$HOME` is set to you own "home" folder.
+In a development or online environment,  multiple users may share one account. Settings can be messed up. My dotfiles can be used in non-standard home location. Before performing following steps, make sure `$HOME` is set to you own "home" folder.
 
 ```bash
 /home/xxx # ok
@@ -15,6 +13,14 @@ Before performing following steps, make sure `$HOME` is set to you own "home" fo
 brew install git curl
 
 # debian
+#
+# use sid
+# https://mirror.tuna.tsinghua.edu.cn/help/debian/
+#
+# add following line to /etc/apt/sources.list
+# 默认注释了源码镜像以提高 apt update 速度，如有需要可自行取消注释
+# deb https://mirrors.tuna.tsinghua.edu.cn/debian/ sid main contrib non-free
+# deb-src https://mirrors.tuna.tsinghua.edu.cn/debian/ sid main contrib non-free
 apt update
 apt install -y git curl wget
 
@@ -54,14 +60,18 @@ ln -s ~/Documents/workspace/dotfiles/pythonstartup .pythonstartup
 ## install
 ```bash
 # macos
-brew install exa lua zsh
+brew install exa bat lua zsh
 
 # debian
-apt install -y exa lua5.3 zsh
+apt install -y exa bat lua5.3 zsh
 
 # no installation privilege
 ./configure --prefix=/home/maichao/Programs
 make install
+
+# https://github.com/ogham/exa/releases
+# https://github.com/sharkdp/bat/releases
+# install at ~/Programs/
 ```
 
 ## configuration
@@ -76,6 +86,8 @@ export NVM_DIR="$HOME/.nvm"
 
 nvm install --lts
 npm install -g safe-rm
+
+#
 
 # get into zsh, do initialization
 zsh
@@ -103,19 +115,6 @@ ln -s ~/Documents/workspace/dotfiles/tmux/tmux.conf .tmux.conf
 # git
 ```bash
 ln -s ~/Documents/workspace/dotfiles/gitconfig .gitconfig
-```
-
-# bat
-```bash
-# macos
-brew install bat
-
-# debian
-apt install -y bat
-
-# no installation privilege
-# https://github.com/sharkdp/bat/releases
-# install at ~/Programs/
 ```
 
 # neovim
@@ -305,10 +304,24 @@ ln -s ~/Documents/workspace/dotfiles/emacs/doom.d .doom.d
 ~/.emacs.d/bin/doom install
 ```
 
-# other
+# wsl2
+
+wsl2 supports Linux really well.
+
+## gui
 
 ```bash
-# tmux
+# use a xlient, like VxXsrv
+apt install xfce4
+startxfce4
+```
+
+# other
+
+# build tmux
+
+```bash
+
 
 * libevent
 

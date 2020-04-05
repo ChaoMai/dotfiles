@@ -14,12 +14,12 @@ OSTYPE=$(uname)
 
 # get real path of zshrc
 if [[ $OSTYPE == "Darwin" ]]; then
-    cur_path=$(/usr/local/opt/coreutils/libexec/gnubin/readlink -f ${(%):-%x})
+    local cur_path=$(/usr/local/opt/coreutils/libexec/gnubin/readlink -f ${(%):-%x})
 else
-    cur_path=$(readlink -f ${(%):-%x})
+    local cur_path=$(readlink -f ${(%):-%x})
 fi
 
-ZSHRC_DIR=$(dirname $cur_path)
+local ZSHRC_DIR=$(dirname $cur_path)
 
 source $ZSHRC_DIR/init_basic.zsh
 source $ZSHRC_DIR/init_config.zsh
