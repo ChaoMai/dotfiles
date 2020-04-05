@@ -178,10 +178,11 @@ elif [[ $OSTYPE == "Linux" ]]; then
 
     #################### wsl2
     if [[ $(uname -r) =~ 'microsoft' ]]; then
+        # https://gist.github.com/necojackarc/02c3c81e1525bb5dc3561f378e921541
         local WSL2_LOCAL_IP=$(cat /etc/resolv.conf | grep nameserver | awk '{print $2}')
         export DISPLAY=$WSL2_LOCAL_IP:0
 
-        # overwrite
+        # overwrite previous proxy alias
         alias ssproxy="export http_proxy=http://$WSL2_LOCAL_IP:1081 https_proxy=http://$WSL2_LOCAL_IP:1081"
         alias unproxy="unset http_proxy https_proxy"
     fi
