@@ -1,9 +1,13 @@
 # zsh performance profile
 # zmodload zsh/zprof
 
+# init_home.zsh: setup home
+# init_misc.zsh: add config to overwrite settings
+
 # setup HOME, for shared accout on server
-ISONSERVER=false
-# export HOME=
+if [[ -s $ZSHRC_DIR/init_home.zsh ]]; then
+    source $ZSHRC_DIR/init_home.zsh
+fi
 
 # detect os
 OSTYPE=$(uname)

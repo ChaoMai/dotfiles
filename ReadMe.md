@@ -226,6 +226,10 @@ cmake --build Release
 apt install clang cmake libclang-dev llvm-dev rapidjson-dev
 cmake -H. -BRelease
 cmake --build Release
+
+# when useing llvm-10
+cmake -H. -BRelease -DCMAKE_BUILD_TYPE=Release -DCLANG_RESOURCE_DIR=/usr/lib/llvm-10/lib/clang/10.0.0
+cmake --build Release
 ```
 
 ## vimspector

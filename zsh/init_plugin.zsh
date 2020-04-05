@@ -39,17 +39,15 @@ function j() {
 }
 
 ######################################## starship
-if [[ $ISONSERVER == false ]]; then
-    check_starship=$(command -v starship >/dev/null 2>&1 || echo $?)
+check_starship=$(command -v starship >/dev/null 2>&1 || echo $?)
 
-    if [[ $check_starship -eq 1 ]]; then
-        mkdir -p $HOME/Programs/bin
-        curl -fsSL https://starship.rs/install.sh | bash -s -- -b $HOME/Programs/bin
-    fi
-
-    eval "$(starship init zsh)"
-    export STARSHIP_CONFIG=$ZSHRC_DIR/starship
+if [[ $check_starship -eq 1 ]]; then
+    mkdir -p $HOME/Programs/bin
+    curl -fsSL https://starship.rs/install.sh | bash -s -- -b $HOME/Programs/bin
 fi
+
+eval "$(starship init zsh)"
+export STARSHIP_CONFIG=$ZSHRC_DIR/starship
 
 ######################################## shell color scheme
 BASE16_SHELL=$HOME/.base16-shell

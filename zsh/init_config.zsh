@@ -23,22 +23,13 @@ export PATH="$NVM_DIR/versions/node/v${DEFAULT_NODE_VER#v}/bin:$PATH"
 alias nvm='unalias nvm; [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" --no-use; nvm'
 
 ######################################## alias
-if [[ $ISONSERVER == false ]]; then
-    DISABLE_LS_COLORS=true
-    alias ls="exa"
-else
-    alias ls="ls --color"
-fi
-
+DISABLE_LS_COLORS=true
+alias ls="exa"
 alias l="ls -l"
 alias ll="ls -al"
 
 ######################################## git
 function gi() { curl -L -s https://www.gitignore.io/api/$@ }
-
-if [[ $ISONSERVER == false && $OSTYPE == "Darwin" ]]; then
-    alias gittoken="pbcopy < /Users/chaomai/Documents/onedrive/backup_codes_tokens/github_token"
-fi
 
 ######################################## tmux
 function t() { tmux new -A -s $@ }
@@ -85,6 +76,9 @@ if [[ $OSTYPE == "Darwin" ]]; then
     export GNUBIN_INETUTILS=/usr/local/opt/inetutils/libexec/gnubin
 
     #################### alias
+    alias ssproxy="export http_proxy=http://127.0.0.1:1087 https_proxy=http://127.0.0.1:1087"
+    alias unproxy="unset http_proxy https_proxy"
+
     alias f="open ."
     alias rm="safe-rm"
     alias srm="/bin/rm"
@@ -103,10 +97,6 @@ if [[ $OSTYPE == "Darwin" ]]; then
         alias vim="nvim"
         alias v="nvim"
     fi
-
-    #################### proxy
-    alias ssproxy="export http_proxy=http://127.0.0.1:1087 https_proxy=http://127.0.0.1:1087"
-    alias unproxy="unset http_proxy https_proxy"
 
     #################### util
     iconv_to_utf8() {
@@ -151,10 +141,8 @@ elif [[ $OSTYPE == "Linux" ]]; then
     # export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk-13.0.1.jdk/Contents/Home
 
     #################### alias
-    if [[ $ISONSERVER == false ]]; then
-        alias ssproxy="export http_proxy=http://192.168.96.1:1087 https_proxy=http://192.168.96.1:1087"
-        alias unproxy="unset http_proxy https_proxy"
-    fi
+    alias ssproxy="export http_proxy=http://127.0.0.1:1087 https_proxy=http://127.0.0.1:1087"
+    alias unproxy="unset http_proxy https_proxy"
 
     alias rm="safe-rm"
     alias srm="/bin/rm"
@@ -162,16 +150,14 @@ elif [[ $OSTYPE == "Linux" ]]; then
     #################### vim
     # don't use default python
     # don't install vim related package to pollute other's env
-    if [[ $ISONSERVER == false ]]; then
-        check_nvim=$(command -v nvim >/dev/null 2>&1 || echo $?)
+    check_nvim=$(command -v nvim >/dev/null 2>&1 || echo $?)
 
-        if [[ $check_nvim -eq 1 ]]; then
-            alias vim="PYTHONPATH=${HOME}/Programs/opt/miniconda3/envs/vim_env_python3.8/lib/python3.8/site-packages vim"
-            alias v="PYTHONPATH=${HOME}/Programs/opt/miniconda3/envs/vim_env_python3.8/lib/python3.8/site-packages vim"
-        else
-            alias vim="nvim"
-            alias v="nvim"
-        fi
+    if [[ $check_nvim -eq 1 ]]; then
+        alias vim="PYTHONPATH=${HOME}/Programs/opt/miniconda3/envs/vim_env_python3.8/lib/python3.8/site-packages vim"
+        alias v="PYTHONPATH=${HOME}/Programs/opt/miniconda3/envs/vim_env_python3.8/lib/python3.8/site-packages vim"
+    else
+        alias vim="nvim"
+        alias v="nvim"
     fi
 
     #################### conda
@@ -189,5 +175,20 @@ elif [[ $OSTYPE == "Linux" ]]; then
     # fi
     # unset __conda_setup
     # <<< conda initialize <<<
+
+    #################### wsl2
+    if [[ $(uname -r) =~ 'microsoft' ]]; then
+        local WSL2_LOCAL_IP=$(cat /etc/resolv.conf | grep nameserver | awk '{print $2}')
+        export DISPLAY=$WSL2_LOCAL_IP:0
+
+        # overwrite
+        alias ssproxy="export http_proxy=http://$WSL2_LOCAL_IP:1081 https_proxy=http://$WSL2_LOCAL_IP:1081"
+        alias unproxy="unset http_proxy https_proxy"
+    fi
+fi
+
+######################################## config to overwrite default
+if [[ -s $ZSHRC_DIR/init_misc.zsh ]]; then
+    source $ZSHRC_DIR/init_misc.zsh
 fi
 
