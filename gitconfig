@@ -6,6 +6,7 @@
 [alias]
 	lgs = log --graph --pretty=oneline --abbrev-commit --decorate
 	lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --date=relative
+	d = difftool
 [core]
 	autocrlf = input
 	compression = 0
@@ -20,3 +21,5 @@
 	tool = vimdiff
 [credential]
 	helper = store
+[difftool]
+	prompt = false
