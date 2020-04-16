@@ -92,22 +92,20 @@
 
 (cond
  ((string-equal system-type "darwin")
-  (define-key global-map (kbd "C-x C-w") 'osx-copy)
-  (define-key global-map (kbd "C-x C-y") 'osx-paste))
+  (define-key global-map (kbd "C-x C-y") 'osx-copy)
+  (define-key global-map (kbd "C-x C-p") 'osx-paste))
+
  ((string-equal system-type "gnu/linux")
+  (define-key global-map (kbd "C-x C-y") 'linux-copy)
+  (define-key global-map (kbd "C-x C-p") 'linux-paste))
+
+ ((string-match "microsoft"
+                (with-temp-buffer (shell-command "uname -r" t)
+                                  (goto-char (point-max))
+                                  (delete-char -1)
+                                  (buffer-string)))
   (define-key global-map (kbd "C-x C-y") 'wsl2-copy)
   (define-key global-map (kbd "C-x C-p") 'wsl2-paste)))
-
-(if
-    (string-match "microsoft"
-                  (with-temp-buffer (shell-command "uname -r" t)
-                                    (goto-char (point-max))
-                                    (delete-char -1)
-                                    (buffer-string)))
-    (lambda ()
-      (define-key global-map (kbd "C-x C-y") 'wsl2-copy)
-      (define-key global-map (kbd "C-x C-p") 'wsl2-paste))
-  (message "Not running under Linux subsystem for Windows"))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; projectile
