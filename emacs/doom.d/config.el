@@ -59,6 +59,57 @@
 ;; You can also try 'gd' (or 'C-c g d') to jump to their definition and see how
 ;; they are implemented.
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; common
+;;;;;;;;;;;;;;;;;;;; copy and paste
+;; https://stackoverflow.com/questions/64360/how-to-copy-text-from-emacs-to-another-application-on-linux
+
+(defun wsl2-copy (beg end)
+  (interactive "r")
+  (call-process-region beg end "clip.exe"))
+
+(defun wsl2-paste ()
+  (interactive)
+  (if (region-active-p) (delete-region (region-beginning) (region-end)) nil)
+  (call-process "powershell.exe" nil t nil "-Command" "Get-Clipboard"))
+
+(defun osx-copy (beg end)
+  (interactive "r")
+  (call-process-region beg end "pbcopy"))
+
+(defun osx-paste ()
+  (interactive)
+  (if (region-active-p) (delete-region (region-beginning) (region-end)) nil)
+  (call-process "pbpaste" nil t nil))
+
+(defun linux-copy (beg end)
+  (interactive "r")
+  (call-process-region beg end "xclip" nil nil nil "-selection" "c"))
+
+(defun linux-paste ()
+  (interactive)
+  (if (region-active-p) (delete-region (region-beginning) (region-end)) nil)
+  (call-process "xsel" nil t nil "-b"))
+
+(cond
+ ((string-equal system-type "darwin")
+  (define-key global-map (kbd "C-x C-w") 'osx-copy)
+  (define-key global-map (kbd "C-x C-y") 'osx-paste))
+ ((string-equal system-type "gnu/linux")
+  (define-key global-map (kbd "C-x C-y") 'wsl2-copy)
+  (define-key global-map (kbd "C-x C-p") 'wsl2-paste)))
+
+(if
+    (string-match "microsoft"
+                  (with-temp-buffer (shell-command "uname -r" t)
+                                    (goto-char (point-max))
+                                    (delete-char -1)
+                                    (buffer-string)))
+    (lambda ()
+      (define-key global-map (kbd "C-x C-y") 'wsl2-copy)
+      (define-key global-map (kbd "C-x C-p") 'wsl2-paste))
+  (message "Not running under Linux subsystem for Windows"))
+
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; projectile
 ;; project root is same with vim's configuration
 (setq projectile-require-project-root t)
@@ -70,13 +121,14 @@
                                                 projectile-root-bottom-up
                                                 projectile-root-local))
 
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; format
 (after! format
- (set-formatter! 'clang-format
-   '("clang-format"
-     "-style={BasedOnStyle: Google, IndentWidth: 4, SortIncludes: false}"
-     ("-assume-filename=%S" (or buffer-file-name mode-result "")))
-   ))
+  (set-formatter! 'clang-format
+    '("clang-format"
+      "-style={BasedOnStyle: Google, IndentWidth: 4, SortIncludes: false}"
+      ("-assume-filename=%S" (or buffer-file-name mode-result "")))
+    ))
 
 ;; :modes
 ;; '((c-mode ".c")
@@ -88,6 +140,7 @@
 ;; (after! format
 ;;  (set-formatter!
 ;;    'black "black -q -" :modes '(python-mode)))
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; lsp, ccls
 (after! ccls
@@ -114,8 +167,10 @@
                                                     :index (:threads 4)))
   (evil-set-initial-state 'ccls-tree-mode 'emacs))
 
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; company
 (setq company-idle-delay 0)
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; modern-cpp-font-lock
 (use-package! modern-cpp-font-lock
