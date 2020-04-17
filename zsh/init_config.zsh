@@ -27,6 +27,7 @@ DISABLE_LS_COLORS=true
 alias ls="exa"
 alias l="ls -l"
 alias ll="ls -al"
+alias rsync_common="rsync -uaihv --progress"
 
 ######################################## git
 function gi() { curl -L -s https://www.gitignore.io/api/$@ }
