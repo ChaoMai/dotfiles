@@ -52,6 +52,4 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; MELPA, ELPA or emacsmirror packages
 (package! spacemacs-theme)
-(package! modern-cpp-font-lock)
-(package! fzf :ignore t)
-(package! rg)
+;; (package! modern-cpp-font-lock)

@@ -6,7 +6,6 @@
 
 ;; Some functionality uses this to identify you, e.g. GPG configuration, email
 ;; clients, file templates and snippets.
-
 (setq user-full-name "chaomai"
       user-mail-address "loneymai@gmail.com")
 
@@ -20,13 +19,12 @@
 ;;
 ;; They all accept either a font-spec, font string ("Input Mono-12"), or xlfd
 ;; font string. You generally only need these two:
-(setq doom-font (font-spec :family "Sarasa Mono SC" :size 14 :weight 'light))
+(setq doom-font (font-spec :family "Fira Code" :size 13 :weight 'regular))
 
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
-                                        ;(setq doom-theme 'doom-one)
-
+;; (setq doom-theme 'doom-one)
 (setq doom-theme 'spacemacs-dark
       spacemacs-theme-comment-bg nil
       spacemacs-theme-comment-italic t)
@@ -121,12 +119,12 @@
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; format
-(after! format
-  (set-formatter! 'clang-format
-    '("clang-format"
-      "-style={BasedOnStyle: Google, IndentWidth: 4, SortIncludes: false}"
-      ("-assume-filename=%S" (or buffer-file-name mode-result "")))
-    ))
+;; (after! format
+;;   (set-formatter! 'clang-format
+;;     '("clang-format"
+;;       "-style={BasedOnStyle: Google, SortIncludes: false}"
+;;       ("-assume-filename=%S" (or buffer-file-name mode-result "")))
+;;     ))
 
 ;; :modes
 ;; '((c-mode ".c")
@@ -141,29 +139,29 @@
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; lsp, ccls
-(after! ccls
-  :config
-  ;; overlay is slow
-  ;; Use https://github.com/emacs-mirror/emacs/commits/feature/noverlay
-  (setq ccls-sem-highlight-method 'font-lock)
-  (add-hook 'lsp-after-open-hook #'ccls-code-lens-mode)
-  (ccls-use-default-rainbow-sem-highlight)
-
-  ;; https://github.com/maskray/ccls/blob/master/src/config.h
-  (setq ccls-executable "~/Documents/workspace/github/ccls/Release/ccls"
-        ccls-args '("--log-file=/tmp/ccls-emacs.log")
-        ccls-initialization-options `(:capabilities (:foldingRangeProvider :json-false)
-                                                    :cache (:directory ".ccls-cache")
-                                                    :completion (:caseSensitivity 0)
-                                                    :compilationDatabaseDirectory "cmake-build"
-                                                    :client (:snippetSupport t)
-                                                    :codeLens (:localVariables t)
-                                                    :diagnostics (:onChang 100
-                                                                           :onOpen 100
-                                                                           :onSave 100)
-                                                    :highlight (:lsRanges t)
-                                                    :index (:threads 4)))
-  (evil-set-initial-state 'ccls-tree-mode 'emacs))
+;; (after! ccls
+;;   :config
+;;   ;; overlay is slow
+;;   ;; Use https://github.com/emacs-mirror/emacs/commits/feature/noverlay
+;;   (setq ccls-sem-highlight-method 'font-lock)
+;;   (add-hook 'lsp-after-open-hook #'ccls-code-lens-mode)
+;;   (ccls-use-default-rainbow-sem-highlight)
+;;
+;;   ;; https://github.com/maskray/ccls/blob/master/src/config.h
+;;   (setq ccls-executable "~/Documents/workspace/github/ccls/Release/ccls"
+;;         ccls-args '("--log-file=/tmp/ccls-emacs.log")
+;;         ccls-initialization-options `(:capabilities (:foldingRangeProvider :json-false)
+;;                                                     :cache (:directory ".ccls-cache")
+;;                                                     :completion (:caseSensitivity 0)
+;;                                                     :compilationDatabaseDirectory "cmake-build"
+;;                                                     :client (:snippetSupport t)
+;;                                                     :codeLens (:localVariables t)
+;;                                                     :diagnostics (:onChang 100
+;;                                                                            :onOpen 100
+;;                                                                            :onSave 100)
+;;                                                     :highlight (:lsRanges t)
+;;                                                     :index (:threads 4)))
+;;   (evil-set-initial-state 'ccls-tree-mode 'emacs))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; company
@@ -171,5 +169,12 @@
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; modern-cpp-font-lock
-(use-package! modern-cpp-font-lock
-  :hook (c++-mode . modern-c++-font-lock-mode))
+;; (use-package! modern-cpp-font-lock
+;;   :hook (c++-mode . modern-c++-font-lock-mode))
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; org-mode
+;;;;;;;;;;;;;;;;;;;; font
+;; (with-eval-after-load 'org
+  ;; (set-face-attribute 'org-link nil :font "Sarasa Mono SC 13")
+  ;; (set-face-attribute 'org-table nil :font "Sarasa Mono SC 13" :fontset (create-fontset-from-fontset-spec (concat "-*-*-*-*-*--*-*-*-*-*-*-fontset-orgtable" ",han:Sarasa Mono SC:size=13"))))
