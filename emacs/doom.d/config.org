@@ -1,13 +1,7 @@
 * config
-Here are some additional functions/macros that could help you configure Doom:
-
-- `load!' for loading external *.el files relative to this one
-- `use-package' for configuring packages
-- `after!' for running code after a package has loaded
-- `add-load-path!' for adding directories to the `load-path', relative to
-  this file. Emacs searches the `load-path' when you load packages with
-  `require' or `use-package'.
-- `map!' for binding new keys
+#+BEGIN_SRC emacs-lisp
+;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
+#+END_SRC
 
 * who i am
 #+BEGIN_SRC emacs-lisp
@@ -74,7 +68,7 @@ Setup copy paste based on platform. The Windows wsl2 use powershell to accomplis
 
 * ui
 ** basic
-Prevents some cases of Emacs flickering
+Prevents some cases of Emacs flickering.
 
 #+BEGIN_SRC emacs-lisp
 (add-to-list 'default-frame-alist '(inhibit-double-buffering . t))
@@ -120,53 +114,53 @@ This determines the style of line numbers in effect.
 
 ** awesome-tab
 #+BEGIN_SRC emacs-lisp
-(use-package! awesome-tab
-  :config
-  (awesome-tab-mode t)
-  (setq awesome-tab-show-tab-index t
-        awesome-tab-height 120)
-
-  (defun my-select-window ()
-    (interactive)
-    (let* ((event last-input-event)
-           (key (make-vector 1 event))
-           (key-desc (key-description key)))
-      (my-select-window-by-number
-       (string-to-number (car (nreverse (split-string key-desc "-"))))))))
-
-(global-set-key (kbd "M-1") 'awesome-tab-select-visible-tab)
-(global-set-key (kbd "M-2") 'awesome-tab-select-visible-tab)
-(global-set-key (kbd "M-3") 'awesome-tab-select-visible-tab)
-(global-set-key (kbd "M-4") 'awesome-tab-select-visible-tab)
-(global-set-key (kbd "M-5") 'awesome-tab-select-visible-tab)
-(global-set-key (kbd "M-6") 'awesome-tab-select-visible-tab)
-(global-set-key (kbd "M-7") 'awesome-tab-select-visible-tab)
-(global-set-key (kbd "M-8") 'awesome-tab-select-visible-tab)
-(global-set-key (kbd "M-9") 'awesome-tab-select-visible-tab)
-(global-set-key (kbd "M-0") 'awesome-tab-select-visible-tab)
+;; (use-package! awesome-tab
+;;   :config
+;;   (awesome-tab-mode t)
+;;   (setq awesome-tab-show-tab-index t
+;;         awesome-tab-height 120)
+;; 
+;;   (defun my-select-window ()
+;;     (interactive)
+;;     (let* ((event last-input-event)
+;;            (key (make-vector 1 event))
+;;            (key-desc (key-description key)))
+;;       (my-select-window-by-number
+;;        (string-to-number (car (nreverse (split-string key-desc "-"))))))))
+;; 
+;; (global-set-key (kbd "M-1") 'awesome-tab-select-visible-tab)
+;; (global-set-key (kbd "M-2") 'awesome-tab-select-visible-tab)
+;; (global-set-key (kbd "M-3") 'awesome-tab-select-visible-tab)
+;; (global-set-key (kbd "M-4") 'awesome-tab-select-visible-tab)
+;; (global-set-key (kbd "M-5") 'awesome-tab-select-visible-tab)
+;; (global-set-key (kbd "M-6") 'awesome-tab-select-visible-tab)
+;; (global-set-key (kbd "M-7") 'awesome-tab-select-visible-tab)
+;; (global-set-key (kbd "M-8") 'awesome-tab-select-visible-tab)
+;; (global-set-key (kbd "M-9") 'awesome-tab-select-visible-tab)
+;; (global-set-key (kbd "M-0") 'awesome-tab-select-visible-tab)
 #+END_SRC
 
 * company
+** basic
 #+BEGIN_SRC emacs-lisp
-(setq company-idle-delay nil)
+(use-package! company
+  :config
+  (setq company-idle-delay 0.1))
 #+END_SRC
 
 * ivy
-1. [[https://www.wisdomandwonder.com/article/10795/emacsorg-mode-migrate-from-ido-to-ivy-in-one-quick-step][(Emacs+Org-Mode) Migrate From Ido To Ivy In One Quick Step]]
-2. [[https://emacs.stackexchange.com/questions/36745/enable-ivy-fuzzy-matching-everywhere-except-in-swiper][Enable ivy fuzzy matching everywhere, except in swiper]]
+[[https://writequit.org/denver-emacs/presentations/2017-04-11-ivy.html][Ivy, Counsel and Swiper]]
 
 #+BEGIN_SRC emacs-lisp
-;;(use-package ivy
-;;  :ensure t
-;;  :diminish ivy-mode
-;;  :hook (after-init . ivy-mode)
-;;  :config
-;;  (setq ivy-display-style 'fancy
-;;        ivy-count-format "%d/%d "
-;;        ivy-use-virtual-buffers t
-;;        ivy-on-del-error-function 'ignore
-;;        ivy-re-builders-alist '((t . ivy--regex-fuzzy))))
+(use-package ivy
+  :config
+  (setq ivy-display-style 'fancy
+        ivy-count-format "(%d/%d) "
+        ivy-use-virtual-buffers t
+        ivy-on-del-error-function 'ignore
+        ivy-re-builders-alist '((t . ivy--regex-fuzzy))))
 #+END_SRC
+
 * org-mode
 ** basic
 #+BEGIN_SRC emacs-lisp
@@ -180,7 +174,7 @@ This determines the style of line numbers in effect.
 #+END_SRC
 
 ** org agenda
-org agenda里面时间块彩色显示。[[https://emacs-china.org/t/org-agenda/8679/3][Org agenda 显示时间块]]
+org agenda 里面时间块彩色显示。[[https://emacs-china.org/t/org-agenda/8679/3][Org agenda 显示时间块]]
 
 #+BEGIN_SRC emacs-lisp
 (defun org-agenda-time-grid-spacing ()
@@ -210,7 +204,7 @@ org agenda里面时间块彩色显示。[[https://emacs-china.org/t/org-agenda/8
 #+END_SRC
 
 ** archive
-配置归档文件的名称和Headline格式。
+配置归档文件的名称和 Headline 格式。
 
 #+BEGIN_SRC emacs-lisp
 (setq org-archive-location "%s_archive::date-tree")
@@ -271,35 +265,38 @@ example: `aa-bb-cc.org' then save image test.png to `aa-bb-cc/test.png'.
 lsp-ui-sideline is redundant with eldoc and much more invasive, so disable it by default.
 
 #+BEGIN_SRC emacs-lisp
-(setq lsp-ui-sideline-enable nil
-      lsp-enable-symbol-highlighting nil)
+;; (setq lsp-ui-sideline-enable nil
+;;       lsp-enable-symbol-highlighting nil)
 #+END_SRC
 
 ** c/cpp
 *** lsp
 Using [[https://github.com/maskray/ccls/][ccls]] as language protocol server.
 
+1. [[https://github.com/MaskRay/Config/blob/master/home/.config/doom/modules/private/my-cc/autoload.el][MaskRay/Config/blob/master/home/.config/doom/modules/private/my-cc/autoload.el]]
+2. [[https://github.com/MaskRay/ccls/wiki/lsp-mode][lsp-mode]]
+
 #+BEGIN_SRC emacs-lisp
-;; (after! ccls
-;;   :config
-;;   (setq ccls-sem-highlight-method 'font-lock)
-;;   (add-hook 'lsp-after-open-hook #'ccls-code-lens-mode)
-;;   (ccls-use-default-rainbow-sem-highlight)
-;;
-;;   (setq ccls-executable "~/Documents/workspace/github/ccls/Release/ccls"
-;;         ccls-args '("--log-file=/tmp/ccls-emacs.log")
-;;         ccls-initialization-options `(:capabilities (:foldingRangeProvider :json-false)
-;;                                                     :cache (:directory ".ccls-cache")
-;;                                                     :completion (:caseSensitivity 0)
-;;                                                     :compilationDatabaseDirectory "cmake-build"
-;;                                                     :client (:snippetSupport t)
-;;                                                     :codeLens (:localVariables t)
-;;                                                     :diagnostics (:onChang 100
-;;                                                                            :onOpen 100
-;;                                                                            :onSave 100)
-;;                                                     :highlight (:lsRanges t)
-;;                                                     :index (:threads 4)))
-;;   (evil-set-initial-state 'ccls-tree-mode 'emacs))
+(use-package! ccls
+  :config
+  (setq ccls-sem-highlight-method 'font-lock)
+  (add-hook 'lsp-after-open-hook #'ccls-code-lens-mode)
+  (ccls-use-default-rainbow-sem-highlight)
+
+  (setq ccls-executable "~/Documents/workspace/github/ccls/Release/ccls"
+        ccls-args '("--log-file=/tmp/ccls-emacs.log")
+        ccls-initialization-options `(:capabilities (:foldingRangeProvider :json-false)
+                                                    :cache (:directory ".ccls-cache")
+                                                    :completion (:caseSensitivity 0)
+                                                    :compilationDatabaseDirectory "cmake-build"
+                                                    ;; :codeLens (:localVariables :json-false)
+                                                    :client (:snippetSupport t)
+                                                    :diagnostics (:onChang 100
+                                                                           :onOpen 100
+                                                                           :onSave 100)
+                                                    :highlight (:lsRanges t)
+                                                    :index (:threads 5)))
+  (evil-set-initial-state 'ccls-tree-mode 'emacs))
 #+END_SRC
 
 *** cpp-font-lock
@@ -312,6 +309,14 @@ Using [[https://github.com/maskray/ccls/][ccls]] as language protocol server.
 ** pinyin-search
 #+BEGIN_SRC emacs-lisp
 (use-package! pinyin-search)
+#+END_SRC
+
+** pangu-spacing
+#+BEGIN_SRC emacs-lisp
+(use-package! pangu-spacing
+  :config
+  (global-pangu-spacing-mode 1)
+  (setq pangu-spacing-real-insert-separtor t))
 #+END_SRC
 
 ** projecttile
@@ -327,17 +332,15 @@ Project root is same with vim's configuration.
                                                 projectile-root-bottom-up
                                                 projectile-root-local))
 #+END_SRC
-** snail
+
+** evil-nerd-commenter
 #+BEGIN_SRC emacs-lisp
-;;(use-package! snail)
-#+END_SRC
-** rg
-#+BEGIN_SRC emacs-lisp
-;;(use-package rg
-;;  :ensure t
-;;  :defer t)
+(use-package! evil-nerd-commenter
+  :config
+  (evilnc-default-hotkeys))
 #+END_SRC
 
 * references
 1. [[https://www.gtrun.org/custom/init.html][My Doom Emacs config]]
 2. [[https://github.com/condy0919/emacs-newbie][condy0919/emacs-newbie]]
+3. [[https://github.com/condy0919/.emacs.d][condy0919/.emacs.d]]

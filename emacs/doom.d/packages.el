@@ -51,22 +51,21 @@
 ;(package! builtin-package :recipe (:branch "develop"))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; MELPA, ELPA or emacsmirror packages
-;;;;; font
-(package! cnfonts)
-
 ;;;;; color scheme
 (package! spacemacs-theme)
 
-;;;;; tab
-(package! awesome-tab
-  :recipe (:host github :repo "manateelazycat/awesome-tab"))
+;;;;; evil
+(package! evil-nerd-commenter)
 
 ;;;;; org-mode
 (package! org-superstar)
 (package! org-download)
 
-;;;;; cpp
+;;;;; lsp
+(package! lsp-mode)
 (package! modern-cpp-font-lock)
 
 ;;;;; other
 (package! pinyin-search)
+(package! pangu-spacing)
+

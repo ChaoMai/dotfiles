@@ -1,3 +1,5 @@
+;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
+
 (setq user-full-name "chaomai"
       user-mail-address "loneymai@gmail.com")
 
@@ -61,43 +63,42 @@
 
 ;; (setq display-line-numbers-type nil)
 
-(use-package! awesome-tab
+;; (use-package! awesome-tab
+;;   :config
+;;   (awesome-tab-mode t)
+;;   (setq awesome-tab-show-tab-index t
+;;         awesome-tab-height 120)
+;; 
+;;   (defun my-select-window ()
+;;     (interactive)
+;;     (let* ((event last-input-event)
+;;            (key (make-vector 1 event))
+;;            (key-desc (key-description key)))
+;;       (my-select-window-by-number
+;;        (string-to-number (car (nreverse (split-string key-desc "-"))))))))
+;; 
+;; (global-set-key (kbd "M-1") 'awesome-tab-select-visible-tab)
+;; (global-set-key (kbd "M-2") 'awesome-tab-select-visible-tab)
+;; (global-set-key (kbd "M-3") 'awesome-tab-select-visible-tab)
+;; (global-set-key (kbd "M-4") 'awesome-tab-select-visible-tab)
+;; (global-set-key (kbd "M-5") 'awesome-tab-select-visible-tab)
+;; (global-set-key (kbd "M-6") 'awesome-tab-select-visible-tab)
+;; (global-set-key (kbd "M-7") 'awesome-tab-select-visible-tab)
+;; (global-set-key (kbd "M-8") 'awesome-tab-select-visible-tab)
+;; (global-set-key (kbd "M-9") 'awesome-tab-select-visible-tab)
+;; (global-set-key (kbd "M-0") 'awesome-tab-select-visible-tab)
+
+(use-package! company
   :config
-  (awesome-tab-mode t)
-  (setq awesome-tab-show-tab-index t
-        awesome-tab-height 120)
+  (setq company-idle-delay 0.1))
 
-  (defun my-select-window ()
-    (interactive)
-    (let* ((event last-input-event)
-           (key (make-vector 1 event))
-           (key-desc (key-description key)))
-      (my-select-window-by-number
-       (string-to-number (car (nreverse (split-string key-desc "-"))))))))
-
-(global-set-key (kbd "M-1") 'awesome-tab-select-visible-tab)
-(global-set-key (kbd "M-2") 'awesome-tab-select-visible-tab)
-(global-set-key (kbd "M-3") 'awesome-tab-select-visible-tab)
-(global-set-key (kbd "M-4") 'awesome-tab-select-visible-tab)
-(global-set-key (kbd "M-5") 'awesome-tab-select-visible-tab)
-(global-set-key (kbd "M-6") 'awesome-tab-select-visible-tab)
-(global-set-key (kbd "M-7") 'awesome-tab-select-visible-tab)
-(global-set-key (kbd "M-8") 'awesome-tab-select-visible-tab)
-(global-set-key (kbd "M-9") 'awesome-tab-select-visible-tab)
-(global-set-key (kbd "M-0") 'awesome-tab-select-visible-tab)
-
-(setq company-idle-delay nil)
-
-;;(use-package ivy
-;;  :ensure t
-;;  :diminish ivy-mode
-;;  :hook (after-init . ivy-mode)
-;;  :config
-;;  (setq ivy-display-style 'fancy
-;;        ivy-count-format "%d/%d "
-;;        ivy-use-virtual-buffers t
-;;        ivy-on-del-error-function 'ignore
-;;        ivy-re-builders-alist '((t . ivy--regex-fuzzy))))
+(use-package ivy
+  :config
+  (setq ivy-display-style 'fancy
+        ivy-count-format "(%d/%d) "
+        ivy-use-virtual-buffers t
+        ivy-on-del-error-function 'ignore
+        ivy-re-builders-alist '((t . ivy--regex-fuzzy))))
 
 (setq org-directory "~/org/"
       org-ellipsis " ▼ "
@@ -168,34 +169,39 @@
 ;;  (set-formatter!
 ;;    'black "black -q -" :modes '(python-mode)))
 
-(setq lsp-ui-sideline-enable nil
-      lsp-enable-symbol-highlighting nil)
+;; (setq lsp-ui-sideline-enable nil
+;;       lsp-enable-symbol-highlighting nil)
 
-;; (after! ccls
-;;   :config
-;;   (setq ccls-sem-highlight-method 'font-lock)
-;;   (add-hook 'lsp-after-open-hook #'ccls-code-lens-mode)
-;;   (ccls-use-default-rainbow-sem-highlight)
-;;
-;;   (setq ccls-executable "~/Documents/workspace/github/ccls/Release/ccls"
-;;         ccls-args '("--log-file=/tmp/ccls-emacs.log")
-;;         ccls-initialization-options `(:capabilities (:foldingRangeProvider :json-false)
-;;                                                     :cache (:directory ".ccls-cache")
-;;                                                     :completion (:caseSensitivity 0)
-;;                                                     :compilationDatabaseDirectory "cmake-build"
-;;                                                     :client (:snippetSupport t)
-;;                                                     :codeLens (:localVariables t)
-;;                                                     :diagnostics (:onChang 100
-;;                                                                            :onOpen 100
-;;                                                                            :onSave 100)
-;;                                                     :highlight (:lsRanges t)
-;;                                                     :index (:threads 4)))
-;;   (evil-set-initial-state 'ccls-tree-mode 'emacs))
+(use-package! ccls
+  :config
+  (setq ccls-sem-highlight-method 'font-lock)
+  (add-hook 'lsp-after-open-hook #'ccls-code-lens-mode)
+  (ccls-use-default-rainbow-sem-highlight)
+
+  (setq ccls-executable "~/Documents/workspace/github/ccls/Release/ccls"
+        ccls-args '("--log-file=/tmp/ccls-emacs.log")
+        ccls-initialization-options `(:capabilities (:foldingRangeProvider :json-false)
+                                                    :cache (:directory ".ccls-cache")
+                                                    :completion (:caseSensitivity 0)
+                                                    :compilationDatabaseDirectory "cmake-build"
+                                                    ;; :codeLens (:localVariables :json-false)
+                                                    :client (:snippetSupport t)
+                                                    :diagnostics (:onChang 100
+                                                                           :onOpen 100
+                                                                           :onSave 100)
+                                                    :highlight (:lsRanges t)
+                                                    :index (:threads 5)))
+  (evil-set-initial-state 'ccls-tree-mode 'emacs))
 
 (use-package! modern-cpp-font-lock
   :hook (c++-mode . modern-c++-font-lock-mode))
 
 (use-package! pinyin-search)
+
+(use-package! pangu-spacing
+  :config
+  (global-pangu-spacing-mode 1)
+  (setq pangu-spacing-real-insert-separtor t))
 
 (setq projectile-require-project-root t)
 (setq projectile-project-root-files '(".ccls-root" ".idea" "go.mod" ".bzr" "_darcs"
@@ -206,8 +212,6 @@
                                                 projectile-root-bottom-up
                                                 projectile-root-local))
 
-;;(use-package! snail)
-
-;;(use-package rg
-;;  :ensure t
-;;  :defer t)
+(use-package! evil-nerd-commenter
+  :config
+  (evilnc-default-hotkeys))
