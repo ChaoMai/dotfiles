@@ -1,6 +1,27 @@
+* config
+Here are some additional functions/macros that could help you configure Doom:
+
+- `load!' for loading external *.el files relative to this one
+- `use-package' for configuring packages
+- `after!' for running code after a package has loaded
+- `add-load-path!' for adding directories to the `load-path', relative to
+  this file. Emacs searches the `load-path' when you load packages with
+  `require' or `use-package'.
+- `map!' for binding new keys
+
+* who i am
+#+BEGIN_SRC emacs-lisp
 (setq user-full-name "chaomai"
       user-mail-address "loneymai@gmail.com")
+#+END_SRC
 
+* basic
+** clipboard
+Setup copy paste based on platform. The Windows wsl2 use powershell to accomplish paste, which is a bit of slow.
+
+[[https://stackoverflow.com/questions/64360/how-to-copy-text-from-emacs-to-another-application-on-linux][How to copy text from Emacs to another application on Linux]]
+
+#+BEGIN_SRC emacs-lisp
 (defun wsl2-copy (beg end)
   (interactive "r")
   (call-process-region beg end "clip.exe"))
@@ -44,23 +65,61 @@
                                   (buffer-string)))
   (define-key global-map (kbd "C-x C-y") 'wsl2-copy)
   (define-key global-map (kbd "C-x C-p") 'wsl2-paste)))
+#+END_SRC
 
+** history
+#+BEGIN_SRC emacs-lisp
 (setq-default history-length 1000)
+#+END_SRC
 
+* ui
+** basic
+Prevents some cases of Emacs flickering
+
+#+BEGIN_SRC emacs-lisp
 (add-to-list 'default-frame-alist '(inhibit-double-buffering . t))
+#+END_SRC
 
+** font
+Doom exposes five (optional) variables for controlling fonts in Doom. Here are the three important ones:
+1. `doom-font'
+2. `doom-variable-pitch-font'
+3. `doom-big-font' -- used for `doom-big-font-mode'; use this for presentations or streaming.
+
+They all accept either a font-spec, font string ("Input Mono-12"), or xlfd font string. You generally only need these two:
+
+#+BEGIN_SRC emacs-lisp
 (setq doom-font (font-spec :family "Fira Code" :size 13 :weight 'regular))
+#+END_SRC
 
+** color theme
+There are two ways to load a theme. Both assume the theme is installed and available. You can either set `doom-theme' or manually load a theme with the
+`load-theme' function.
+
+#+BEGIN_SRC emacs-lisp
 ;; (setq doom-theme 'doom-one)
 
 (setq doom-theme 'spacemacs-dark
       spacemacs-theme-comment-bg nil
       spacemacs-theme-comment-italic t)
+#+END_SRC
 
+** line spacing
+#+BEGIN_SRC emacs-lisp
 (setq-default line-spacing 5)
+#+END_SRC
 
+** line numbers
+This determines the style of line numbers in effect.
+1. If set to `nil', line numbers are disabled.
+2. For relative line numbers, set this to `relative'.
+
+#+BEGIN_SRC emacs-lisp
 ;; (setq display-line-numbers-type nil)
+#+END_SRC
 
+** awesome-tab
+#+BEGIN_SRC emacs-lisp
 (use-package! awesome-tab
   :config
   (awesome-tab-mode t)
@@ -85,9 +144,18 @@
 (global-set-key (kbd "M-8") 'awesome-tab-select-visible-tab)
 (global-set-key (kbd "M-9") 'awesome-tab-select-visible-tab)
 (global-set-key (kbd "M-0") 'awesome-tab-select-visible-tab)
+#+END_SRC
 
+* company
+#+BEGIN_SRC emacs-lisp
 (setq company-idle-delay nil)
+#+END_SRC
 
+* ivy
+1. [[https://www.wisdomandwonder.com/article/10795/emacsorg-mode-migrate-from-ido-to-ivy-in-one-quick-step][(Emacs+Org-Mode) Migrate From Ido To Ivy In One Quick Step]]
+2. [[https://emacs.stackexchange.com/questions/36745/enable-ivy-fuzzy-matching-everywhere-except-in-swiper][Enable ivy fuzzy matching everywhere, except in swiper]]
+
+#+BEGIN_SRC emacs-lisp
 ;;(use-package ivy
 ;;  :ensure t
 ;;  :diminish ivy-mode
@@ -98,13 +166,23 @@
 ;;        ivy-use-virtual-buffers t
 ;;        ivy-on-del-error-function 'ignore
 ;;        ivy-re-builders-alist '((t . ivy--regex-fuzzy))))
-
+#+END_SRC
+* org-mode
+** basic
+#+BEGIN_SRC emacs-lisp
 (setq org-directory "~/org/"
       org-ellipsis " ▼ "
       org-superstar-headline-bullets-list '("☰" "☱" "☲" "☳" "☴" "☵" "☶" "☷" "☷" "☷" "☷"))
+#+END_SRC
 
+** font
+#+BEGIN_SRC emacs-lisp
+#+END_SRC
 
+** org agenda
+org agenda里面时间块彩色显示。[[https://emacs-china.org/t/org-agenda/8679/3][Org agenda 显示时间块]]
 
+#+BEGIN_SRC emacs-lisp
 (defun org-agenda-time-grid-spacing ()
   "Set different line spacing w.r.t. time duration."
   (save-excursion
@@ -129,9 +207,22 @@
             (overlay-put ov 'line-spacing (1- line-height))))))))
 
 (add-hook 'org-agenda-finalize-hook #'org-agenda-time-grid-spacing)
+#+END_SRC
 
+** archive
+配置归档文件的名称和Headline格式。
+
+#+BEGIN_SRC emacs-lisp
 (setq org-archive-location "%s_archive::date-tree")
+#+END_SRC
 
+** org-download
+make drag-and-drop image save in the same name folder as org file.
+example: `aa-bb-cc.org' then save image test.png to `aa-bb-cc/test.png'.
+
+[[https://coldnew.github.io/hexo-org-example/2018/05/22/use-org-download-to-drag-image-to-emacs/][Use org-download to drag image to emacs]]
+
+#+BEGIN_SRC emacs-lisp
 (use-package! org-download
   :after org
   :hook ('dired-mode-hook 'org-download-enable)
@@ -149,7 +240,14 @@
       (expand-file-name filename dirname)))
 
   (setq org-download-method 'my-org-download-method))
+#+END_SRC
 
+* programming
+** format
+1. c/cpp: clang-format
+2. python: black
+
+#+BEGIN_SRC emacs-lisp
 ;; (after! format
 ;;   (set-formatter! 'clang-format
 ;;     '("clang-format"
@@ -167,10 +265,21 @@
 ;; (after! format
 ;;  (set-formatter!
 ;;    'black "black -q -" :modes '(python-mode)))
+#+END_SRC
 
+** lsp basic
+lsp-ui-sideline is redundant with eldoc and much more invasive, so disable it by default.
+
+#+BEGIN_SRC emacs-lisp
 (setq lsp-ui-sideline-enable nil
       lsp-enable-symbol-highlighting nil)
+#+END_SRC
 
+** c/cpp
+*** lsp
+Using [[https://github.com/maskray/ccls/][ccls]] as language protocol server.
+
+#+BEGIN_SRC emacs-lisp
 ;; (after! ccls
 ;;   :config
 ;;   (setq ccls-sem-highlight-method 'font-lock)
@@ -191,12 +300,24 @@
 ;;                                                     :highlight (:lsRanges t)
 ;;                                                     :index (:threads 4)))
 ;;   (evil-set-initial-state 'ccls-tree-mode 'emacs))
+#+END_SRC
 
+*** cpp-font-lock
+#+BEGIN_SRC emacs-lisp
 (use-package! modern-cpp-font-lock
   :hook (c++-mode . modern-c++-font-lock-mode))
+#+END_SRC
 
+* other plugins
+** pinyin-search
+#+BEGIN_SRC emacs-lisp
 (use-package! pinyin-search)
+#+END_SRC
 
+** projecttile
+Project root is same with vim's configuration.
+
+#+BEGIN_SRC emacs-lisp
 (setq projectile-require-project-root t)
 (setq projectile-project-root-files '(".ccls-root" ".idea" "go.mod" ".bzr" "_darcs"
                                       "build.xml" ".project" ".root" ".svn" ".git"))
@@ -205,9 +326,18 @@
                                                 projectile-root-top-down-recurring
                                                 projectile-root-bottom-up
                                                 projectile-root-local))
-
+#+END_SRC
+** snail
+#+BEGIN_SRC emacs-lisp
 ;;(use-package! snail)
-
+#+END_SRC
+** rg
+#+BEGIN_SRC emacs-lisp
 ;;(use-package rg
 ;;  :ensure t
 ;;  :defer t)
+#+END_SRC
+
+* references
+1. [[https://www.gtrun.org/custom/init.html][My Doom Emacs config]]
+2. [[https://github.com/condy0919/emacs-newbie][condy0919/emacs-newbie]]
