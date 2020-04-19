@@ -66,6 +66,21 @@ Setup copy paste based on platform. The Windows wsl2 use powershell to accomplis
 (setq-default history-length 1000)
 #+END_SRC
 
+** projecttile
+Project root is same with vim's configuration.
+
+#+BEGIN_SRC emacs-lisp
+(setq projectile-require-project-root t)
+(setq projectile-project-root-files '(".ccls-root" ".idea" "go.mod" ".bzr" "_darcs"
+                                      "build.xml" ".project" ".root" ".svn" ".git"
+                                      "index.org"))
+
+(setq projectile-project-root-files-functions '(projectile-root-top-down
+                                                projectile-root-top-down-recurring
+                                                projectile-root-bottom-up
+                                                projectile-root-local))
+#+END_SRC
+
 * ui
 ** basic
 Prevents some cases of Emacs flickering.
@@ -164,13 +179,16 @@ This determines the style of line numbers in effect.
 * org-mode
 ** basic
 #+BEGIN_SRC emacs-lisp
-(setq org-directory "~/org/"
-      org-ellipsis " ▼ "
-      org-superstar-headline-bullets-list '("☰" "☱" "☲" "☳" "☴" "☵" "☶" "☷" "☷" "☷" "☷"))
-#+END_SRC
-
-** font
-#+BEGIN_SRC emacs-lisp
+(use-package ivy
+  :config
+  (setq org-directory "~/org/"
+        org-ellipsis " ➤ "
+        org-superstar-headline-bullets-list '("☰" "☱" "☲" "☳" "☴" "☵" "☶" "☷" "☷" "☷" "☷")
+        ;; gdt task status
+        org-todo-keywords '((sequence "TODO(t)" "NEXT(n)" "WAITTING(w)" "SOMEDAY(s)" "|" "DONE(d@/!)" "ABORT(a@/!)")
+                            (sequence "REPORT(r)" "BUG(b)" "KNOWNCAUSE(k)" "|" "FIXED(f)"))
+        ;; 配置归档文件的名称和 Headline 格式。
+        org-archive-location "%s_archive::date-tree"))
 #+END_SRC
 
 ** org agenda
@@ -203,16 +221,9 @@ org agenda 里面时间块彩色显示。[[https://emacs-china.org/t/org-agenda/
 (add-hook 'org-agenda-finalize-hook #'org-agenda-time-grid-spacing)
 #+END_SRC
 
-** archive
-配置归档文件的名称和 Headline 格式。
-
-#+BEGIN_SRC emacs-lisp
-(setq org-archive-location "%s_archive::date-tree")
-#+END_SRC
-
 ** org-download
 make drag-and-drop image save in the same name folder as org file.
-example: `aa-bb-cc.org' then save image test.png to `aa-bb-cc/test.png'.
+example: `aa-bb-cc.org' then save image test.png to `aa-bb-cc_media/test.png'.
 
 [[https://coldnew.github.io/hexo-org-example/2018/05/22/use-org-download-to-drag-image-to-emacs/][Use org-download to drag image to emacs]]
 
@@ -226,7 +237,7 @@ example: `aa-bb-cc.org' then save image test.png to `aa-bb-cc/test.png'.
            (file-name-nondirectory
             (car (url-path-and-query
                   (url-generic-parse-url link)))))
-          (dirname (file-name-sans-extension (buffer-name)) ))
+          (dirname (concat (file-name-sans-extension (buffer-name)) "_media")))
       ;; if directory not exist, create it
       (unless (file-exists-p dirname)
         (make-directory dirname))
@@ -317,20 +328,6 @@ Using [[https://github.com/maskray/ccls/][ccls]] as language protocol server.
   :config
   (global-pangu-spacing-mode 1)
   (setq pangu-spacing-real-insert-separtor t))
-#+END_SRC
-
-** projecttile
-Project root is same with vim's configuration.
-
-#+BEGIN_SRC emacs-lisp
-(setq projectile-require-project-root t)
-(setq projectile-project-root-files '(".ccls-root" ".idea" "go.mod" ".bzr" "_darcs"
-                                      "build.xml" ".project" ".root" ".svn" ".git"))
-
-(setq projectile-project-root-files-functions '(projectile-root-top-down
-                                                projectile-root-top-down-recurring
-                                                projectile-root-bottom-up
-                                                projectile-root-local))
 #+END_SRC
 
 ** evil-nerd-commenter

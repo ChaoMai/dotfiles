@@ -49,6 +49,16 @@
 
 (setq-default history-length 1000)
 
+(setq projectile-require-project-root t)
+(setq projectile-project-root-files '(".ccls-root" ".idea" "go.mod" ".bzr" "_darcs"
+                                      "build.xml" ".project" ".root" ".svn" ".git"
+                                      "index.org"))
+
+(setq projectile-project-root-files-functions '(projectile-root-top-down
+                                                projectile-root-top-down-recurring
+                                                projectile-root-bottom-up
+                                                projectile-root-local))
+
 (add-to-list 'default-frame-alist '(inhibit-double-buffering . t))
 
 (setq doom-font (font-spec :family "Fira Code" :size 13 :weight 'regular))
@@ -100,11 +110,16 @@
         ivy-on-del-error-function 'ignore
         ivy-re-builders-alist '((t . ivy--regex-fuzzy))))
 
-(setq org-directory "~/org/"
-      org-ellipsis " ▼ "
-      org-superstar-headline-bullets-list '("☰" "☱" "☲" "☳" "☴" "☵" "☶" "☷" "☷" "☷" "☷"))
-
-
+(use-package ivy
+  :config
+  (setq org-directory "~/org/"
+        org-ellipsis " ➤ "
+        org-superstar-headline-bullets-list '("☰" "☱" "☲" "☳" "☴" "☵" "☶" "☷" "☷" "☷" "☷")
+        ;; gdt task status
+        org-todo-keywords '((sequence "TODO(t)" "NEXT(n)" "WAITTING(w)" "SOMEDAY(s)" "|" "DONE(d@/!)" "ABORT(a@/!)")
+                            (sequence "REPORT(r)" "BUG(b)" "KNOWNCAUSE(k)" "|" "FIXED(f)"))
+        ;; 配置归档文件的名称和 Headline 格式。
+        org-archive-location "%s_archive::date-tree"))
 
 (defun org-agenda-time-grid-spacing ()
   "Set different line spacing w.r.t. time duration."
@@ -131,8 +146,6 @@
 
 (add-hook 'org-agenda-finalize-hook #'org-agenda-time-grid-spacing)
 
-(setq org-archive-location "%s_archive::date-tree")
-
 (use-package! org-download
   :after org
   :hook ('dired-mode-hook 'org-download-enable)
@@ -142,7 +155,7 @@
            (file-name-nondirectory
             (car (url-path-and-query
                   (url-generic-parse-url link)))))
-          (dirname (file-name-sans-extension (buffer-name)) ))
+          (dirname (concat (file-name-sans-extension (buffer-name)) "_media")))
       ;; if directory not exist, create it
       (unless (file-exists-p dirname)
         (make-directory dirname))
@@ -202,15 +215,6 @@
   :config
   (global-pangu-spacing-mode 1)
   (setq pangu-spacing-real-insert-separtor t))
-
-(setq projectile-require-project-root t)
-(setq projectile-project-root-files '(".ccls-root" ".idea" "go.mod" ".bzr" "_darcs"
-                                      "build.xml" ".project" ".root" ".svn" ".git"))
-
-(setq projectile-project-root-files-functions '(projectile-root-top-down
-                                                projectile-root-top-down-recurring
-                                                projectile-root-bottom-up
-                                                projectile-root-local))
 
 (use-package! evil-nerd-commenter
   :config
