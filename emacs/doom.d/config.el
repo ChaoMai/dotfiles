@@ -71,7 +71,7 @@
 
 (setq-default line-spacing 5)
 
-(setq display-line-numbers-type nil)
+;; (setq display-line-numbers-type nil)
 
 ;; (use-package! awesome-tab
 ;;   :config
