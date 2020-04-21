@@ -189,36 +189,40 @@ This determines the style of line numbers in effect.
                             (sequence "REPORT(r)" "BUG(b)" "KNOWNCAUSE(k)" "|" "FIXED(f)"))
         ;; 配置归档文件的名称和 Headline 格式。
         org-archive-location "%s_archive::date-tree"))
+
+;; (defun nolinum ()
+;;   (setq display-line-numbers-type nil))
+;; (add-hook 'org-mode-hook 'nolinum)
 #+END_SRC
 
 ** org agenda
 org agenda 里面时间块彩色显示。[[https://emacs-china.org/t/org-agenda/8679/3][Org agenda 显示时间块]]
 
 #+BEGIN_SRC emacs-lisp
-(defun org-agenda-time-grid-spacing ()
-  "Set different line spacing w.r.t. time duration."
-  (save-excursion
-    (let* ((background (alist-get 'background-mode (frame-parameters)))
-           (background-dark-p (string= background "dark"))
-           (colors (list "#1ABC9C" "#2ECC71" "#3498DB" "#9966ff"))
-           pos
-           duration)
-      (nconc colors colors)
-      (goto-char (point-min))
-      (while (setq pos (next-single-property-change (point) 'duration))
-        (goto-char pos)
-        (when (and (not (equal pos (point-at-eol)))
-                   (setq duration (org-get-at-bol 'duration)))
-          (let ((line-height (if (< duration 30) 1.0 (+ 0.5 (/ duration 60))))
-                (ov (make-overlay (point-at-bol) (1+ (point-at-eol)))))
-            (overlay-put ov 'face `(:background ,(car colors)
-                                                :foreground
-                                                ,(if background-dark-p "black" "white")))
-            (setq colors (cdr colors))
-            (overlay-put ov 'line-height line-height)
-            (overlay-put ov 'line-spacing (1- line-height))))))))
+;; (defun org-agenda-time-grid-spacing ()
+;;   "Set different line spacing w.r.t. time duration."
+;;   (save-excursion
+;;     (let* ((background (alist-get 'background-mode (frame-parameters)))
+;;            (background-dark-p (string= background "dark"))
+;;            (colors (list "#1ABC9C" "#2ECC71" "#3498DB" "#9966ff"))
+;;            pos
+;;            duration)
+;;       (nconc colors colors)
+;;       (goto-char (point-min))
+;;       (while (setq pos (next-single-property-change (point) 'duration))
+;;         (goto-char pos)
+;;         (when (and (not (equal pos (point-at-eol)))
+;;                    (setq duration (org-get-at-bol 'duration)))
+;;           (let ((line-height (if (< duration 30) 1.0 (+ 0.5 (/ duration 60))))
+;;                 (ov (make-overlay (point-at-bol) (1+ (point-at-eol)))))
+;;             (overlay-put ov 'face `(:background ,(car colors)
+;;                                                 :foreground
+;;                                                 ,(if background-dark-p "black" "white")))
+;;             (setq colors (cdr colors))
+;;             (overlay-put ov 'line-height line-height)
+;;             (overlay-put ov 'line-spacing (1- line-height))))))))
 
-(add-hook 'org-agenda-finalize-hook #'org-agenda-time-grid-spacing)
+;; (add-hook 'org-agenda-finalize-hook #'org-agenda-time-grid-spacing)
 #+END_SRC
 
 ** org-download
