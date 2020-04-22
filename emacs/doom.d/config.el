@@ -3,6 +3,24 @@
 (setq user-full-name "chaomai"
       user-mail-address "loneymai@gmail.com")
 
+(defconst MACOS "macos")
+(defconst WSL "wsl")
+(defconst LINUX "linux")
+
+(cond
+ ((string-equal system-type "darwin")
+  (defvar platform MACOS))
+
+ ((string-match "microsoft"
+                (with-temp-buffer (shell-command "uname -r" t)
+                                  (goto-char (point-max))
+                                  (delete-char -1)
+                                  (buffer-string)))
+  (defvar platform WSL))
+
+ ((string-equal system-type "gnu/linux")
+  (defvar platform LINUX)))
+
 (defun wsl2-copy (beg end)
   (interactive "r")
   (call-process-region beg end "clip.exe"))
@@ -31,19 +49,14 @@
   (call-process "xsel" nil t nil "-b"))
 
 (cond
- ((string-equal system-type "darwin")
+ ((string-equal platform MACOS)
   (define-key global-map (kbd "C-x C-y") 'osx-copy)
   (define-key global-map (kbd "C-x C-p") 'osx-paste))
 
- ((string-equal system-type "gnu/linux")
-  (define-key global-map (kbd "C-x C-y") 'linux-copy)
-  (define-key global-map (kbd "C-x C-p") 'linux-paste))
+ ((string-equal platform LINUX)
+  (message "no implemented"))
 
- ((string-match "microsoft"
-                (with-temp-buffer (shell-command "uname -r" t)
-                                  (goto-char (point-max))
-                                  (delete-char -1)
-                                  (buffer-string)))
+ ((string-equal platform WSL)
   (define-key global-map (kbd "C-x C-y") 'wsl2-copy)
   (define-key global-map (kbd "C-x C-p") 'wsl2-paste)))
 
@@ -62,56 +75,28 @@
 (add-to-list 'default-frame-alist '(inhibit-double-buffering . t))
 
 (cond
- ((string-equal system-type "darwin")
+ ((string-equal platform MACOS)
   (setq doom-font (font-spec :family "Fira Code" :size 13 :weight 'regular)))
 
- ((string-match "microsoft"
-                (with-temp-buffer (shell-command "uname -r" t)
-                                  (goto-char (point-max))
-                                  (delete-char -1)
-                                  (buffer-string)))
+ ((string-equal platform LINUX)
+  (message "no implemented"))
+
+ ((string-equal platform WSL)
   (setq doom-font (font-spec :family "Fira Code" :size 18 :weight 'regular))))
 
-;; (setq doom-theme 'doom-one)
+(setq fancy-splash-image (concat doom-private-dir "doom.jpg"))
 
-(setq doom-theme 'spacemacs-dark
-      spacemacs-theme-comment-bg nil
-      spacemacs-theme-comment-italic t)
+(setq doom-theme 'doom-one)
+
+;; (setq doom-theme 'spacemacs-dark
+;;       spacemacs-theme-comment-bg nil
+;;       spacemacs-theme-comment-italic t)
 
 (setq-default line-spacing 5)
 
 ;; (setq display-line-numbers-type nil)
 
-;; (use-package! awesome-tab
-;;   :config
-;;   (awesome-tab-mode t)
-;;   (setq awesome-tab-show-tab-index t
-;;         awesome-tab-height 120)
-;; 
-;;   (defun my-select-window ()
-;;     (interactive)
-;;     (let* ((event last-input-event)
-;;            (key (make-vector 1 event))
-;;            (key-desc (key-description key)))
-;;       (my-select-window-by-number
-;;        (string-to-number (car (nreverse (split-string key-desc "-"))))))))
-;; 
-;; (global-set-key (kbd "M-1") 'awesome-tab-select-visible-tab)
-;; (global-set-key (kbd "M-2") 'awesome-tab-select-visible-tab)
-;; (global-set-key (kbd "M-3") 'awesome-tab-select-visible-tab)
-;; (global-set-key (kbd "M-4") 'awesome-tab-select-visible-tab)
-;; (global-set-key (kbd "M-5") 'awesome-tab-select-visible-tab)
-;; (global-set-key (kbd "M-6") 'awesome-tab-select-visible-tab)
-;; (global-set-key (kbd "M-7") 'awesome-tab-select-visible-tab)
-;; (global-set-key (kbd "M-8") 'awesome-tab-select-visible-tab)
-;; (global-set-key (kbd "M-9") 'awesome-tab-select-visible-tab)
-;; (global-set-key (kbd "M-0") 'awesome-tab-select-visible-tab)
-
-(use-package! company
-  :config
-  (setq company-idle-delay 0.1))
-
-(use-package ivy
+(use-package! ivy
   :config
   (setq ivy-display-style 'fancy
         ivy-count-format "(%d/%d) "
@@ -119,14 +104,39 @@
         ivy-on-del-error-function 'ignore
         ivy-re-builders-alist '((t . ivy--regex-fuzzy))))
 
-(use-package ivy
+(use-package! org
   :config
   (setq org-directory "~/org/"
-        org-ellipsis " ➤ "
-        org-superstar-headline-bullets-list '("☰" "☱" "☲" "☳" "☴" "☵" "☶" "☷" "☷" "☷" "☷")
+        org-tags-column 0
+        org-pretty-entities t
+        org-startup-indented t
+        org-image-actual-width nil
+        org-hide-emphasis-markers t
+        org-fontify-done-headline t
+        org-fontify-whole-heading-line t
+        org-fontify-quote-and-verse-blocks t
+        org-catch-invisible-edits 'smart
+        org-insert-heading-respect-content t
+        ;; block switching the parent to done state
+        org-enforce-todo-dependencies t
+        org-enforce-todo-checkbox-dependencies t
+        org-ellipsis " -> "
         ;; gdt task status
-        org-todo-keywords '((sequence "TODO(t)" "NEXT(n)" "WAITTING(w)" "SOMEDAY(s)" "|" "DONE(d@/!)" "ABORT(a@/!)")
-                            (sequence "REPORT(r)" "BUG(b)" "KNOWNCAUSE(k)" "|" "FIXED(f)"))
+        org-todo-keywords '((sequence "TODO(t)" "INPROGRESS(i!)" "WAITTING(w!)" "SOMEDAY(s!)" "|" "DONE(d@/!)" "CANCELLED(a@/!)")
+                            (sequence "REPORT(r!)" "BUG(b!)" "KNOWNCAUSE(k!)" "|" "FIXED(f!)"))
+        ;; log
+        org-log-done 'time
+        org-log-repeat 'time
+        org-log-redeadline 'note
+        org-log-reschedule 'note
+        org-log-into-drawer t
+        org-log-state-notes-insert-after-drawers nil
+        ;; refile
+        org-refile-use-cache t
+        org-refile-targets '((org-agenda-files . (:maxlevel . 6)))
+        org-refile-use-outline-path t
+        org-outline-path-complete-in-steps nil
+        org-refile-allow-creating-parent-nodes 'confirm
         ;; 配置归档文件的名称和 Headline 格式。
         org-archive-location "%s_archive::date-tree"))
 
@@ -155,6 +165,44 @@
 
 ;; (add-hook 'org-agenda-finalize-hook #'org-agenda-time-grid-spacing)
 
+;; Write codes in org-mode
+(use-package! org-src
+  :after org
+  :bind (:map org-src-mode-map
+          ;; consistent with separedit/magit
+          ("C-c C-c" . org-edit-src-exit))
+  :config
+  (setq org-src-fontify-natively t
+        org-src-tab-acts-natively t
+        org-src-preserve-indentation t
+        org-src-window-setup 'current-window
+        org-confirm-babel-evaluate t
+        org-edit-src-content-indentation 0
+        org-babel-load-languages '((shell . t)
+                                   (python . t)
+                                   (ocaml . t)
+                                   (emacs-lisp . t))))
+
+(use-package org-clock
+  :after org
+  :config
+  (setq org-clock-in-resume t
+        org-clock-idle-time 10
+        org-clock-into-drawer t
+        org-clock-out-when-done t
+        org-clock-persist 'history
+        org-clock-history-length 10
+        org-clock-out-remove-zero-time-clocks t
+        org-clock-report-include-clocking-task t)
+  (org-clock-persistence-insinuate))
+
+(use-package! org-superstar
+  :after org
+  :hook (org-mode . org-superstar-mode)
+  :config
+  (setq org-hide-leading-stars nil
+        org-superstar-headline-bullets-list '("☰" "☱" "☲" "☳" "☴" "☵" "☶" "☷" "☷" "☷" "☷")))
+
 (use-package! org-download
   :after org
   :hook ('dired-mode-hook 'org-download-enable)
@@ -173,7 +221,7 @@
 
   (setq org-download-method 'my-org-download-method))
 
-;; (after! format
+;; (use-package! format
 ;;   (set-formatter! 'clang-format
 ;;     '("clang-format"
 ;;       "-style={BasedOnStyle: Google, SortIncludes: false}"
@@ -191,8 +239,46 @@
 ;;  (set-formatter!
 ;;    'black "black -q -" :modes '(python-mode)))
 
-;; (setq lsp-ui-sideline-enable nil
-;;       lsp-enable-symbol-highlighting nil)
+(use-package! company
+  :config
+  (setq company-idle-delay 0
+        company-echo-delay 0
+        ;; Easy navigation to candidates with M-<n>
+        company-show-numbers t
+        company-require-match nil
+        company-minimum-prefix-length 3
+        company-tooltip-align-annotations t
+        ;; complete `abbrev' only in current buffer
+        company-dabbrev-other-buffers nil
+        ;; make dabbrev case-sensitive
+        company-dabbrev-ignore-case nil
+        company-dabbrev-downcase nil
+        company-backends '(company-capf
+                           company-files
+                           (company-dabbrev-code company-keywords)
+                           company-dabbrev)))
+
+(use-package! lsp-mode
+  :config
+  (setq lsp-idle-delay 0.5                 ;; lazy refresh
+        lsp-log-io nil                     ;; enable log only for debug
+        ;; lsp-enable-folding nil             ;; use `evil-matchit' instead
+        lsp-diagnostic-package :flycheck   ;; prefer flycheck
+        lsp-lens-auto-enable t             ;; enable lens
+        lsp-flycheck-live-reporting nil    ;; obey `flycheck-check-syntax-automatically'
+        lsp-prefer-capf t                  ;; using `company-capf' by default
+        lsp-enable-snippet nil             ;; no snippet
+        lsp-enable-file-watchers nil       ;; turn off for better performance
+        lsp-enable-text-document-color nil ;; as above
+        lsp-enable-symbol-highlighting nil ;; as above
+        lsp-enable-indentation nil         ;; indent by ourself
+        lsp-enable-on-type-formatting nil  ;; disable formatting on the fly
+        lsp-auto-guess-root t              ;; auto guess root
+        lsp-keep-workspace-alive nil       ;; auto kill lsp server
+        lsp-eldoc-enable-hover nil         ;; disable eldoc hover
+        lsp-signature-auto-activate t      ;; show function signature
+        lsp-signature-doc-lines 2)         ;; but dont take up more lines
+  )
 
 (use-package! ccls
   :config
@@ -217,6 +303,11 @@
 
 (use-package! modern-cpp-font-lock
   :hook (c++-mode . modern-c++-font-lock-mode))
+
+(use-package! lsp-ui
+  :config
+  (setq lsp-ui-sideline-enable nil
+        lsp-enable-symbol-highlighting nil))
 
 (use-package! pinyin-search)
 
