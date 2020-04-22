@@ -98,7 +98,16 @@ Doom exposes five (optional) variables for controlling fonts in Doom. Here are t
 They all accept either a font-spec, font string ("Input Mono-12"), or xlfd font string. You generally only need these two:
 
 #+BEGIN_SRC emacs-lisp
-(setq doom-font (font-spec :family "Fira Code" :size 13 :weight 'regular))
+(cond
+ ((string-equal system-type "darwin")
+  (setq doom-font (font-spec :family "Fira Code" :size 13 :weight 'regular)))
+
+ ((string-match "microsoft"
+                (with-temp-buffer (shell-command "uname -r" t)
+                                  (goto-char (point-max))
+                                  (delete-char -1)
+                                  (buffer-string)))
+  (setq doom-font (font-spec :family "Fira Code" :size 18 :weight 'regular))))
 #+END_SRC
 
 ** color theme
@@ -189,10 +198,6 @@ This determines the style of line numbers in effect.
                             (sequence "REPORT(r)" "BUG(b)" "KNOWNCAUSE(k)" "|" "FIXED(f)"))
         ;; 配置归档文件的名称和 Headline 格式。
         org-archive-location "%s_archive::date-tree"))
-
-;; (defun nolinum ()
-;;   (setq display-line-numbers-type nil))
-;; (add-hook 'org-mode-hook 'nolinum)
 #+END_SRC
 
 ** org agenda

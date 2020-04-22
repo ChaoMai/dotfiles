@@ -61,7 +61,16 @@
 
 (add-to-list 'default-frame-alist '(inhibit-double-buffering . t))
 
-(setq doom-font (font-spec :family "Fira Code" :size 13 :weight 'regular))
+(cond
+ ((string-equal system-type "darwin")
+  (setq doom-font (font-spec :family "Fira Code" :size 13 :weight 'regular)))
+
+ ((string-match "microsoft"
+                (with-temp-buffer (shell-command "uname -r" t)
+                                  (goto-char (point-max))
+                                  (delete-char -1)
+                                  (buffer-string)))
+  (setq doom-font (font-spec :family "Fira Code" :size 18 :weight 'regular))))
 
 ;; (setq doom-theme 'doom-one)
 
@@ -120,10 +129,6 @@
                             (sequence "REPORT(r)" "BUG(b)" "KNOWNCAUSE(k)" "|" "FIXED(f)"))
         ;; 配置归档文件的名称和 Headline 格式。
         org-archive-location "%s_archive::date-tree"))
-
-;; (defun nolinum ()
-;;   (setq display-line-numbers-type nil))
-;; (add-hook 'org-mode-hook 'nolinum)
 
 ;; (defun org-agenda-time-grid-spacing ()
 ;;   "Set different line spacing w.r.t. time duration."
