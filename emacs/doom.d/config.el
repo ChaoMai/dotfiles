@@ -120,7 +120,7 @@
         ;; block switching the parent to done state
         org-enforce-todo-dependencies t
         org-enforce-todo-checkbox-dependencies t
-        org-ellipsis " -> "
+        ;; org-ellipsis " -> "
         ;; gdt task status
         org-todo-keywords '((sequence "TODO(t)" "INPROGRESS(i!)" "WAITTING(w!)" "SOMEDAY(s!)" "|" "DONE(d@/!)" "CANCELLED(a@/!)")
                             (sequence "REPORT(r!)" "BUG(b!)" "KNOWNCAUSE(k!)" "|" "FIXED(f!)"))
@@ -162,7 +162,7 @@
 ;;             (setq colors (cdr colors))
 ;;             (overlay-put ov 'line-height line-height)
 ;;             (overlay-put ov 'line-spacing (1- line-height))))))))
-
+;; 
 ;; (add-hook 'org-agenda-finalize-hook #'org-agenda-time-grid-spacing)
 
 ;; Write codes in org-mode
