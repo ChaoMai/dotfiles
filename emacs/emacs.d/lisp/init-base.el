@@ -68,6 +68,9 @@
 
 (defalias 'list-buffers 'ibuffer)
 
+;; Use TeX as default IM
+(setq default-input-method "TeX")
+
 ;; Keep clean
 (when (fboundp 'menu-bar-mode)
   (menu-bar-mode -1))

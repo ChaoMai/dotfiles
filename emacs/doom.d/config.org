@@ -345,3 +345,4 @@ Using [[https://github.com/maskray/ccls/][ccls]] as language protocol server.
 1. [[https://www.gtrun.org/custom/init.html][My Doom Emacs config]]
 2. [[https://github.com/condy0919/emacs-newbie][condy0919/emacs-newbie]]
 3. [[https://github.com/condy0919/.emacs.d][condy0919/.emacs.d]]
+4. [[https://alhassy.github.io/init/][A Life Configuring Emacs]]
