@@ -9,7 +9,8 @@
       user-mail-address "loneymai@gmail.com")
 #+END_SRC
 
-* system platform
+* system
+** platform check
 #+BEGIN_SRC emacs-lisp
 (defconst MACOS "macos")
 (defconst WSL "wsl")
@@ -460,3 +461,4 @@ lsp-ui-sideline is redundant with eldoc and much more invasive, so disable it by
 2. [[https://github.com/condy0919/emacs-newbie][condy0919/emacs-newbie]]
 3. [[https://github.com/condy0919/.emacs.d][condy0919/.emacs.d]]
 4. [[https://alhassy.github.io/init/][A Life Configuring Emacs]]
+5. [[https://huadeyu.tech/tools/emacs-setup-notes.html][极简Emacs开发环境配置]]
