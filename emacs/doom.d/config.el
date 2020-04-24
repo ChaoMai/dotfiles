@@ -200,7 +200,7 @@
   :after org
   :hook (org-mode . org-superstar-mode)
   :config
-  (setq org-hide-leading-stars nil
+  (setq org-hide-leading-stars t
         org-superstar-headline-bullets-list '("☰" "☱" "☲" "☳" "☴" "☵" "☶" "☷" "☷" "☷" "☷")))
 
 (use-package! org-download
@@ -220,6 +220,8 @@
       (expand-file-name filename dirname)))
 
   (setq org-download-method 'my-org-download-method))
+
+(use-package! ox-confluence)
 
 ;; (use-package! format
 ;;   (set-formatter! 'clang-format

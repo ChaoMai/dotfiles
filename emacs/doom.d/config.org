@@ -287,7 +287,7 @@ Record the time
   :after org
   :hook (org-mode . org-superstar-mode)
   :config
-  (setq org-hide-leading-stars nil
+  (setq org-hide-leading-stars t
         org-superstar-headline-bullets-list '("☰" "☱" "☲" "☳" "☴" "☵" "☶" "☷" "☷" "☷" "☷")))
 #+END_SRC
 
@@ -315,6 +315,11 @@ example: `aa-bb-cc.org' then save image test.png to `aa-bb-cc_media/test.png'.
       (expand-file-name filename dirname)))
 
   (setq org-download-method 'my-org-download-method))
+#+END_SRC
+
+** ox-confluence
+#+BEGIN_SRC emacs-lisp
+(use-package! ox-confluence)
 #+END_SRC
 
 * programming
