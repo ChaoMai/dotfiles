@@ -295,11 +295,14 @@
 (use-package! lsp-mode
   :defer t
   :config
-  (setq lsp-idle-delay 0.5                 ;; lazy refresh
+  (setq read-process-output-max (* 1024 1024))
+
+  (setq lsp-keymap-prefix "C-c l"
+        lsp-idle-delay 0.5                 ;; lazy refresh
         lsp-log-io nil                     ;; enable log only for debug
-        lsp-enable-folding nil
+        lsp-enable-folding nil             ;; use `evil-matchit' instead
         lsp-diagnostic-package :flycheck   ;; prefer flycheck
-        lsp-lens-auto-enable nil           ;; enable lens
+        lsp-lens-auto-enable nil           ;; disable lens
         lsp-flycheck-live-reporting nil    ;; obey `flycheck-check-syntax-automatically'
         lsp-prefer-capf t                  ;; using `company-capf' by default
         lsp-enable-snippet nil             ;; no snippet
@@ -310,10 +313,10 @@
         lsp-enable-on-type-formatting nil  ;; disable formatting on the fly
         lsp-auto-guess-root t              ;; auto guess root
         lsp-keep-workspace-alive nil       ;; auto kill lsp server
-        lsp-eldoc-enable-hover nil         ;; disable eldoc hover
+        lsp-enable-xref t
+        lsp-eldoc-enable-hover nil         ;; disable eldoc hover displays in minibuffer, lsp-ui-imenu shows it
         lsp-signature-auto-activate t      ;; show function signature
-        lsp-signature-doc-lines 2)         ;; but dont take up more lines
-  )
+        lsp-signature-doc-lines 2))        ;; but dont take up more lines
 
 (use-package! ccls
   :after lsp-mode
@@ -344,8 +347,23 @@
 (use-package! lsp-ui
   :after lsp-mode
   :config
-  (setq lsp-ui-sideline-enable nil
-        lsp-enable-symbol-highlighting nil))
+  (setq lsp-ui-doc-enable t
+        lsp-ui-doc-use-webkit nil
+        lsp-ui-doc-delay 0.2
+        lsp-ui-doc-include-signature t
+        lsp-ui-doc-position 'at-point
+        lsp-ui-doc-border (face-foreground 'default)
+
+        lsp-ui-sideline-enable t
+        lsp-ui-sideline-show-hover nil
+        lsp-ui-sideline-show-diagnostics nil
+        lsp-ui-sideline-ignore-duplicate t
+
+        lsp-ui-imenu-enable t
+        lsp-ui-imenu-colors `(,(face-foreground 'font-lock-keyword-face)
+                              ,(face-foreground 'font-lock-string-face)
+                              ,(face-foreground 'font-lock-constant-face)
+                              ,(face-foreground 'font-lock-variable-name-face))))
 
 (use-package! pinyin-search
   :defer t)
@@ -367,16 +385,16 @@
   (evilnc-default-hotkeys))
 
 (use-package! awesome-tab
-  :bind (("M-1" . awesome-tab-select-visible-tab)
-         ("M-2" . awesome-tab-select-visible-tab)
-         ("M-3" . awesome-tab-select-visible-tab)
-         ("M-4" . awesome-tab-select-visible-tab)
-         ("M-5" . awesome-tab-select-visible-tab)
-         ("M-6" . awesome-tab-select-visible-tab)
-         ("M-7" . awesome-tab-select-visible-tab)
-         ("M-8" . awesome-tab-select-visible-tab)
-         ("M-9" . awesome-tab-select-visible-tab)
-         ("M-0" . awesome-tab-select-visible-tab))
+  :bind (("S-1" . awesome-tab-select-visible-tab)
+         ("S-2" . awesome-tab-select-visible-tab)
+         ("S-3" . awesome-tab-select-visible-tab)
+         ("S-4" . awesome-tab-select-visible-tab)
+         ("S-5" . awesome-tab-select-visible-tab)
+         ("S-6" . awesome-tab-select-visible-tab)
+         ("S-7" . awesome-tab-select-visible-tab)
+         ("S-8" . awesome-tab-select-visible-tab)
+         ("S-9" . awesome-tab-select-visible-tab)
+         ("S-0" . awesome-tab-select-visible-tab))
   :config
   (awesome-tab-mode t)
   (setq awesome-tab-height 125))
