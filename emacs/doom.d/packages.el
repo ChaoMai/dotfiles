@@ -68,3 +68,5 @@
 ;;;;; other
 (package! pinyin-search)
 (package! pangu-spacing)
+(package! awesome-tab
+  :recipe (:host github :repo "manateelazycat/awesome-tab"))

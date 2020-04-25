@@ -68,7 +68,7 @@ if [[ $OSTYPE == "Darwin" ]]; then
     export SHELL=/bin/zsh
     export EDITOR=/usr/local/bin/vim
 
-    export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk-13.0.1.jdk/Contents/Home
+    export JAVA_HOME=/usr/local/opt/openjdk/libexec/openjdk.jdk/Contents/Home
 
     # export PATH=/usr/local/opt/protobuf@2.5/bin:$PATH
 

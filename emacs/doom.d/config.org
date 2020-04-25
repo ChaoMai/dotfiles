@@ -164,6 +164,7 @@ This determines the style of line numbers in effect.
 
 #+BEGIN_SRC emacs-lisp
 (use-package! ivy
+  :defer t
   :config
   (setq ivy-display-style 'fancy
         ivy-count-format "(%d/%d) "
@@ -176,9 +177,11 @@ This determines the style of line numbers in effect.
 ** basic
 #+BEGIN_SRC emacs-lisp
 (use-package! org
+  :defer t
+  :init
+  (setq org-directory "~/org/")
   :config
-  (setq org-directory "~/org/"
-        org-tags-column 0
+  (setq org-tags-column 0
         org-pretty-entities t
         org-startup-indented t
         org-image-actual-width nil
@@ -319,7 +322,8 @@ example: `aa-bb-cc.org' then save image test.png to `aa-bb-cc_media/test.png'.
 
 ** ox-confluence
 #+BEGIN_SRC emacs-lisp
-(use-package! ox-confluence)
+(use-package! ox-confluence
+  :after org)
 #+END_SRC
 
 * programming
@@ -332,8 +336,7 @@ example: `aa-bb-cc.org' then save image test.png to `aa-bb-cc_media/test.png'.
 ;;   (set-formatter! 'clang-format
 ;;     '("clang-format"
 ;;       "-style={BasedOnStyle: Google, SortIncludes: false}"
-;;       ("-assume-filename=%S" (or buffer-file-name mode-result "")))
-;;     ))
+;;       ("-assume-filename=%S" (or buffer-file-name mode-result "")))))
 
 ;; :modes
 ;; '((c-mode ".c")
@@ -350,6 +353,7 @@ example: `aa-bb-cc.org' then save image test.png to `aa-bb-cc_media/test.png'.
 ** company
 #+BEGIN_SRC emacs-lisp
 (use-package! company
+  :defer t
   :config
   (setq company-idle-delay 0
         company-echo-delay 0
@@ -373,6 +377,7 @@ example: `aa-bb-cc.org' then save image test.png to `aa-bb-cc_media/test.png'.
 *** basic
 #+BEGIN_SRC emacs-lisp
 (use-package! lsp-mode
+  :defer t
   :config
   (setq lsp-idle-delay 0.5                 ;; lazy refresh
         lsp-log-io nil                     ;; enable log only for debug
@@ -403,6 +408,7 @@ Using [[https://github.com/maskray/ccls/][ccls]] as language protocol server.
 
 #+BEGIN_SRC emacs-lisp
 (use-package! ccls
+  :after lsp-mode
   :config
   (setq ccls-sem-highlight-method 'font-lock)
   (add-hook 'lsp-after-open-hook #'ccls-code-lens-mode)
@@ -427,6 +433,7 @@ Using [[https://github.com/maskray/ccls/][ccls]] as language protocol server.
 *** cpp-font-lock
 #+BEGIN_SRC emacs-lisp
 (use-package! modern-cpp-font-lock
+  :after ccls
   :hook (c++-mode . modern-c++-font-lock-mode))
 #+END_SRC
 
@@ -435,6 +442,7 @@ lsp-ui-sideline is redundant with eldoc and much more invasive, so disable it by
 
 #+BEGIN_SRC emacs-lisp
 (use-package! lsp-ui
+  :after lsp-mode
   :config
   (setq lsp-ui-sideline-enable nil
         lsp-enable-symbol-highlighting nil))
@@ -443,22 +451,49 @@ lsp-ui-sideline is redundant with eldoc and much more invasive, so disable it by
 * other plugins
 ** pinyin-search
 #+BEGIN_SRC emacs-lisp
-(use-package! pinyin-search)
+(use-package! pinyin-search
+  :defer t)
 #+END_SRC
 
 ** pangu-spacing
 #+BEGIN_SRC emacs-lisp
 (use-package! pangu-spacing
+  :defer t
   :config
   (global-pangu-spacing-mode 1)
   (setq pangu-spacing-real-insert-separtor t))
 #+END_SRC
 
+** evil
+#+BEGIN_SRC emacs-lisp
+(use-package! evil
+  :bind (:map evil-normal-state-map
+          ("<backspace>" . evil-ex-nohighlight)))
+#+END_SRC
+
 ** evil-nerd-commenter
 #+BEGIN_SRC emacs-lisp
 (use-package! evil-nerd-commenter
+  :after evil
   :config
   (evilnc-default-hotkeys))
+#+END_SRC
+
+** awesome-tab
+#+BEGIN_SRC emacs-lisp
+(use-package! awesome-tab
+  :bind (("M-1" . awesome-tab-select-visible-tab)
+         ("M-2" . awesome-tab-select-visible-tab)
+         ("M-3" . awesome-tab-select-visible-tab)
+         ("M-4" . awesome-tab-select-visible-tab)
+         ("M-5" . awesome-tab-select-visible-tab)
+         ("M-6" . awesome-tab-select-visible-tab)
+         ("M-7" . awesome-tab-select-visible-tab)
+         ("M-8" . awesome-tab-select-visible-tab)
+         ("M-9" . awesome-tab-select-visible-tab)
+         ("M-0" . awesome-tab-select-visible-tab))
+  :config
+  (awesome-tab-mode t))
 #+END_SRC
 
 * references

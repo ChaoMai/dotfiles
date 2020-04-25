@@ -97,6 +97,7 @@
 ;; (setq display-line-numbers-type nil)
 
 (use-package! ivy
+  :defer t
   :config
   (setq ivy-display-style 'fancy
         ivy-count-format "(%d/%d) "
@@ -105,9 +106,11 @@
         ivy-re-builders-alist '((t . ivy--regex-fuzzy))))
 
 (use-package! org
+  :defer t
+  :init
+  (setq org-directory "~/org/")
   :config
-  (setq org-directory "~/org/"
-        org-tags-column 0
+  (setq org-tags-column 0
         org-pretty-entities t
         org-startup-indented t
         org-image-actual-width nil
@@ -221,14 +224,14 @@
 
   (setq org-download-method 'my-org-download-method))
 
-(use-package! ox-confluence)
+(use-package! ox-confluence
+  :after org)
 
 ;; (use-package! format
 ;;   (set-formatter! 'clang-format
 ;;     '("clang-format"
 ;;       "-style={BasedOnStyle: Google, SortIncludes: false}"
-;;       ("-assume-filename=%S" (or buffer-file-name mode-result "")))
-;;     ))
+;;       ("-assume-filename=%S" (or buffer-file-name mode-result "")))))
 
 ;; :modes
 ;; '((c-mode ".c")
@@ -242,6 +245,7 @@
 ;;    'black "black -q -" :modes '(python-mode)))
 
 (use-package! company
+  :defer t
   :config
   (setq company-idle-delay 0
         company-echo-delay 0
@@ -261,6 +265,7 @@
                            company-dabbrev)))
 
 (use-package! lsp-mode
+  :defer t
   :config
   (setq lsp-idle-delay 0.5                 ;; lazy refresh
         lsp-log-io nil                     ;; enable log only for debug
@@ -283,6 +288,7 @@
   )
 
 (use-package! ccls
+  :after lsp-mode
   :config
   (setq ccls-sem-highlight-method 'font-lock)
   (add-hook 'lsp-after-open-hook #'ccls-code-lens-mode)
@@ -304,20 +310,43 @@
   (evil-set-initial-state 'ccls-tree-mode 'emacs))
 
 (use-package! modern-cpp-font-lock
+  :after ccls
   :hook (c++-mode . modern-c++-font-lock-mode))
 
 (use-package! lsp-ui
+  :after lsp-mode
   :config
   (setq lsp-ui-sideline-enable nil
         lsp-enable-symbol-highlighting nil))
 
-(use-package! pinyin-search)
+(use-package! pinyin-search
+  :defer t)
 
 (use-package! pangu-spacing
+  :defer t
   :config
   (global-pangu-spacing-mode 1)
   (setq pangu-spacing-real-insert-separtor t))
 
+(use-package! evil
+  :bind (:map evil-normal-state-map
+          ("<backspace>" . evil-ex-nohighlight)))
+
 (use-package! evil-nerd-commenter
+  :after evil
   :config
   (evilnc-default-hotkeys))
+
+(use-package! awesome-tab
+  :bind (("M-1" . awesome-tab-select-visible-tab)
+         ("M-2" . awesome-tab-select-visible-tab)
+         ("M-3" . awesome-tab-select-visible-tab)
+         ("M-4" . awesome-tab-select-visible-tab)
+         ("M-5" . awesome-tab-select-visible-tab)
+         ("M-6" . awesome-tab-select-visible-tab)
+         ("M-7" . awesome-tab-select-visible-tab)
+         ("M-8" . awesome-tab-select-visible-tab)
+         ("M-9" . awesome-tab-select-visible-tab)
+         ("M-0" . awesome-tab-select-visible-tab))
+  :config
+  (awesome-tab-mode t))
