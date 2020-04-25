@@ -395,7 +395,7 @@ example: `aa-bb-cc.org' then save image test.png to `aa-bb-cc_media/test.png'.
         ;; Easy navigation to candidates with M-<n>
         company-show-numbers t
         company-require-match nil
-        company-minimum-prefix-length 3
+        company-minimum-prefix-length 1
         company-tooltip-align-annotations t
         ;; complete `abbrev' only in current buffer
         company-dabbrev-other-buffers nil
@@ -435,7 +435,7 @@ example: `aa-bb-cc.org' then save image test.png to `aa-bb-cc_media/test.png'.
         lsp-auto-guess-root t              ;; auto guess root
         lsp-keep-workspace-alive nil       ;; auto kill lsp server
         lsp-enable-xref t
-        lsp-eldoc-enable-hover nil         ;; disable eldoc hover displays in minibuffer, lsp-ui-imenu shows it
+        lsp-eldoc-enable-hover nil         ;; disable eldoc hover displays in minibuffer, lsp-ui shows it
         lsp-signature-auto-activate t      ;; show function signature
         lsp-signature-doc-lines 2))        ;; but dont take up more lines
 #+END_SRC
