@@ -79,13 +79,15 @@
 
 (cond
  ((string-equal platform MACOS)
-  (setq doom-font (font-spec :family "Fira Code" :size 13 :weight 'regular)))
+  (setq doom-font (font-spec :family "Fira Code" :size 13 :weight 'regular))
+  (setq doom-variable-pitch-font (font-spec :family "Sarasa Mono SC" :size 13 :weight 'regular)))
 
  ((string-equal platform LINUX)
   (message "no implemented"))
 
  ((string-equal platform WSL)
-  (setq doom-font (font-spec :family "Fira Code" :size 18 :weight 'regular))))
+  (setq doom-font (font-spec :family "Fira Code" :size 18 :weight 'regular)))
+  (setq doom-variable-pitch-font (font-spec :family "Sarasa Mono SC" :size 18 :weight 'regular)))
 
 (setq fancy-splash-image (concat doom-private-dir "doom.jpg"))
 
@@ -145,6 +147,7 @@
         org-pretty-entities t
         org-startup-indented t
         org-image-actual-width nil
+        org-hide-leading-stars t
         org-hide-emphasis-markers t
         org-fontify-done-headline t
         org-fontify-whole-heading-line t
@@ -231,8 +234,7 @@
   :after org
   :hook (org-mode . org-superstar-mode)
   :config
-  (setq org-hide-leading-stars t
-        org-superstar-headline-bullets-list '("☰" "☱" "☲" "☳" "☴" "☵" "☶" "☷" "☷" "☷" "☷")))
+  (setq org-superstar-headline-bullets-list '("☰" "☱" "☲" "☳" "☴" "☵" "☶" "☷" "☷" "☷" "☷")))
 
 (use-package! org-download
   :after org

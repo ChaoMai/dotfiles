@@ -122,13 +122,15 @@ They all accept either a font-spec, font string ("Input Mono-12"), or xlfd font 
 #+BEGIN_SRC emacs-lisp
 (cond
  ((string-equal platform MACOS)
-  (setq doom-font (font-spec :family "Fira Code" :size 13 :weight 'regular)))
+  (setq doom-font (font-spec :family "Fira Code" :size 13 :weight 'regular))
+  (setq doom-variable-pitch-font (font-spec :family "Sarasa Mono SC" :size 13 :weight 'regular)))
 
  ((string-equal platform LINUX)
   (message "no implemented"))
 
  ((string-equal platform WSL)
-  (setq doom-font (font-spec :family "Fira Code" :size 18 :weight 'regular))))
+  (setq doom-font (font-spec :family "Fira Code" :size 18 :weight 'regular)))
+  (setq doom-variable-pitch-font (font-spec :family "Sarasa Mono SC" :size 18 :weight 'regular)))
 #+END_SRC
 
 ** splash-image
@@ -223,6 +225,7 @@ This determines the style of line numbers in effect.
         org-pretty-entities t
         org-startup-indented t
         org-image-actual-width nil
+        org-hide-leading-stars t
         org-hide-emphasis-markers t
         org-fontify-done-headline t
         org-fontify-whole-heading-line t
@@ -325,8 +328,7 @@ Record the time
   :after org
   :hook (org-mode . org-superstar-mode)
   :config
-  (setq org-hide-leading-stars t
-        org-superstar-headline-bullets-list '("☰" "☱" "☲" "☳" "☴" "☵" "☶" "☷" "☷" "☷" "☷")))
+  (setq org-superstar-headline-bullets-list '("☰" "☱" "☲" "☳" "☴" "☵" "☶" "☷" "☷" "☷" "☷")))
 #+END_SRC
 
 ** org-download
