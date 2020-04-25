@@ -62,15 +62,18 @@
 
 (setq-default history-length 1000)
 
-(setq projectile-require-project-root t)
-(setq projectile-project-root-files '(".ccls-root" ".idea" "go.mod" ".bzr" "_darcs"
-                                      "build.xml" ".project" ".root" ".svn" ".git"
-                                      "index.org"))
-
-(setq projectile-project-root-files-functions '(projectile-root-top-down
-                                                projectile-root-top-down-recurring
-                                                projectile-root-bottom-up
-                                                projectile-root-local))
+(use-package! projectile
+  :config
+  (setq projectile-require-project-root t
+        projectile-completion-system 'ivy
+        projectile-indexing-method 'hybrid
+        projectile-project-root-files '(".ccls-root" ".idea" "go.mod" ".bzr" "_darcs"
+                                        "build.xml" ".project" ".root" ".svn" ".git"
+                                        "index.org" ".projectile")
+        projectile-project-root-files-functions '(projectile-root-top-down
+                                                  projectile-root-top-down-recurring
+                                                  projectile-root-bottom-up
+                                                  projectile-root-local)))
 
 (add-to-list 'default-frame-alist '(inhibit-double-buffering . t))
 
@@ -103,14 +106,42 @@
         ivy-count-format "(%d/%d) "
         ivy-use-virtual-buffers t
         ivy-on-del-error-function 'ignore
-        ivy-re-builders-alist '((t . ivy--regex-fuzzy))))
+        ivy-re-builders-alist '((swiper . ivy--regex-plus)
+                                (t . ivy--regex-fuzzy))))
+
+(use-package! counsel
+  :defer t
+  :hook (ivy-mode . counsel-mode)
+  :bind (([remap evil-ex-registers]  . counsel-evil-registers)
+         ([remap evil-show-mark]     . counsel-mark-ring)
+         ([remap recentf-open-files] . counsel-recentf)
+         ([remap swiper]             . counsel-grep-or-swiper)
+         ("M-p" . counsel-projectile-find-file)
+         ("M-n" . counsel-projectile-rg)))
+
+(use-package! swiper
+  :defer t
+  :config
+  (setq swiper-action-recenter t))
+
+(cond
+ ((string-equal platform MACOS)
+  (defvar org_dir "~/Documents/onedrive/Documents/workspace/chaomai.org/"))
+
+ ((string-equal platform LINUX)
+  (message "no implemented"))
+
+ ((string-equal platform WSL)
+  (defvar org_dir "/mnt/d/maichao/Documents/onedrive/Documents/workspace/chaomai.org/")))
 
 (use-package! org
   :defer t
   :init
-  (setq org-directory "~/org/")
+  (setq org-directory org_dir)
   :config
-  (setq org-tags-column 0
+  (setq org-agenda-files (list (concat org_dir "work/project.org")
+                               (concat org_dir "home/project.org"))
+        org-tags-column 0
         org-pretty-entities t
         org-startup-indented t
         org-image-actual-width nil
@@ -171,9 +202,6 @@
 ;; Write codes in org-mode
 (use-package! org-src
   :after org
-  :bind (:map org-src-mode-map
-          ;; consistent with separedit/magit
-          ("C-c C-c" . org-edit-src-exit))
   :config
   (setq org-src-fontify-natively t
         org-src-tab-acts-natively t
@@ -269,9 +297,9 @@
   :config
   (setq lsp-idle-delay 0.5                 ;; lazy refresh
         lsp-log-io nil                     ;; enable log only for debug
-        ;; lsp-enable-folding nil             ;; use `evil-matchit' instead
+        lsp-enable-folding nil
         lsp-diagnostic-package :flycheck   ;; prefer flycheck
-        lsp-lens-auto-enable t             ;; enable lens
+        lsp-lens-auto-enable nil           ;; enable lens
         lsp-flycheck-live-reporting nil    ;; obey `flycheck-check-syntax-automatically'
         lsp-prefer-capf t                  ;; using `company-capf' by default
         lsp-enable-snippet nil             ;; no snippet
@@ -330,7 +358,8 @@
 
 (use-package! evil
   :bind (:map evil-normal-state-map
-          ("<backspace>" . evil-ex-nohighlight)))
+          ("<backspace>" . evil-ex-nohighlight)
+          ("/" . swiper)))
 
 (use-package! evil-nerd-commenter
   :after evil
@@ -349,4 +378,5 @@
          ("M-9" . awesome-tab-select-visible-tab)
          ("M-0" . awesome-tab-select-visible-tab))
   :config
-  (awesome-tab-mode t))
+  (awesome-tab-mode t)
+  (setq awesome-tab-height 125))
