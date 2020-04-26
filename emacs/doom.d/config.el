@@ -134,7 +134,7 @@
   (message "no implemented"))
 
  ((string-equal platform WSL)
-  (defvar org_dir "/mnt/d/maichao/Documents/onedrive/Documents/workspace/chaomai.org/")))
+  (defvar org_dir "/mnt/d/maichao/OneDrive/Documents/workspace/chaomai.org/")))
 
 (use-package! org
   :defer t
