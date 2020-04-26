@@ -184,6 +184,10 @@ elif [[ $OSTYPE == "Linux" ]]; then
         export DISPLAY=$WSL2_LOCAL_IP:0
         export LIBGL_ALWAYS_INDIRECT=1
 
+        export GTK_IM_MODULE=fcitx
+        export QT_IM_MODULE=fcitx
+        export XMODIFIERS=@im=fcitx
+
         # overwrite previous proxy alias
         alias ssproxy="export http_proxy=http://$WSL2_LOCAL_IP:1081 https_proxy=http://$WSL2_LOCAL_IP:1081"
         alias unproxy="unset http_proxy https_proxy"

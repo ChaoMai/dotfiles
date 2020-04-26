@@ -66,6 +66,9 @@
 (package! modern-cpp-font-lock)
 
 ;;;;; other
+(package! pyim
+  :recipe (:host github :repo "tumashu/pyim"))
+(package! pyim-basedict)
 (package! pinyin-search)
 (package! pangu-spacing)
 (package! awesome-tab
