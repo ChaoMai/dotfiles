@@ -56,6 +56,10 @@
 
 ;;;;; evil
 (package! evil-nerd-commenter)
+(package! evil-matchit)
+
+;;;;; edit
+(package! separedit)
 
 ;;;;; org-mode
 (package! org-superstar)
@@ -65,11 +69,15 @@
 (package! lsp-mode)
 (package! modern-cpp-font-lock)
 
-;;;;; other
+;;;;; pinyin
+
 (package! pyim
   :recipe (:host github :repo "tumashu/pyim"))
 (package! pyim-basedict)
-(package! pinyin-search)
 (package! pangu-spacing)
+
+;;;;; other
 (package! awesome-tab
   :recipe (:host github :repo "manateelazycat/awesome-tab"))
+(package! posframe)
+(package! flycheck-posframe)

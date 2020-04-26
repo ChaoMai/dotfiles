@@ -94,8 +94,8 @@
 (setq doom-theme 'doom-one)
 
 ;; (setq doom-theme 'spacemacs-dark
-;;       spacemacs-theme-comment-bg nil
-;;       spacemacs-theme-comment-italic t)
+      ;; spacemacs-theme-comment-bg nil
+      ;; spacemacs-theme-comment-italic t)
 
 (setq-default line-spacing 5)
 
@@ -114,10 +114,8 @@
           (case-fold-search nil))
       (if (listp x)
           (mapcar (lambda (y)
-                    (if (cdr y)
-                        y
-                      (list (pyim-cregexp-build-1 (car y))))
-                    x))
+                    (if (cdr y) y
+                      (list (pyim-cregexp-build-1 (car y)))) x))
         (pyim-cregexp-build x))))
 
   (setq ivy-re-builders-alist '((counsel-rg . ivy--regex-plus)
@@ -286,6 +284,21 @@
 (use-package! ox-confluence
   :after org)
 
+(use-package! evil
+  :bind (:map evil-normal-state-map
+          ("<backspace>" . evil-ex-nohighlight)
+          ("/" . swiper)))
+
+(use-package! evil-nerd-commenter
+  :after evil
+  :config
+  (evilnc-default-hotkeys))
+
+(use-package! evil-matchit
+  :after evil
+  :config
+  (global-evil-matchit-mode 1))
+
 ;; (use-package! format
 ;;   (set-formatter! 'clang-format
 ;;     '("clang-format"
@@ -349,6 +362,27 @@
         lsp-signature-auto-activate t      ;; show function signature
         lsp-signature-doc-lines 2))        ;; but dont take up more lines
 
+(use-package! lsp-ui
+  :after lsp-mode
+  :config
+  (setq lsp-ui-doc-enable t
+        lsp-ui-doc-use-webkit nil
+        lsp-ui-doc-delay 0.2
+        lsp-ui-doc-include-signature t
+        lsp-ui-doc-position 'at-point
+        lsp-ui-doc-border (face-foreground 'default)
+
+        lsp-ui-sideline-enable t
+        lsp-ui-sideline-show-hover nil
+        lsp-ui-sideline-show-diagnostics nil
+        lsp-ui-sideline-ignore-duplicate t
+
+        lsp-ui-imenu-enable t
+        lsp-ui-imenu-colors `(,(face-foreground 'font-lock-keyword-face)
+                              ,(face-foreground 'font-lock-string-face)
+                              ,(face-foreground 'font-lock-constant-face)
+                              ,(face-foreground 'font-lock-variable-name-face))))
+
 (use-package! ccls
   :after lsp-mode
   :config
@@ -375,102 +409,71 @@
   :after ccls
   :hook (c++-mode . modern-c++-font-lock-mode))
 
-(use-package! lsp-ui
-  :after lsp-mode
-  :config
-  (setq lsp-ui-doc-enable t
-        lsp-ui-doc-use-webkit nil
-        lsp-ui-doc-delay 0.2
-        lsp-ui-doc-include-signature t
-        lsp-ui-doc-position 'at-point
-        lsp-ui-doc-border (face-foreground 'default)
-
-        lsp-ui-sideline-enable t
-        lsp-ui-sideline-show-hover nil
-        lsp-ui-sideline-show-diagnostics nil
-        lsp-ui-sideline-ignore-duplicate t
-
-        lsp-ui-imenu-enable t
-        lsp-ui-imenu-colors `(,(face-foreground 'font-lock-keyword-face)
-                              ,(face-foreground 'font-lock-string-face)
-                              ,(face-foreground 'font-lock-constant-face)
-                              ,(face-foreground 'font-lock-variable-name-face))))
-
-;; (use-package! pinyin-search
-;;   :defer t)
-
 (use-package! pyim
   :demand t
   :config
-  (use-package! pyim-basedict
-    :config (pyim-basedict-enable)))
-;;   :demand t
-;;   :config
-;;   ;; 激活 basedict 拼音词库
-;;   (use-package! pyim-basedict
-;;     :config (pyim-basedict-enable))
+  ;; 激活 basedict 拼音词库，五笔用户请继续阅读 README
+  (use-package pyim-basedict
+    :ensure nil
+    :config (pyim-basedict-enable))
 
-;;   ;; (setq default-input-method "pyim")
+  ;; (setq default-input-method "pyim")
 
-;;   ;; 我使用全拼
-;;   (setq pyim-default-scheme 'quanpin)
+  ;; 我使用全拼
+  (setq pyim-default-scheme 'quanpin)
 
-;;   ;; 设置 pyim 探针设置，这是 pyim 高级功能设置，可以实现 *无痛* 中英文切换 :-)
-;;   ;; 我自己使用的中英文动态切换规则是：
-;;   ;; 1. 光标只有在注释里面时，才可以输入中文。
-;;   ;; 2. 光标前是汉字字符时，才能输入中文。
-;;   ;; 3. 使用 M-j 快捷键，强制将光标前的拼音字符串转换为中文。
-;;   (setq-default pyim-english-input-switch-functions
-;;                 '(pyim-probe-dynamic-english
-;;                   pyim-probe-isearch-mode
-;;                   pyim-probe-program-mode
-;;                   pyim-probe-org-structure-template))
+  ;; 设置 pyim 探针设置，这是 pyim 高级功能设置，可以实现 *无痛* 中英文切换 :-)
+  ;; 我自己使用的中英文动态切换规则是：
+  ;; 1. 光标只有在注释里面时，才可以输入中文。
+  ;; 2. 光标前是汉字字符时，才能输入中文。
+  ;; 3. 使用 M-j 快捷键，强制将光标前的拼音字符串转换为中文。
+  (setq-default pyim-english-input-switch-functions
+                '(pyim-probe-dynamic-english
+                  pyim-probe-isearch-mode
+                  pyim-probe-program-mode
+                  pyim-probe-org-structure-template))
 
-;;   (setq-default pyim-punctuation-half-width-functions
-;;                 '(pyim-probe-punctuation-line-beginning
-;;                   pyim-probe-punctuation-after-punctuation))
+  (setq-default pyim-punctuation-half-width-functions
+                '(pyim-probe-punctuation-line-beginning
+                  pyim-probe-punctuation-after-punctuation))
 
-;;   ;; 开启拼音搜索功能
-;;   (pyim-isearch-mode 1)
+  ;; 开启拼音搜索功能
+  ;; (pyim-isearch-mode 1)
 
-;;   ;; 使用 popup-el 来绘制选词框, 如果用 emacs26, 建议设置
-;;   ;; 为 'posframe, 速度很快并且菜单不会变形，不过需要用户
-;;   ;; 手动安装 posframe 包。
-;;   (setq pyim-page-tooltip 'popup)
+  ;; 使用 popup-el 来绘制选词框, 如果用 emacs26, 建议设置
+  ;; 为 'posframe, 速度很快并且菜单不会变形，不过需要用户
+  ;; 手动安装 posframe 包。
+  (setq pyim-page-tooltip 'posframe)
 
-;;   ;; 选词框显示5个候选词
-;;   (setq pyim-page-length 5)
+  ;; 选词框显示5个候选词
+  (setq pyim-page-length 5)
 
-;;   :bind
-;;   (("C-;" . pyim-convert-string-at-point) ;与 pyim-probe-dynamic-english 配合
-;;    ("C-<f1>" . pyim-delete-word-from-personal-buffer)))
+  :bind
+  (("C-;" . pyim-convert-string-at-point) ;与 pyim-probe-dynamic-english 配合
+   ("C-<f1>" . pyim-delete-word-from-personal-buffer)))
 
 (use-package! pangu-spacing
   :config
   (global-pangu-spacing-mode 1)
   (setq pangu-spacing-real-insert-separtor t))
 
-(use-package! evil
-  :bind (:map evil-normal-state-map
-          ("<backspace>" . evil-ex-nohighlight)
-          ("/" . swiper)))
-
-(use-package! evil-nerd-commenter
-  :after evil
-  :config
-  (evilnc-default-hotkeys))
-
 (use-package! awesome-tab
-  :bind (("S-1" . awesome-tab-select-visible-tab)
-         ("S-2" . awesome-tab-select-visible-tab)
-         ("S-3" . awesome-tab-select-visible-tab)
-         ("S-4" . awesome-tab-select-visible-tab)
-         ("S-5" . awesome-tab-select-visible-tab)
-         ("S-6" . awesome-tab-select-visible-tab)
-         ("S-7" . awesome-tab-select-visible-tab)
-         ("S-8" . awesome-tab-select-visible-tab)
-         ("S-9" . awesome-tab-select-visible-tab)
-         ("S-0" . awesome-tab-select-visible-tab))
+  :bind (("M-1" . awesome-tab-select-visible-tab)
+         ("M-2" . awesome-tab-select-visible-tab)
+         ("M-3" . awesome-tab-select-visible-tab)
+         ("M-4" . awesome-tab-select-visible-tab)
+         ("M-5" . awesome-tab-select-visible-tab)
+         ("M-6" . awesome-tab-select-visible-tab)
+         ("M-7" . awesome-tab-select-visible-tab)
+         ("M-8" . awesome-tab-select-visible-tab)
+         ("M-9" . awesome-tab-select-visible-tab)
+         ("M-0" . awesome-tab-select-visible-tab))
   :config
   (awesome-tab-mode t)
   (setq awesome-tab-height 125))
+
+(use-package! posframe)
+
+(use-package! flycheck-posframe
+  :after flycheck
+  :config (add-hook 'flycheck-mode-hook #'flycheck-posframe-mode))
