@@ -101,6 +101,20 @@ Project root is same with vim's configuration.
                                                   projectile-root-local)))
 #+END_SRC
 
+** wsl open
+[[https://www.reddit.com/r/bashonubuntuonwindows/comments/70i8aa/making_emacs_on_wsl_open_links_in_windows_web/][Making Emacs on WSL open links in Windows web browser]]
+
+#+BEGIN_SRC emacs-lisp
+(cond
+ ((string-equal platform WSL)
+  (let ((cmd-exe "/mnt/c/Windows/System32/cmd.exe")
+        (cmd-args '("/c" "start")))
+    (when (file-exists-p cmd-exe)
+      (setq browse-url-generic-program  cmd-exe
+            browse-url-generic-args     cmd-args
+            browse-url-browser-function 'browse-url-generic)))))
+#+END_SRC
+
 * ui
 ** basic
 Prevents some cases of Emacs flickering.
@@ -188,7 +202,7 @@ This determines the style of line numbers in effect.
                       (list (pyim-cregexp-build-1 (car y)))) x))
         (pyim-cregexp-build x))))
 
-  (setq ivy-re-builders-alist '((counsel-rg . ivy--regex-plus)
+  (setq ivy-re-builders-alist '((counsel-rg . eh-ivy-cregexp)
                                 (counsel-recentf . eh-ivy-cregexp)
                                 (counsel-projectile-rg . ivy--regex-plus)
                                 (counsel-projectile-find-file . eh-ivy-cregexp)

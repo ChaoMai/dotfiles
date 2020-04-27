@@ -75,6 +75,15 @@
                                                   projectile-root-bottom-up
                                                   projectile-root-local)))
 
+(cond
+ ((string-equal platform WSL)
+  (let ((cmd-exe "/mnt/c/Windows/System32/cmd.exe")
+        (cmd-args '("/c" "start")))
+    (when (file-exists-p cmd-exe)
+      (setq browse-url-generic-program  cmd-exe
+            browse-url-generic-args     cmd-args
+            browse-url-browser-function 'browse-url-generic)))))
+
 (add-to-list 'default-frame-alist '(inhibit-double-buffering . t))
 
 (cond
@@ -118,7 +127,7 @@
                       (list (pyim-cregexp-build-1 (car y)))) x))
         (pyim-cregexp-build x))))
 
-  (setq ivy-re-builders-alist '((counsel-rg . ivy--regex-plus)
+  (setq ivy-re-builders-alist '((counsel-rg . eh-ivy-cregexp)
                                 (counsel-recentf . eh-ivy-cregexp)
                                 (counsel-projectile-rg . ivy--regex-plus)
                                 (counsel-projectile-find-file . eh-ivy-cregexp)
