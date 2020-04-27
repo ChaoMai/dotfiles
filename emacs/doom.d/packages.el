@@ -60,14 +60,16 @@
 
 ;;;;; edit
 (package! separedit)
+(package! expand-region)
 
 ;;;;; org-mode
 (package! org-superstar)
 (package! org-download)
 
-;;;;; lsp
+;;;;; dev
 (package! lsp-mode)
 (package! modern-cpp-font-lock)
+(package! conda)
 
 ;;;;; pinyin
 (package! pyim

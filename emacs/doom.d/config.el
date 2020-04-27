@@ -291,6 +291,7 @@
   :after org)
 
 (use-package! evil
+  :defer t
   :bind (:map evil-normal-state-map
           ("<backspace>" . evil-ex-nohighlight)
           ("/" . swiper)))
@@ -304,6 +305,24 @@
   :after evil
   :config
   (global-evil-matchit-mode 1))
+
+(cond
+ ((string-equal platform MACOS)
+  (defvar conda_home "/usr/local/Caskroom/miniconda/base/")
+  (defvar conda_env_home "/usr/local/Caskroom/miniconda/base/"))
+
+ ((string-equal platform LINUX)
+  (message "no implemented"))
+
+ ((string-equal platform WSL)
+  (message "no implemented")))
+
+(use-package! conda
+  :defer t
+  :config
+  (setq conda-anaconda-home conda_home)
+  (setq conda-env-home-directory conda_env_home)
+  (setq-default mode-line-format (cons '(:exec conda-env-current-name) mode-line-format)))
 
 ;; (use-package! format
 ;;   (set-formatter! 'clang-format
@@ -366,22 +385,27 @@
         lsp-enable-xref t
         lsp-eldoc-enable-hover nil         ;; disable eldoc hover displays in minibuffer, lsp-ui shows it
         lsp-signature-auto-activate t      ;; show function signature
-        lsp-signature-doc-lines 2))        ;; but dont take up more lines
+        lsp-signature-doc-lines 2)         ;; but dont take up more lines
+  (add-to-list 'exec-path (concat conda_home "envs/common_dev_python3.8/bin/")))
 
 (use-package! lsp-ui
   :after lsp-mode
   :config
-  (setq lsp-ui-doc-enable t
-        lsp-ui-doc-use-webkit nil
-        lsp-ui-doc-delay 0.2
-        lsp-ui-doc-include-signature t
-        lsp-ui-doc-position 'at-point
-        lsp-ui-doc-border (face-foreground 'default)
-
-        lsp-ui-sideline-enable t
+  (setq lsp-ui-sideline-enable t
         lsp-ui-sideline-show-hover nil
         lsp-ui-sideline-show-diagnostics nil
         lsp-ui-sideline-ignore-duplicate t
+        lsp-ui-sideline-delay 0.2
+
+        lsp-ui-peek-enable t
+        lsp-ui-peek-fontify 'always
+
+        lsp-ui-doc-enable t
+        lsp-ui-doc-use-webkit nil
+        lsp-ui-doc-delay 0.2
+        lsp-ui-doc-include-signature t
+        lsp-ui-doc-position 'top
+        lsp-ui-doc-border (face-foreground 'default)
 
         lsp-ui-imenu-enable t
         lsp-ui-imenu-colors `(,(face-foreground 'font-lock-keyword-face)
@@ -396,7 +420,7 @@
   (add-hook 'lsp-after-open-hook #'ccls-code-lens-mode)
   (ccls-use-default-rainbow-sem-highlight)
 
-  (setq ccls-executable "~/Documents/workspace/github/ccls/Release/ccls"
+  (setq ccls-executable "~/Documents/workspace/github/ccls/Release/ccls/"
         ccls-args '("--log-file=/tmp/ccls-emacs.log")
         ccls-initialization-options `(:capabilities (:foldingRangeProvider :json-false)
                                                     :cache (:directory ".ccls-cache")
@@ -464,12 +488,13 @@
   (pyim-greatdict-enable))
 
 (use-package! pangu-spacing
-  :demand t
+  :defer t
   :config
   (global-pangu-spacing-mode 1)
   (setq pangu-spacing-real-insert-separtor t))
 
 (use-package! awesome-tab
+  :defer t
   :bind (("M-1" . awesome-tab-select-visible-tab)
          ("M-2" . awesome-tab-select-visible-tab)
          ("M-3" . awesome-tab-select-visible-tab)
@@ -490,3 +515,8 @@
 (use-package! flycheck-posframe
   :after flycheck
   :config (add-hook 'flycheck-mode-hook #'flycheck-posframe-mode))
+
+(use-package! expand-region
+  :defer t
+  :bind
+  (("M-=" . er/expand-region)))
