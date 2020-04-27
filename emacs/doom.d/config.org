@@ -606,6 +606,14 @@ Using [[https://github.com/maskray/ccls/][ccls]] as language protocol server.
    ("C-<f1>" . pyim-delete-word-from-personal-buffer)))
 #+END_SRC
 
+*** pyim-greatdict
+#+BEGIN_SRC emacs-lisp
+(use-package! pyim-greatdict
+  :after pyim
+  :config
+  (pyim-greatdict-enable))
+#+END_SRC
+
 ** pangu-spacing
 #+BEGIN_SRC emacs-lisp
 (use-package! pangu-spacing

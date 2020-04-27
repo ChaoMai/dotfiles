@@ -70,10 +70,11 @@
 (package! modern-cpp-font-lock)
 
 ;;;;; pinyin
-
 (package! pyim
   :recipe (:host github :repo "tumashu/pyim"))
 (package! pyim-basedict)
+(package! pyim-greatdict
+  :recipe (:host github :repo "tumashu/pyim-greatdict"))
 (package! pangu-spacing)
 
 ;;;;; other

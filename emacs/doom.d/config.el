@@ -452,6 +452,11 @@
   (("C-;" . pyim-convert-string-at-point) ;与 pyim-probe-dynamic-english 配合
    ("C-<f1>" . pyim-delete-word-from-personal-buffer)))
 
+(use-package! pyim-greatdict
+  :after pyim
+  :config
+  (pyim-greatdict-enable))
+
 (use-package! pangu-spacing
   :config
   (global-pangu-spacing-mode 1)
