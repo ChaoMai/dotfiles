@@ -180,7 +180,8 @@
         ;; org-ellipsis " -> "
         ;; gdt task status
         org-todo-keywords '((sequence "TODO(t)" "INPROGRESS(i!)" "WAITTING(w!)" "SOMEDAY(s!)" "|" "DONE(d@/!)" "CANCELLED(a@/!)")
-                            (sequence "REPORT(r!)" "BUG(b!)" "KNOWNCAUSE(k!)" "|" "FIXED(f!)"))
+                            (sequence "REPORT(r!)" "BUG(b!)" "KNOWNCAUSE(k!)" "|" "FIXED(f!)")
+                            (sequence "PINNED(p)" "|" "DONE(f@/!)"))
         ;; log
         org-log-done 'time
         org-log-repeat 'time
@@ -315,7 +316,8 @@
   (message "no implemented"))
 
  ((string-equal platform WSL)
-  (message "no implemented")))
+  (defvar conda_home "/home/chaomai/Programs/opt/miniconda3/")
+  (defvar conda_env_home "/home/chaomai/Programs/opt/miniconda3/")))
 
 (use-package! conda
   :defer t
@@ -488,7 +490,7 @@
   (pyim-greatdict-enable))
 
 (use-package! pangu-spacing
-  :defer t
+  :demand t
   :config
   (global-pangu-spacing-mode 1)
   (setq pangu-spacing-real-insert-separtor t))

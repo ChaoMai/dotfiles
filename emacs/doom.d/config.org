@@ -265,7 +265,8 @@ This determines the style of line numbers in effect.
         ;; org-ellipsis " -> "
         ;; gdt task status
         org-todo-keywords '((sequence "TODO(t)" "INPROGRESS(i!)" "WAITTING(w!)" "SOMEDAY(s!)" "|" "DONE(d@/!)" "CANCELLED(a@/!)")
-                            (sequence "REPORT(r!)" "BUG(b!)" "KNOWNCAUSE(k!)" "|" "FIXED(f!)"))
+                            (sequence "REPORT(r!)" "BUG(b!)" "KNOWNCAUSE(k!)" "|" "FIXED(f!)")
+                            (sequence "PINNED(p)" "|" "DONE(f@/!)"))
         ;; log
         org-log-done 'time
         org-log-repeat 'time
@@ -443,7 +444,8 @@ example: `aa-bb-cc.org' then save image test.png to `aa-bb-cc_media/test.png'.
   (message "no implemented"))
 
  ((string-equal platform WSL)
-  (message "no implemented")))
+  (defvar conda_home "/home/chaomai/Programs/opt/miniconda3/")
+  (defvar conda_env_home "/home/chaomai/Programs/opt/miniconda3/")))
 
 (use-package! conda
   :defer t
@@ -654,7 +656,7 @@ Using [[https://github.com/maskray/ccls/][ccls]] as language protocol server.
 ** pangu-spacing
 #+BEGIN_SRC emacs-lisp
 (use-package! pangu-spacing
-  :defer t
+  :demand t
   :config
   (global-pangu-spacing-mode 1)
   (setq pangu-spacing-real-insert-separtor t))
