@@ -102,10 +102,6 @@
 
 (setq doom-theme 'doom-one)
 
-;; (setq doom-theme 'spacemacs-dark
-      ;; spacemacs-theme-comment-bg nil
-      ;; spacemacs-theme-comment-italic t)
-
 (setq-default line-spacing 5)
 
 ;; (setq display-line-numbers-type nil)

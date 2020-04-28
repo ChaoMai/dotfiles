@@ -158,10 +158,6 @@ There are two ways to load a theme. Both assume the theme is installed and avail
 
 #+BEGIN_SRC emacs-lisp
 (setq doom-theme 'doom-one)
-
-;; (setq doom-theme 'spacemacs-dark
-      ;; spacemacs-theme-comment-bg nil
-      ;; spacemacs-theme-comment-italic t)
 #+END_SRC
 
 ** line spacing
