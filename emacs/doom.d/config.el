@@ -119,9 +119,14 @@
           (case-fold-search nil))
       (if (listp x)
           (mapcar (lambda (y)
-                    (if (cdr y) y
-                      (list (pyim-cregexp-build-1 (car y)))) x))
-        (pyim-cregexp-build-1 x))))
+                    (if (cdr y)
+                        (list (if (equal (car y) "")
+                                  ""
+                                (pyim-cregexp-build (car y)))
+                              (cdr y))
+                      (list (pyim-cregexp-build (car y)))))
+                  x)
+        (pyim-cregexp-build x))))
 
   (setq ivy-re-builders-alist '((counsel-projectile-rg . ivy--regex-plus)
                                 (swiper . ivy--regex-plus)
@@ -289,6 +294,8 @@
 
 (use-package! evil
   :defer t
+  :config
+  (setq evil-want-fine-undo t)
   :bind (:map evil-normal-state-map
           ("<backspace>" . evil-ex-nohighlight)
           ("/" . swiper)))
@@ -322,22 +329,22 @@
   (setq conda-env-home-directory conda_env_home)
   (setq-default mode-line-format (cons '(:exec conda-env-current-name) mode-line-format)))
 
-;; (use-package! format
-;;   (set-formatter! 'clang-format
-;;     '("clang-format"
-;;       "-style={BasedOnStyle: Google, SortIncludes: false}"
-;;       ("-assume-filename=%S" (or buffer-file-name mode-result "")))))
+(use-package! format
+  :defer t
+  :config
+  (set-formatter! 'clang-format
+    '("clang-format"
+      "-style={BasedOnStyle: Google, SortIncludes: false}"
+      ("-assume-filename=%S" (or buffer-file-name mode-result "")))
+    :modes
+    '((c-mode ".c")
+      (c++-mode ".cpp")
+      (java-mode ".java")
+      (objc-mode ".m")
+      (protobuf-mode ".proto")))
 
-;; :modes
-;; '((c-mode ".c")
-;;   (c++-mode ".cpp")
-;;   (java-mode ".java")
-;;   (objc-mode ".m")
-;;   (protobuf-mode ".proto"))))
-
-;; (after! format
-;;  (set-formatter!
-;;    'black "black -q -" :modes '(python-mode)))
+  (set-formatter! 'black "black -q -"
+    :modes '(python-mode)))
 
 (use-package! company
   :defer t
@@ -365,7 +372,7 @@
   (setq read-process-output-max (* 1024 1024))
 
   (setq lsp-keymap-prefix "C-c l"
-        lsp-idle-delay 0.5                 ;; lazy refresh
+        lsp-idle-delay 0.1                 ;; lazy refresh
         lsp-log-io nil                     ;; enable log only for debug
         lsp-enable-folding nil             ;; use `evil-matchit' instead
         lsp-diagnostic-package :flycheck   ;; prefer flycheck
@@ -393,14 +400,14 @@
         lsp-ui-sideline-show-hover nil
         lsp-ui-sideline-show-diagnostics nil
         lsp-ui-sideline-ignore-duplicate t
-        lsp-ui-sideline-delay 0.2
+        lsp-ui-sideline-delay 0.1
 
         lsp-ui-peek-enable t
         lsp-ui-peek-fontify 'always
 
         lsp-ui-doc-enable t
         lsp-ui-doc-use-webkit nil
-        lsp-ui-doc-delay 0.2
+        lsp-ui-doc-delay 0.1
         lsp-ui-doc-include-signature t
         lsp-ui-doc-position 'top
         lsp-ui-doc-border (face-foreground 'default)
