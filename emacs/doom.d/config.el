@@ -418,7 +418,7 @@
   (add-hook 'lsp-after-open-hook #'ccls-code-lens-mode)
   (ccls-use-default-rainbow-sem-highlight)
 
-  (setq ccls-executable "~/Documents/workspace/github/ccls/Release/ccls/"
+  (setq ccls-executable "~/Documents/workspace/github/ccls/Release/ccls"
         ccls-args '("--log-file=/tmp/ccls-emacs.log")
         ccls-initialization-options `(:capabilities (:foldingRangeProvider :json-false)
                                                     :cache (:directory ".ccls-cache")
