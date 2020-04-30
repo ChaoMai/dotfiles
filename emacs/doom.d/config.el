@@ -138,9 +138,7 @@
   :bind (([remap evil-ex-registers]  . counsel-evil-registers)
          ([remap evil-show-mark]     . counsel-mark-ring)
          ([remap recentf-open-files] . counsel-recentf)
-         ([remap swiper]             . counsel-grep-or-swiper)
-         ("M-p" . counsel-projectile-find-file)
-         ("M-n" . counsel-projectile-rg)))
+         ([remap swiper]             . counsel-grep-or-swiper)))
 
 (use-package! swiper
   :defer t
@@ -329,11 +327,21 @@
   (setq conda-env-home-directory conda_env_home)
   (setq-default mode-line-format (cons '(:exec conda-env-current-name) mode-line-format)))
 
+(cond
+ ((string-equal platform MACOS)
+  (defvar clang-format_bin "clang-format"))
+
+ ((string-equal platform LINUX)
+  (message "no implemented"))
+
+ ((string-equal platform WSL)
+  (defvar clang-format_bin "clang-format-10")))
+
 (use-package! format
   :defer t
   :config
   (set-formatter! 'clang-format
-    '("clang-format"
+    '(clang-format_bin
       "-style={BasedOnStyle: Google, SortIncludes: false}"
       ("-assume-filename=%S" (or buffer-file-name mode-result "")))
     :modes

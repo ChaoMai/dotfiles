@@ -216,9 +216,7 @@ This determines the style of line numbers in effect.
   :bind (([remap evil-ex-registers]  . counsel-evil-registers)
          ([remap evil-show-mark]     . counsel-mark-ring)
          ([remap recentf-open-files] . counsel-recentf)
-         ([remap swiper]             . counsel-grep-or-swiper)
-         ("M-p" . counsel-projectile-find-file)
-         ("M-n" . counsel-projectile-rg)))
+         ([remap swiper]             . counsel-grep-or-swiper)))
 #+END_SRC
 
 ** swpiper
@@ -463,11 +461,21 @@ example: `aa-bb-cc.org' then save image test.png to `aa-bb-cc_media/test.png'.
 2. python: black
 
 #+BEGIN_SRC emacs-lisp
+(cond
+ ((string-equal platform MACOS)
+  (defvar clang-format_bin "clang-format"))
+
+ ((string-equal platform LINUX)
+  (message "no implemented"))
+
+ ((string-equal platform WSL)
+  (defvar clang-format_bin "clang-format-10")))
+
 (use-package! format
   :defer t
   :config
   (set-formatter! 'clang-format
-    '("clang-format"
+    '(clang-format_bin
       "-style={BasedOnStyle: Google, SortIncludes: false}"
       ("-assume-filename=%S" (or buffer-file-name mode-result "")))
     :modes
