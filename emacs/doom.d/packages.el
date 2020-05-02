@@ -61,6 +61,7 @@
 ;;;;; edit
 (package! separedit)
 (package! expand-region)
+(package! undohist)
 
 ;;;;; org-mode
 (package! org-superstar)
@@ -68,6 +69,7 @@
 
 ;;;;; dev
 (package! lsp-mode)
+(package! lsp-treemacs)
 (package! modern-cpp-font-lock)
 (package! conda)
 

@@ -1,13 +1,11 @@
 ######################################## environment variables
 # export MANPATH="/usr/local/man:$MANPATH"
+export PROGRAMSPATH=$HOME/Programs
 export GOPATH=$HOME/Documents/workspace/go
-export PATH=$GOPATH/bin:$PATH
-
+export PATH=$PROGRAMSPATH/bin:$GOPATH/bin:$PATH
 export PYTHONSTARTUP=$HOME/.pythonstartup
-
 export MAVEN_OPTS="-Xmx2g -XX:ReservedCodeCacheSize=512m"
-
-export stack="stack --resolver lts-15.0"
+export EMACS=$PROGRAMSPATH/bin/emacs
 
 #################### nvm
 export NVM_DIR="$HOME/.nvm"
@@ -28,6 +26,7 @@ alias ls="exa"
 alias l="ls -l"
 alias ll="ls -al"
 alias rsync_common="rsync -uaihv --progress"
+alias emacs="$PROGRAMSPATH/bin/emacs"
 
 ######################################## git
 function gi() { curl -L -s https://www.gitignore.io/api/$@ }
@@ -57,6 +56,7 @@ export NVIM_COC_LOG_FILE=/tmp/coc_nvim.log
 ######################################## config by os type
 if [[ $OSTYPE == "Darwin" ]]; then
     ####################  environment variables
+    export HOMEBREW_NO_BOTTLE_SOURCE_FALLBACK=1
     export HOMEBREW_NO_AUTO_UPDATE=true
     export HOMEBREW_GITHUB_API_TOKEN=$(cat $HOME/Documents/onedrive/backup_codes_tokens/brew_api_token)
     # export HOMEBREW_BOTTLE_DOMAIN=https://mirrors.ustc.edu.cn/homebrew-bottles
@@ -137,8 +137,6 @@ elif [[ $OSTYPE == "Linux" ]]; then
     export SHELL=/usr/bin/zsh
     export EDITOR=/usr/bin/vim
 
-    export PATH=$HOME/Programs/bin:$PATH
-
     # export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk-13.0.1.jdk/Contents/Home
 
     #################### alias
@@ -154,8 +152,8 @@ elif [[ $OSTYPE == "Linux" ]]; then
     local check_nvim=$(command -v nvim >/dev/null 2>&1 || echo $?)
 
     if [[ $check_nvim -eq 1 ]]; then
-        alias vim="PYTHONPATH=${HOME}/Programs/opt/miniconda3/envs/common_dev_python3.8/lib/python3.8/site-packages vim"
-        alias v="PYTHONPATH=${HOME}/Programs/opt/miniconda3/envs/common_dev_python3.8/lib/python3.8/site-packages vim"
+        alias vim="PYTHONPATH=$PROGRAMSPATH/opt/miniconda3/envs/common_dev_python3.8/lib/python3.8/site-packages vim"
+        alias v="PYTHONPATH=$PROGRAMSPATH/opt/miniconda3/envs/common_dev_python3.8/lib/python3.8/site-packages vim"
     else
         alias vim="nvim"
         alias v="nvim"
@@ -164,14 +162,14 @@ elif [[ $OSTYPE == "Linux" ]]; then
     #################### conda
     # >>> conda initialize >>>
     # !! Contents within this block are managed by 'conda init' !!
-    # __conda_setup="$('${HOME}/Programs/opt/miniconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+    # __conda_setup="$('$PROGRAMSPATH/opt/miniconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
     # if [ $? -eq 0 ]; then
     # eval "$__conda_setup"
     # else
-    if [ -f "${HOME}/Programs/opt/miniconda3/etc/profile.d/conda.sh" ]; then
-        . "${HOME}/Programs/opt/miniconda3/etc/profile.d/conda.sh"
+    if [ -f "$PROGRAMSPATH/opt/miniconda3/etc/profile.d/conda.sh" ]; then
+        . "$PROGRAMSPATH/opt/miniconda3/etc/profile.d/conda.sh"
     else
-        export PATH="${HOME}/Programs/opt/miniconda3/bin:$PATH"
+        export PATH="$PROGRAMSPATH/opt/miniconda3/bin:$PATH"
     fi
     # fi
     # unset __conda_setup

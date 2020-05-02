@@ -245,44 +245,23 @@ conda deactivate
 ## build
 
 ```bash
--I/usr/local/opt/gnutls/include
--I/usr/local/opt/nettle/include
--I/usr/local/opt/libtasn1/include
--I/usr/local/opt/p11-kit/include
+export PATH="/usr/local/opt/gnu-sed/libexec/gnubin:${PATH}"
+export LDFLAGS="-L/usr/local/lib/gcc/9"
+export CC="clang"
 
--L/usr/local/opt/lib
--L/usr/local/opt/nettle/lib
--L/usr/local/opt/libtasn1/lib
--L/usr/local/opt/p11-kit/lib
+git checkout feature/native-comp
+git clean -fdx
 
-
-export CC='/usr/bin/clang'
-export CXX='/usr/bin/clang++'
-export CPPFLAGS="-I/usr/local/opt/libxml2/include/libxml2 -I/usr/local/opt/gmp/include -I/usr/local/opt/mpfr/include -I/usr/local/opt/libmpc/include -I/usr/local/opt/isl/include"
-export CFLAGS=${CPPFLAGS}
-export LDFLAGS="-L/usr/local/opt/libxml2/lib -L/usr/local/opt/gmp/lib -L/usr/local/opt/mpfr/lib -L/usr/local/opt/libmpc/lib -L/usr/local/opt/isl/lib"
-export DYLD_LIBRARY_PATH="/Users/chaomai/Downloads/gcc_build9/lib/"
-
-
-./configure --with-nativecomp --without-ns --with-json
-
-
-export CC='/usr/bin/clang'
-export CXX='/usr/bin/clang++'
 ./configure \
---prefix=/Users/chaomai/Downloads/gcc_build9 \
---disable-nls \
---enable-checking=release \
---enable-languages=c,c++,objc,obj-c++,jit \
---enable-host-shared \
---with-gmp=/usr/local/opt/gmp \
---with-mpfr=/usr/local/opt/mpfr \
---with-mpc=/usr/local/opt/libmpc \
---with-isl=/usr/local/opt/isl \
---with-system-zlib \
---disable-multilib \
---disable-bootstrap \
---with-sysroot=/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk
+--disable-silent-rules \
+--enable-locallisppath=/usr/local/share/emacs/site-lisp \
+--prefix=${HOME}/Programs/ \
+--with-nativecomp \
+--with-ns \
+--disable-ns-self-contained
+
+make -j 6 NATIVE_FAST_BOOT=1
+make -j 6 NATIVE_FAST_BOOT=1 install
 ```
 
 ## install
@@ -316,28 +295,23 @@ apt install xfce4
 startxfce4
 ```
 
-# other
-
 # build tmux
-
-```bash
-
 
 * libevent
 
-​```bash
+```bash
 ./configure --prefix=/home/maichao/Programs
-​```
+```
 
 * tmux
 
-​```bash
+```bash
 ./configure CFLAGS="-I../../Programs/include" LDFLAGS="-L../../Programs/lib" --prefix=/home/maichao/Programs
-​```
+```
 
 # vim
 
-​```bash
+```bash
 CFLAGS="-I../../Programs/include"
 LDFLAGS="-L../../Programs/lib"
 ./configure --with-features=huge \
@@ -361,6 +335,4 @@ LDFLAGS="-L../../Programs/lib"
             --enable-gui=gtk2 \
             --enable-cscope \
             --prefix=/home/dev/maichao/Programs
-​```
 ```
-

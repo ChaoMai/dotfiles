@@ -3,6 +3,8 @@
 (setq user-full-name "chaomai"
       user-mail-address "loneymai@gmail.com")
 
+(setq comp-deferred-compilation t)
+
 (defconst MACOS "macos")
 (defconst WSL "wsl")
 (defconst LINUX "linux")
@@ -84,27 +86,88 @@
             browse-url-generic-args     cmd-args
             browse-url-browser-function 'browse-url-generic)))))
 
+(use-package! undohist
+  :config
+  (undohist-initialize)
+  (setq undohist-directory (concat doom-cache-dir "undohist")))
+
 (add-to-list 'default-frame-alist '(inhibit-double-buffering . t))
 
 (cond
  ((string-equal platform MACOS)
-  (setq doom-font (font-spec :family "Fira Code" :size 13 :weight 'regular))
-  (setq doom-variable-pitch-font (font-spec :family "Sarasa Mono SC" :size 13 :weight 'regular)))
+  (defvar english-font-name "Fira Code")
+  (defvar english-font-size 13)
+  (defvar chinese-font-name "Noto Serif CJK SC")
+  (defvar chinese-font-size 13))
 
  ((string-equal platform LINUX)
   (message "no implemented"))
 
  ((string-equal platform WSL)
-  (setq doom-font (font-spec :family "Fira Code" :size 18 :weight 'regular)))
-  (setq doom-variable-pitch-font (font-spec :family "Noto Sans CJK" :size 18 :weight 'regular)))
+  (defvar english-font-name "Fira Code")
+  (defvar english-font-size 18)
+  (defvar chinese-font-name "Noto Serif CJK SC")
+  (defvar chinese-font-size 18)))
+
+(defun +my/better-font()
+  (interactive)
+  ;; english font
+  (if (display-graphic-p)
+      (progn
+        (set-face-attribute 'default nil :font (format "%s:pixelsize=%d" english-font-name english-font-size))
+        ;; chinese font
+        (dolist (charset '(kana han symbol cjk-misc bopomofo))
+          (set-fontset-font (frame-parameter nil 'font)
+                            charset
+                            (font-spec :family chinese-font-name))))))
+
+(defun +my|init-font(frame)
+  (with-selected-frame frame
+    (if (display-graphic-p)
+        (+my/better-font))))
+
+(if (and (fboundp 'daemonp) (daemonp))
+    (add-hook 'after-make-frame-functions #'+my|init-font)
+  (+my/better-font))
 
 (setq fancy-splash-image (concat doom-private-dir "doom.jpg"))
 
-(setq doom-theme 'doom-one)
+(use-package! doom-themes
+  :config
+  ;; Global settings (defaults)
+  (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
+        doom-themes-enable-italic t) ; if nil, italics is universally disabled
+  (load-theme 'doom-one t)
 
-(setq-default line-spacing 5)
+  ;; Enable flashing mode-line on errors
+  ;; (doom-themes-visual-bell-config)
 
-;; (setq display-line-numbers-type nil)
+  ;; Enable custom neotree theme (all-the-icons must be installed!)
+  ;; (doom-themes-neotree-config)
+  ;; or for treemacs users
+  (setq doom-themes-treemacs-theme "doom-colors") ; use the colorful treemacs theme
+  (doom-themes-treemacs-config)
+
+  ;; Corrects (and improves) org-mode's native fontification.
+  (doom-themes-org-config))
+
+(setq-default line-spacing 9)
+
+(use-package! display-line-numbers
+  :hook (prog-mode . display-line-numbers-mode)
+        (org-mode . display-line-numbers-mode)
+  :init
+  (setq display-line-numbers-width-start 5))
+
+(use-package! highlight-indent-guides
+  :config
+  (setq highlight-indent-guides-character ?│))
+
+(use-package! saveplace
+  :demand t
+  :config
+  (setq save-place t)
+  (save-place-mode 1))
 
 (use-package! ivy
   :defer t
@@ -128,17 +191,11 @@
                   x)
         (pyim-cregexp-build x))))
 
-  (setq ivy-re-builders-alist '((counsel-projectile-rg . ivy--regex-plus)
-                                (swiper . ivy--regex-plus)
-                                (t . eh-ivy-cregexp))))
+  (setq ivy-re-builders-alist '((t . eh-ivy-cregexp))))
 
 (use-package! counsel
   :defer t
-  :hook (ivy-mode . counsel-mode)
-  :bind (([remap evil-ex-registers]  . counsel-evil-registers)
-         ([remap evil-show-mark]     . counsel-mark-ring)
-         ([remap recentf-open-files] . counsel-recentf)
-         ([remap swiper]             . counsel-grep-or-swiper)))
+  :hook (ivy-mode . counsel-mode))
 
 (use-package! swiper
   :defer t
@@ -292,11 +349,10 @@
 
 (use-package! evil
   :defer t
-  :config
-  (setq evil-want-fine-undo t)
   :bind (:map evil-normal-state-map
-          ("<backspace>" . evil-ex-nohighlight)
-          ("/" . swiper)))
+          ("<backspace>" . evil-ex-nohighlight))
+  :config
+  (setq evil-want-fine-undo t))
 
 (use-package! evil-nerd-commenter
   :after evil
@@ -324,8 +380,8 @@
   :defer t
   :config
   (setq conda-anaconda-home conda_home)
-  (setq conda-env-home-directory conda_env_home)
-  (setq-default mode-line-format (cons '(:exec conda-env-current-name) mode-line-format)))
+  (setq conda-env-home-directory conda_env_home))
+  ;; (setq-default mode-line-format (cons '(:exec conda-env-current-name) mode-line-format)))
 
 (cond
  ((string-equal platform MACOS)
@@ -362,7 +418,7 @@
         ;; Easy navigation to candidates with M-<n>
         company-show-numbers t
         company-require-match nil
-        company-minimum-prefix-length 3
+        company-minimum-prefix-length 2
         company-tooltip-align-annotations t
         ;; complete `abbrev' only in current buffer
         company-dabbrev-other-buffers nil
@@ -398,19 +454,19 @@
         lsp-enable-xref t
         lsp-eldoc-enable-hover nil         ;; disable eldoc hover displays in minibuffer, lsp-ui shows it
         lsp-signature-auto-activate t      ;; show function signature
-        lsp-signature-doc-lines 2)         ;; but dont take up more lines
+        lsp-signature-doc-lines 1)         ;; but dont take up more lines
   (add-to-list 'exec-path (concat conda_home "envs/common_dev_python3.8/bin/")))
 
 (use-package! lsp-ui
   :after lsp-mode
   :config
-  (setq lsp-ui-sideline-enable t
+  (setq lsp-ui-sideline-enable nil
         lsp-ui-sideline-show-hover nil
         lsp-ui-sideline-show-diagnostics nil
         lsp-ui-sideline-ignore-duplicate t
         lsp-ui-sideline-delay 0.1
 
-        lsp-ui-peek-enable t
+        lsp-ui-peek-enable nil
         lsp-ui-peek-fontify 'always
 
         lsp-ui-doc-enable t
@@ -420,11 +476,14 @@
         lsp-ui-doc-position 'top
         lsp-ui-doc-border (face-foreground 'default)
 
-        lsp-ui-imenu-enable t
+        lsp-ui-imenu-enable nil
         lsp-ui-imenu-colors `(,(face-foreground 'font-lock-keyword-face)
                               ,(face-foreground 'font-lock-string-face)
                               ,(face-foreground 'font-lock-constant-face)
                               ,(face-foreground 'font-lock-variable-name-face))))
+
+(use-package! lsp-treemacs
+  :after lsp-mode)
 
 (use-package! ccls
   :after lsp-mode
@@ -439,7 +498,7 @@
                                                     :cache (:directory ".ccls-cache")
                                                     :completion (:caseSensitivity 0)
                                                     :compilationDatabaseDirectory "cmake-build"
-                                                    ;; :codeLens (:localVariables :json-false)
+                                                    :codeLens (:localVariables :json-false)
                                                     :client (:snippetSupport t)
                                                     :diagnostics (:onChang 100
                                                                            :onOpen 100
@@ -457,26 +516,20 @@
   :config
   ;; 激活 basedict 拼音词库，五笔用户请继续阅读 README
   (use-package pyim-basedict
-    :config (pyim-basedict-enable))
+    :config
+    (pyim-basedict-enable))
 
-  ;; 我使用全拼
   (setq pyim-default-scheme 'quanpin
         default-input-method "pyim"
-
-        ;; 开启拼音搜索功能
         ;; pyim-isearch-mode 1
-
-        ;; 使用 popup-el 来绘制选词框, 如果用 emacs25, 建议设置
-        ;; 为 'posframe, 速度很快并且菜单不会变形，不过需要用户
-        ;; 手动安装 posframe 包。
         pyim-page-tooltip 'posframe
-
-        ;; 选词框显示5个候选词
         pyim-page-length 5
         pyim-fuzzy-pinyin-alist '(("an" "ang")
                                   ("in" "ing")
                                   ("en" "eng")
-                                  ("uan" "uang")))
+                                  ("uan" "uang"))
+
+        pyim-dcache-directory (concat doom-cache-dir "pyim"))
 
   ;; 设置 pyim 探针设置，这是 pyim 高级功能设置，可以实现 *无痛* 中英文切换 :-)
   ;; 我自己使用的中英文动态切换规则是：
@@ -487,12 +540,11 @@
                                                       pyim-probe-isearch-mode
                                                       pyim-probe-program-mode
                                                       pyim-probe-org-structure-template)
-
                 pyim-punctuation-half-width-functions '(pyim-probe-punctuation-line-beginning
                                                         pyim-probe-punctuation-after-punctuation))
 
   :bind
-  (("C-;" . pyim-convert-string-at-point) ;与 pyim-probe-dynamic-english 配合
+  (("C-;" . pyim-convert-string-at-point) ; 与 pyim-probe-dynamic-english 配合
    ("C-<f1>" . pyim-delete-word-from-personal-buffer)))
 
 (use-package! pyim-greatdict

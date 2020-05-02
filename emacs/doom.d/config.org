@@ -3,6 +3,8 @@
 ;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
 #+END_SRC
 
+[[file:doom.jpg]]
+
 * who i am
 #+BEGIN_SRC emacs-lisp
 (setq user-full-name "chaomai"
@@ -10,6 +12,11 @@
 #+END_SRC
 
 * system
+** deferred completion
+#+BEGIN_SRC emacs-lisp
+(setq comp-deferred-compilation t)
+#+END_SRC
+
 ** platform check
 #+BEGIN_SRC emacs-lisp
 (defconst MACOS "macos")
@@ -115,6 +122,14 @@ Project root is same with vim's configuration.
             browse-url-browser-function 'browse-url-generic)))))
 #+END_SRC
 
+** undohist
+#+BEGIN_SRC emacs-lisp
+(use-package! undohist
+  :config
+  (undohist-initialize)
+  (setq undohist-directory (concat doom-cache-dir "undohist")))
+#+END_SRC
+
 * ui
 ** basic
 Prevents some cases of Emacs flickering.
@@ -133,18 +148,49 @@ Doom exposes five (optional) variables for controlling fonts in Doom. Here are t
 
 They all accept either a font-spec, font string ("Input Mono-12"), or xlfd font string. You generally only need these two:
 
+| 中文                                                  | english | width test |
+|-------------------------------------------------------+---------+------------|
+| 测试中英文混合时是否能够等宽？                        |         |            |
+| chinese character（中文） and english symbol(->) test |         |            |
+| 基础知识                                              |         |            |
+
 #+BEGIN_SRC emacs-lisp
 (cond
  ((string-equal platform MACOS)
-  (setq doom-font (font-spec :family "Fira Code" :size 13 :weight 'regular))
-  (setq doom-variable-pitch-font (font-spec :family "Sarasa Mono SC" :size 13 :weight 'regular)))
+  (defvar english-font-name "Fira Code")
+  (defvar english-font-size 13)
+  (defvar chinese-font-name "Noto Serif CJK SC")
+  (defvar chinese-font-size 13))
 
  ((string-equal platform LINUX)
   (message "no implemented"))
 
  ((string-equal platform WSL)
-  (setq doom-font (font-spec :family "Fira Code" :size 18 :weight 'regular)))
-  (setq doom-variable-pitch-font (font-spec :family "Noto Sans CJK" :size 18 :weight 'regular)))
+  (defvar english-font-name "Fira Code")
+  (defvar english-font-size 18)
+  (defvar chinese-font-name "Noto Serif CJK SC")
+  (defvar chinese-font-size 18)))
+
+(defun +my/better-font()
+  (interactive)
+  ;; english font
+  (if (display-graphic-p)
+      (progn
+        (set-face-attribute 'default nil :font (format "%s:pixelsize=%d" english-font-name english-font-size))
+        ;; chinese font
+        (dolist (charset '(kana han symbol cjk-misc bopomofo))
+          (set-fontset-font (frame-parameter nil 'font)
+                            charset
+                            (font-spec :family chinese-font-name))))))
+
+(defun +my|init-font(frame)
+  (with-selected-frame frame
+    (if (display-graphic-p)
+        (+my/better-font))))
+
+(if (and (fboundp 'daemonp) (daemonp))
+    (add-hook 'after-make-frame-functions #'+my|init-font)
+  (+my/better-font))
 #+END_SRC
 
 ** splash-image
@@ -157,28 +203,65 @@ There are two ways to load a theme. Both assume the theme is installed and avail
 `load-theme' function.
 
 #+BEGIN_SRC emacs-lisp
-(setq doom-theme 'doom-one)
+(use-package! doom-themes
+  :config
+  ;; Global settings (defaults)
+  (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
+        doom-themes-enable-italic t) ; if nil, italics is universally disabled
+  (load-theme 'doom-one t)
+
+  ;; Enable flashing mode-line on errors
+  ;; (doom-themes-visual-bell-config)
+
+  ;; Enable custom neotree theme (all-the-icons must be installed!)
+  ;; (doom-themes-neotree-config)
+  ;; or for treemacs users
+  (setq doom-themes-treemacs-theme "doom-colors") ; use the colorful treemacs theme
+  (doom-themes-treemacs-config)
+
+  ;; Corrects (and improves) org-mode's native fontification.
+  (doom-themes-org-config))
 #+END_SRC
 
 ** line spacing
 #+BEGIN_SRC emacs-lisp
-(setq-default line-spacing 5)
+(setq-default line-spacing 9)
 #+END_SRC
 
 ** line numbers
-This determines the style of line numbers in effect.
-1. If set to `nil', line numbers are disabled.
-2. For relative line numbers, set this to `relative'.
+1. [[https://emacs-china.org/t/display-line-numbers-mode/11701/9?u=chaomai][display-line-numbers-mode的性能问题]]
+2. [[https://www.albertzhou.net/blog/2019/08/emacs_lsp.html][emacs python和go的lsp配置]]
 
 #+BEGIN_SRC emacs-lisp
-;; (setq display-line-numbers-type nil)
+(use-package! display-line-numbers
+  :hook (prog-mode . display-line-numbers-mode)
+        (org-mode . display-line-numbers-mode)
+  :init
+  (setq display-line-numbers-width-start 5))
+#+END_SRC
+
+** indent guide
+#+BEGIN_SRC emacs-lisp
+(use-package! highlight-indent-guides
+  :config
+  (setq highlight-indent-guides-character ?│))
+#+END_SRC
+
+** saveplace
+#+BEGIN_SRC emacs-lisp
+(use-package! saveplace
+  :demand t
+  :config
+  (setq save-place t)
+  (save-place-mode 1))
 #+END_SRC
 
 * ivy
 [[https://writequit.org/denver-emacs/presentations/2017-04-11-ivy.html][Ivy, Counsel and Swiper]]
 
 ** ivy
-[[https://emacs-china.org/t/topic/6069][怎样给 Ivy 添加拼音支持]]
+1. [[https://emacs-china.org/t/topic/6069][怎样给 Ivy 添加拼音支持]]
+2. [[https://www.reddit.com/r/emacs/comments/gbedk5/preview_swiper_result_in_a_separate_buffer/][1. preview swiper result in a separate buffer]]
 
 #+BEGIN_SRC emacs-lisp
 (use-package! ivy
@@ -203,20 +286,16 @@ This determines the style of line numbers in effect.
                   x)
         (pyim-cregexp-build x))))
 
-  (setq ivy-re-builders-alist '((counsel-projectile-rg . ivy--regex-plus)
-                                (swiper . ivy--regex-plus)
-                                (t . eh-ivy-cregexp))))
+  (setq ivy-re-builders-alist '((t . eh-ivy-cregexp))))
 #+END_SRC
 
 ** counsel
+[[https://emacs-china.org/t/counsel-projectile-ag-swiper-candicate/8554][counsel-projectile-ag 如何像 Swiper 一样预览当前 candicate?]]
+
 #+BEGIN_SRC emacs-lisp
 (use-package! counsel
   :defer t
-  :hook (ivy-mode . counsel-mode)
-  :bind (([remap evil-ex-registers]  . counsel-evil-registers)
-         ([remap evil-show-mark]     . counsel-mark-ring)
-         ([remap recentf-open-files] . counsel-recentf)
-         ([remap swiper]             . counsel-grep-or-swiper)))
+  :hook (ivy-mode . counsel-mode))
 #+END_SRC
 
 ** swpiper
@@ -296,7 +375,7 @@ This determines the style of line numbers in effect.
   ;;   (add-hook 'org-mode-hook 'org-buffer-face-mode-variable)))
 #+END_SRC
 
-** org agenda
+** org-agenda
 org agenda 里面时间块彩色显示。[[https://emacs-china.org/t/org-agenda/8679/3][Org agenda 显示时间块]]
 
 #+BEGIN_SRC emacs-lisp
@@ -326,7 +405,7 @@ org agenda 里面时间块彩色显示。[[https://emacs-china.org/t/org-agenda/
 ;; (add-hook 'org-agenda-finalize-hook #'org-agenda-time-grid-spacing)
 #+END_SRC
 
-** org src
+** org-src
 #+BEGIN_SRC emacs-lisp
 ;; Write codes in org-mode
 (use-package! org-src
@@ -362,7 +441,7 @@ Record the time
   (org-clock-persistence-insinuate))
 #+END_SRC
 
-** org superstar
+** org-superstar
 #+BEGIN_SRC emacs-lisp
 (use-package! org-superstar
   :after org
@@ -408,11 +487,10 @@ example: `aa-bb-cc.org' then save image test.png to `aa-bb-cc_media/test.png'.
 #+BEGIN_SRC emacs-lisp
 (use-package! evil
   :defer t
-  :config
-  (setq evil-want-fine-undo t)
   :bind (:map evil-normal-state-map
-          ("<backspace>" . evil-ex-nohighlight)
-          ("/" . swiper)))
+          ("<backspace>" . evil-ex-nohighlight))
+  :config
+  (setq evil-want-fine-undo t))
 #+END_SRC
 
 ** evil-nerd-commenter
@@ -452,8 +530,8 @@ example: `aa-bb-cc.org' then save image test.png to `aa-bb-cc_media/test.png'.
   :defer t
   :config
   (setq conda-anaconda-home conda_home)
-  (setq conda-env-home-directory conda_env_home)
-  (setq-default mode-line-format (cons '(:exec conda-env-current-name) mode-line-format)))
+  (setq conda-env-home-directory conda_env_home))
+  ;; (setq-default mode-line-format (cons '(:exec conda-env-current-name) mode-line-format)))
 #+END_SRC
 
 ** format
@@ -499,7 +577,7 @@ example: `aa-bb-cc.org' then save image test.png to `aa-bb-cc_media/test.png'.
         ;; Easy navigation to candidates with M-<n>
         company-show-numbers t
         company-require-match nil
-        company-minimum-prefix-length 3
+        company-minimum-prefix-length 2
         company-tooltip-align-annotations t
         ;; complete `abbrev' only in current buffer
         company-dabbrev-other-buffers nil
@@ -541,7 +619,7 @@ example: `aa-bb-cc.org' then save image test.png to `aa-bb-cc_media/test.png'.
         lsp-enable-xref t
         lsp-eldoc-enable-hover nil         ;; disable eldoc hover displays in minibuffer, lsp-ui shows it
         lsp-signature-auto-activate t      ;; show function signature
-        lsp-signature-doc-lines 2)         ;; but dont take up more lines
+        lsp-signature-doc-lines 1)         ;; but dont take up more lines
   (add-to-list 'exec-path (concat conda_home "envs/common_dev_python3.8/bin/")))
 #+END_SRC
 
@@ -550,13 +628,13 @@ example: `aa-bb-cc.org' then save image test.png to `aa-bb-cc_media/test.png'.
 (use-package! lsp-ui
   :after lsp-mode
   :config
-  (setq lsp-ui-sideline-enable t
+  (setq lsp-ui-sideline-enable nil
         lsp-ui-sideline-show-hover nil
         lsp-ui-sideline-show-diagnostics nil
         lsp-ui-sideline-ignore-duplicate t
         lsp-ui-sideline-delay 0.1
 
-        lsp-ui-peek-enable t
+        lsp-ui-peek-enable nil
         lsp-ui-peek-fontify 'always
 
         lsp-ui-doc-enable t
@@ -566,14 +644,20 @@ example: `aa-bb-cc.org' then save image test.png to `aa-bb-cc_media/test.png'.
         lsp-ui-doc-position 'top
         lsp-ui-doc-border (face-foreground 'default)
 
-        lsp-ui-imenu-enable t
+        lsp-ui-imenu-enable nil
         lsp-ui-imenu-colors `(,(face-foreground 'font-lock-keyword-face)
                               ,(face-foreground 'font-lock-string-face)
                               ,(face-foreground 'font-lock-constant-face)
                               ,(face-foreground 'font-lock-variable-name-face))))
 #+END_SRC
 
-*** c/cpp
+*** lsp-treemacs
+#+BEGIN_SRC emacs-lisp
+(use-package! lsp-treemacs
+  :after lsp-mode)
+#+END_SRC
+
+*** c/cpp-ccls
 Using [[https://github.com/maskray/ccls/][ccls]] as language protocol server.
 
 1. [[https://github.com/MaskRay/Config/blob/master/home/.config/doom/modules/private/my-cc/autoload.el][MaskRay/Config/blob/master/home/.config/doom/modules/private/my-cc/autoload.el]]
@@ -593,7 +677,7 @@ Using [[https://github.com/maskray/ccls/][ccls]] as language protocol server.
                                                     :cache (:directory ".ccls-cache")
                                                     :completion (:caseSensitivity 0)
                                                     :compilationDatabaseDirectory "cmake-build"
-                                                    ;; :codeLens (:localVariables :json-false)
+                                                    :codeLens (:localVariables :json-false)
                                                     :client (:snippetSupport t)
                                                     :diagnostics (:onChang 100
                                                                            :onOpen 100
@@ -603,12 +687,13 @@ Using [[https://github.com/maskray/ccls/][ccls]] as language protocol server.
   (evil-set-initial-state 'ccls-tree-mode 'emacs))
 #+END_SRC
 
-**** cpp-font-lock
+*** c/cpp-cpp-font-lock
 #+BEGIN_SRC emacs-lisp
 (use-package! modern-cpp-font-lock
   :after ccls
   :hook (c++-mode . modern-c++-font-lock-mode))
 #+END_SRC
+
 * input method
 ** pyim
 #+BEGIN_SRC emacs-lisp
@@ -617,26 +702,20 @@ Using [[https://github.com/maskray/ccls/][ccls]] as language protocol server.
   :config
   ;; 激活 basedict 拼音词库，五笔用户请继续阅读 README
   (use-package pyim-basedict
-    :config (pyim-basedict-enable))
+    :config
+    (pyim-basedict-enable))
 
-  ;; 我使用全拼
   (setq pyim-default-scheme 'quanpin
         default-input-method "pyim"
-
-        ;; 开启拼音搜索功能
         ;; pyim-isearch-mode 1
-
-        ;; 使用 popup-el 来绘制选词框, 如果用 emacs25, 建议设置
-        ;; 为 'posframe, 速度很快并且菜单不会变形，不过需要用户
-        ;; 手动安装 posframe 包。
         pyim-page-tooltip 'posframe
-
-        ;; 选词框显示5个候选词
         pyim-page-length 5
         pyim-fuzzy-pinyin-alist '(("an" "ang")
                                   ("in" "ing")
                                   ("en" "eng")
-                                  ("uan" "uang")))
+                                  ("uan" "uang"))
+
+        pyim-dcache-directory (concat doom-cache-dir "pyim"))
 
   ;; 设置 pyim 探针设置，这是 pyim 高级功能设置，可以实现 *无痛* 中英文切换 :-)
   ;; 我自己使用的中英文动态切换规则是：
@@ -647,12 +726,11 @@ Using [[https://github.com/maskray/ccls/][ccls]] as language protocol server.
                                                       pyim-probe-isearch-mode
                                                       pyim-probe-program-mode
                                                       pyim-probe-org-structure-template)
-
                 pyim-punctuation-half-width-functions '(pyim-probe-punctuation-line-beginning
                                                         pyim-probe-punctuation-after-punctuation))
 
   :bind
-  (("C-;" . pyim-convert-string-at-point) ;与 pyim-probe-dynamic-english 配合
+  (("C-;" . pyim-convert-string-at-point) ; 与 pyim-probe-dynamic-english 配合
    ("C-<f1>" . pyim-delete-word-from-personal-buffer)))
 #+END_SRC
 
@@ -721,3 +799,4 @@ Using [[https://github.com/maskray/ccls/][ccls]] as language protocol server.
 4. [[https://alhassy.github.io/init/][A Life Configuring Emacs]]
 5. [[https://huadeyu.tech/tools/emacs-setup-notes.html][极简Emacs开发环境配置]]
 6. [[https://emacs.nasy.moe/][nasy.moe Emacs Configuration]]
+7. [[https://github.com/lujun9972/emacs-document][lujun9972/emacs-document]]
