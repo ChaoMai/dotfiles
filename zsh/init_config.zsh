@@ -2,10 +2,11 @@
 # export MANPATH="/usr/local/man:$MANPATH"
 export PROGRAMSPATH=$HOME/Programs
 export GOPATH=$HOME/Documents/workspace/go
+export PATH=$GOPATH/bin:$PATH
 export PATH=$PROGRAMSPATH/bin:$GOPATH/bin:$PATH
 export PYTHONSTARTUP=$HOME/.pythonstartup
 export MAVEN_OPTS="-Xmx2g -XX:ReservedCodeCacheSize=512m"
-export EMACS=$PROGRAMSPATH/bin/emacs
+# export EMACS=$PROGRAMSPATH/bin/emacs
 
 #################### nvm
 export NVM_DIR="$HOME/.nvm"
@@ -26,7 +27,6 @@ alias ls="exa"
 alias l="ls -l"
 alias ll="ls -al"
 alias rsync_common="rsync -uaihv --progress"
-alias emacs="$PROGRAMSPATH/bin/emacs"
 
 ######################################## git
 function gi() { curl -L -s https://www.gitignore.io/api/$@ }

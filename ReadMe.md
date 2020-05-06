@@ -245,6 +245,7 @@ conda deactivate
 ## build
 
 ```bash
+# macos
 export PATH="/usr/local/opt/gnu-sed/libexec/gnubin:${PATH}"
 export LDFLAGS="-L/usr/local/lib/gcc/9"
 export CC="clang"
@@ -263,6 +264,10 @@ git clean -fdx
 make -j 6 NATIVE_FAST_BOOT=1
 make -j 6 NATIVE_FAST_BOOT=1 install
 ```
+
+**native-comp**
+* [gccemacs on OS X](https://gist.github.com/mikroskeem/0a5c909c1880408adf732ceba6d3f9ab/revisions)
+* [分享一下 MacOS 下编译 Emacs 28 native-comp 分支](https://emacs-china.org/t/macos-emacs-28-native-comp/12201/)
 
 ## install
 

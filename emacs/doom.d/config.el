@@ -3,7 +3,14 @@
 (setq user-full-name "chaomai"
       user-mail-address "loneymai@gmail.com")
 
-(setq comp-deferred-compilation t)
+(use-package! benchmark-init
+  :config
+  ;; To disable collection of benchmark data after init is done.
+  (add-hook 'after-init-hook 'benchmark-init/deactivate))
+
+(if (version< emacs-version "28")
+    ()
+  (setq comp-deferred-compilation t))
 
 (defconst MACOS "macos")
 (defconst WSL "wsl")
@@ -65,6 +72,7 @@
 (setq-default history-length 1000)
 
 (use-package! projectile
+  :defer t
   :config
   (setq projectile-require-project-root t
         projectile-completion-system 'ivy
@@ -87,48 +95,67 @@
             browse-url-browser-function 'browse-url-generic)))))
 
 (use-package! undohist
+  :demand t
   :config
   (undohist-initialize)
   (setq undohist-directory (concat doom-cache-dir "undohist")))
+
+(use-package! saveplace
+  :demand t
+  :config
+  (setq save-place t)
+  (save-place-mode 1))
 
 (add-to-list 'default-frame-alist '(inhibit-double-buffering . t))
 
 (cond
  ((string-equal platform MACOS)
-  (defvar english-font-name "Fira Code")
-  (defvar english-font-size 13)
-  (defvar chinese-font-name "Noto Serif CJK SC")
-  (defvar chinese-font-size 13))
+  (setq doom-font (font-spec :family "Fira Code" :size 13 :weight 'regular))
+  (setq doom-variable-pitch-font (font-spec :family "Sarasa Mono SC" :size 13 :weight 'regular)))
 
  ((string-equal platform LINUX)
   (message "no implemented"))
 
  ((string-equal platform WSL)
-  (defvar english-font-name "Fira Code")
-  (defvar english-font-size 18)
-  (defvar chinese-font-name "Noto Serif CJK SC")
-  (defvar chinese-font-size 18)))
+  (setq doom-font (font-spec :family "Fira Code" :size 18 :weight 'regular))
+  (setq doom-variable-pitch-font (font-spec :family "Sarasa Mono SC" :size 18 :weight 'regular))))
 
-(defun +my/better-font()
-  (interactive)
-  ;; english font
-  (if (display-graphic-p)
-      (progn
-        (set-face-attribute 'default nil :font (format "%s:pixelsize=%d" english-font-name english-font-size))
-        ;; chinese font
-        (dolist (charset '(kana han symbol cjk-misc bopomofo))
-          (set-fontset-font (frame-parameter nil 'font)
-                            charset
-                            (font-spec :family chinese-font-name))))))
+;; (cond
+;;  ((string-equal platform MACOS)
+;;   (defvar english-font-name "Fira Code")
+;;   (defvar english-font-size 13)
+;;   (defvar chinese-font-name "Noto Serif CJK SC")
+;;   (defvar chinese-font-size 13))
 
-(defun +my|init-font(frame)
-  (with-selected-frame frame
-    (if (display-graphic-p)
-        (+my/better-font))))
+;;  ((string-equal platform LINUX)
+;;   (message "no implemented"))
 
-(if (and (fboundp 'daemonp) (daemonp))
-    (add-hook 'after-make-frame-functions #'+my|init-font)
-  (+my/better-font))
+;;  ((string-equal platform WSL)
+;;   (defvar english-font-name "Fira Code")
+;;   (defvar english-font-size 18)
+;;   (defvar chinese-font-name "Noto Serif CJK SC")
+;;   (defvar chinese-font-size 18)))
+
+;; (defun +my/better-font()
+;;   (interactive)
+;;   ;; english font
+;;   (if (display-graphic-p)
+;;       (progn
+;;         (set-face-attribute 'default nil :font (format "%s:pixelsize=%d" english-font-name english-font-size))
+;;         ;; chinese font
+;;         (dolist (charset '(kana han symbol cjk-misc bopomofo))
+;;           (set-fontset-font (frame-parameter nil 'font)
+;;                             charset
+;;                             (font-spec :family chinese-font-name))))))
+
+;; (defun +my|init-font(frame)
+;;   (with-selected-frame frame
+;;     (if (display-graphic-p)
+;;         (+my/better-font))))
+
+;; (if (and (fboundp 'daemonp) (daemonp))
+;;     (add-hook 'after-make-frame-functions #'+my|init-font)
+;;   (+my/better-font))
 
 (setq fancy-splash-image (concat doom-private-dir "doom.jpg"))
 
@@ -163,12 +190,6 @@
   :config
   (setq highlight-indent-guides-character ?│))
 
-(use-package! saveplace
-  :demand t
-  :config
-  (setq save-place t)
-  (save-place-mode 1))
-
 (use-package! ivy
   :defer t
   :config
@@ -195,7 +216,9 @@
 
 (use-package! counsel
   :defer t
-  :hook (ivy-mode . counsel-mode))
+  :hook (ivy-mode . counsel-mode)
+  :bind (("M-p" . counsel-projectile-find-file)
+         ("M-n" . counsel-projectile-rg)))
 
 (use-package! swiper
   :defer t
@@ -267,30 +290,30 @@
 
   ;;   (add-hook 'org-mode-hook 'org-buffer-face-mode-variable)))
 
-;; (defun org-agenda-time-grid-spacing ()
-;;   "Set different line spacing w.r.t. time duration."
-;;   (save-excursion
-;;     (let* ((background (alist-get 'background-mode (frame-parameters)))
-;;            (background-dark-p (string= background "dark"))
-;;            (colors (list "#1ABC9C" "#2ECC71" "#3498DB" "#9966ff"))
-;;            pos
-;;            duration)
-;;       (nconc colors colors)
-;;       (goto-char (point-min))
-;;       (while (setq pos (next-single-property-change (point) 'duration))
-;;         (goto-char pos)
-;;         (when (and (not (equal pos (point-at-eol)))
-;;                    (setq duration (org-get-at-bol 'duration)))
-;;           (let ((line-height (if (< duration 30) 1.0 (+ 0.5 (/ duration 60))))
-;;                 (ov (make-overlay (point-at-bol) (1+ (point-at-eol)))))
-;;             (overlay-put ov 'face `(:background ,(car colors)
-;;                                                 :foreground
-;;                                                 ,(if background-dark-p "black" "white")))
-;;             (setq colors (cdr colors))
-;;             (overlay-put ov 'line-height line-height)
-;;             (overlay-put ov 'line-spacing (1- line-height))))))))
-;; 
-;; (add-hook 'org-agenda-finalize-hook #'org-agenda-time-grid-spacing)
+(defun org-agenda-time-grid-spacing ()
+  "Set different line spacing w.r.t. time duration."
+  (save-excursion
+    (let* ((background (alist-get 'background-mode (frame-parameters)))
+           (background-dark-p (string= background "dark"))
+           (colors (list "#1ABC9C" "#2ECC71" "#3498DB" "#9966ff"))
+           pos
+           duration)
+      (nconc colors colors)
+      (goto-char (point-min))
+      (while (setq pos (next-single-property-change (point) 'duration))
+        (goto-char pos)
+        (when (and (not (equal pos (point-at-eol)))
+                   (setq duration (org-get-at-bol 'duration)))
+          (let ((line-height (if (< duration 30) 1.0 (+ 0.5 (/ duration 60))))
+                (ov (make-overlay (point-at-bol) (1+ (point-at-eol)))))
+            (overlay-put ov 'face `(:background ,(car colors)
+                                    :foreground
+                                    ,(if background-dark-p "black" "white")))
+            (setq colors (cdr colors))
+            (overlay-put ov 'line-height line-height)
+            (overlay-put ov 'line-spacing (1- line-height))))))))
+
+(add-hook 'org-agenda-finalize-hook #'org-agenda-time-grid-spacing)
 
 ;; Write codes in org-mode
 (use-package! org-src
@@ -350,9 +373,12 @@
 (use-package! evil
   :defer t
   :bind (:map evil-normal-state-map
-          ("<backspace>" . evil-ex-nohighlight))
+         ("<backspace>" . evil-ex-nohighlight)
+         ("/" . swiper))
   :config
-  (setq evil-want-fine-undo t))
+  (setq evil-want-fine-undo t
+        evil-split-window-below t
+        evil-vsplit-window-right t))
 
 (use-package! evil-nerd-commenter
   :after evil
@@ -469,7 +495,7 @@
         lsp-ui-peek-enable nil
         lsp-ui-peek-fontify 'always
 
-        lsp-ui-doc-enable t
+        lsp-ui-doc-enable nil
         lsp-ui-doc-use-webkit nil
         lsp-ui-doc-delay 0.1
         lsp-ui-doc-include-signature t
@@ -514,11 +540,6 @@
 (use-package! pyim
   :demand t
   :config
-  ;; 激活 basedict 拼音词库，五笔用户请继续阅读 README
-  (use-package pyim-basedict
-    :config
-    (pyim-basedict-enable))
-
   (setq pyim-default-scheme 'quanpin
         default-input-method "pyim"
         ;; pyim-isearch-mode 1
@@ -546,6 +567,12 @@
   :bind
   (("C-;" . pyim-convert-string-at-point) ; 与 pyim-probe-dynamic-english 配合
    ("C-<f1>" . pyim-delete-word-from-personal-buffer)))
+
+;; 激活 basedict 拼音词库，五笔用户请继续阅读 README
+(use-package pyim-basedict
+  :after pyim
+  :config
+  (pyim-basedict-enable))
 
 (use-package! pyim-greatdict
   :after pyim

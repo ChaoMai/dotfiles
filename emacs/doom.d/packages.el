@@ -51,6 +51,9 @@
 ;(package! builtin-package :recipe (:branch "develop"))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; MELPA, ELPA or emacsmirror packages
+;;;;; basic
+(package! benchmark-init)
+
 ;;;;; color scheme
 (package! spacemacs-theme)
 
