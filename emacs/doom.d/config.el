@@ -599,7 +599,7 @@
          ("M-0" . awesome-tab-select-visible-tab))
   :config
   (awesome-tab-mode t)
-  (setq awesome-tab-height 125))
+  (setq awesome-tab-height 100))
 
 (use-package! posframe
   :demand t)
