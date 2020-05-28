@@ -110,8 +110,8 @@
 
 (cond
  ((string-equal platform MACOS)
-  (setq doom-font (font-spec :family "Fira Code" :size 13 :weight 'regular))
-  (setq doom-variable-pitch-font (font-spec :family "Sarasa Mono SC" :size 13 :weight 'regular)))
+  (setq doom-font (font-spec :family "Fira Code" :size 14 :weight 'regular))
+  (setq doom-variable-pitch-font (font-spec :family "Sarasa Mono SC" :size 14 :weight 'regular)))
 
  ((string-equal platform LINUX)
   (message "no implemented"))
@@ -599,7 +599,7 @@
          ("M-0" . awesome-tab-select-visible-tab))
   :config
   (awesome-tab-mode t)
-  (setq awesome-tab-height 100))
+  (setq awesome-tab-height 120))
 
 (use-package! posframe
   :demand t)

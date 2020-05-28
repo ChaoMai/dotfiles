@@ -178,8 +178,8 @@ They all accept either a font-spec, font string ("Input Mono-12"), or xlfd font 
 #+BEGIN_SRC emacs-lisp
 (cond
  ((string-equal platform MACOS)
-  (setq doom-font (font-spec :family "Fira Code" :size 13 :weight 'regular))
-  (setq doom-variable-pitch-font (font-spec :family "Sarasa Mono SC" :size 13 :weight 'regular)))
+  (setq doom-font (font-spec :family "Fira Code" :size 14 :weight 'regular))
+  (setq doom-variable-pitch-font (font-spec :family "Sarasa Mono SC" :size 14 :weight 'regular)))
 
  ((string-equal platform LINUX)
   (message "no implemented"))
@@ -804,7 +804,7 @@ Using [[https://github.com/maskray/ccls/][ccls]] as language protocol server.
          ("M-0" . awesome-tab-select-visible-tab))
   :config
   (awesome-tab-mode t)
-  (setq awesome-tab-height 100))
+  (setq awesome-tab-height 120))
 #+END_SRC
 
 ** posframe
