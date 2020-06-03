@@ -97,8 +97,8 @@
 (use-package! undohist
   :demand t
   :config
-  (undohist-initialize)
-  (setq undohist-directory (concat doom-cache-dir "undohist")))
+  (setq undohist-directory (concat doom-cache-dir "undohist"))
+  (undohist-initialize))
 
 (use-package! saveplace
   :demand t

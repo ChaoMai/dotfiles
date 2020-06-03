@@ -138,8 +138,8 @@ Project root is same with vim's configuration.
 (use-package! undohist
   :demand t
   :config
-  (undohist-initialize)
-  (setq undohist-directory (concat doom-cache-dir "undohist")))
+  (setq undohist-directory (concat doom-cache-dir "undohist"))
+  (undohist-initialize))
 #+END_SRC
 
 ** saveplace
