@@ -119,8 +119,8 @@
 
 (cond
  ((string-equal platform MACOS)
-  (setq doom-font (font-spec :family "Fira Code" :size 13 :weight 'regular))
-  (setq doom-variable-pitch-font (font-spec :family "Sarasa Mono SC" :size 13 :weight 'regular)))
+  (setq doom-font (font-spec :family "Fira Code" :size 14 :weight 'regular))
+  (setq doom-variable-pitch-font (font-spec :family "Sarasa Mono SC" :size 14 :weight 'regular)))
 
  ((string-equal platform LINUX)
   (message "no implemented"))
@@ -128,43 +128,6 @@
  ((string-equal platform WSL)
   (setq doom-font (font-spec :family "Fira Code" :size 18 :weight 'regular))
   (setq doom-variable-pitch-font (font-spec :family "Sarasa Mono SC" :size 18 :weight 'regular))))
-
-;; (cond
-;;  ((string-equal platform MACOS)
-;;   (defvar english-font-name "Fira Code")
-;;   (defvar english-font-size 13)
-;;   (defvar chinese-font-name "Noto Serif CJK SC")
-;;   (defvar chinese-font-size 13))
-
-;;  ((string-equal platform LINUX)
-;;   (message "no implemented"))
-
-;;  ((string-equal platform WSL)
-;;   (defvar english-font-name "Fira Code")
-;;   (defvar english-font-size 18)
-;;   (defvar chinese-font-name "Noto Serif CJK SC")
-;;   (defvar chinese-font-size 18)))
-
-;; (defun +my/better-font()
-;;   (interactive)
-;;   ;; english font
-;;   (if (display-graphic-p)
-;;       (progn
-;;         (set-face-attribute 'default nil :font (format "%s:pixelsize=%d" english-font-name english-font-size))
-;;         ;; chinese font
-;;         (dolist (charset '(kana han symbol cjk-misc bopomofo))
-;;           (set-fontset-font (frame-parameter nil 'font)
-;;                             charset
-;;                             (font-spec :family chinese-font-name))))))
-
-;; (defun +my|init-font(frame)
-;;   (with-selected-frame frame
-;;     (if (display-graphic-p)
-;;         (+my/better-font))))
-
-;; (if (and (fboundp 'daemonp) (daemonp))
-;;     (add-hook 'after-make-frame-functions #'+my|init-font)
-;;   (+my/better-font))
 
 (setq fancy-splash-image (concat doom-private-dir "doom.jpg"))
 
