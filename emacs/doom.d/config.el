@@ -30,14 +30,23 @@
  ((string-equal system-type "gnu/linux")
   (defvar platform LINUX)))
 
+;; (defun wsl2-copy (beg end)
+;;   (interactive "r")
+;;   (call-process-region beg end "clip.exe"))
+
+;; (defun wsl2-paste ()
+;;   (interactive)
+;;   (if (region-active-p) (delete-region (region-beginning) (region-end)) nil)
+;;   (call-process "powershell.exe" nil t nil "-Command" "Get-Clipboard"))
+
 (defun wsl2-copy (beg end)
   (interactive "r")
-  (call-process-region beg end "clip.exe"))
+  (call-process-region beg end "xclip" "-in" "-selection" "clipboard"))
 
 (defun wsl2-paste ()
   (interactive)
   (if (region-active-p) (delete-region (region-beginning) (region-end)) nil)
-  (call-process "powershell.exe" nil t nil "-Command" "Get-Clipboard"))
+  (call-process "xclip" nil t nil "-out" "-selection" "clipboard"))
 
 (defun osx-copy (beg end)
   (interactive "r")
