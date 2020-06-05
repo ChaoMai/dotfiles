@@ -178,8 +178,8 @@ They all accept either a font-spec, font string ("Input Mono-12"), or xlfd font 
 #+BEGIN_SRC emacs-lisp
 (cond
  ((string-equal platform MACOS)
-  (setq doom-font (font-spec :family "Fira Code" :size 14 :weight 'regular))
-  (setq doom-variable-pitch-font (font-spec :family "Sarasa Mono SC" :size 14 :weight 'regular)))
+  (setq doom-font (font-spec :family "Fira Code" :size 13 :weight 'regular))
+  (setq doom-variable-pitch-font (font-spec :family "Sarasa Mono SC" :size 13 :weight 'regular)))
 
  ((string-equal platform LINUX)
   (message "no implemented"))
@@ -275,9 +275,9 @@ There are two ways to load a theme. Both assume the theme is installed and avail
 
 ** indent guide
 #+BEGIN_SRC emacs-lisp
-(use-package! highlight-indent-guides
-  :config
-  (setq highlight-indent-guides-character ?│))
+;; (use-package! highlight-indent-guides
+;;   :config
+;;   (setq highlight-indent-guides-character ?│))
 #+END_SRC
 
 * ivy

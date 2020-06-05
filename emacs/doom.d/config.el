@@ -110,8 +110,8 @@
 
 (cond
  ((string-equal platform MACOS)
-  (setq doom-font (font-spec :family "Fira Code" :size 14 :weight 'regular))
-  (setq doom-variable-pitch-font (font-spec :family "Sarasa Mono SC" :size 14 :weight 'regular)))
+  (setq doom-font (font-spec :family "Fira Code" :size 13 :weight 'regular))
+  (setq doom-variable-pitch-font (font-spec :family "Sarasa Mono SC" :size 13 :weight 'regular)))
 
  ((string-equal platform LINUX)
   (message "no implemented"))
@@ -186,9 +186,9 @@
   :init
   (setq display-line-numbers-width-start 5))
 
-(use-package! highlight-indent-guides
-  :config
-  (setq highlight-indent-guides-character ?│))
+;; (use-package! highlight-indent-guides
+;;   :config
+;;   (setq highlight-indent-guides-character ?│))
 
 (use-package! ivy
   :defer t
