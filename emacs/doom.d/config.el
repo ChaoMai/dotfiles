@@ -115,19 +115,22 @@
   (setq save-place t)
   (save-place-mode 1))
 
+;; (use-package! valign-mode
+;;   :demand t)
+
 (add-to-list 'default-frame-alist '(inhibit-double-buffering . t))
 
 (cond
  ((string-equal platform MACOS)
-  (setq doom-font (font-spec :family "Fira Code" :size 14 :weight 'regular))
-  (setq doom-variable-pitch-font (font-spec :family "Sarasa Mono SC" :size 14 :weight 'regular)))
+  (setq doom-font (font-spec :family "Fira Code" :size 14 :weight 'regular)))
+  ;; (setq doom-variable-pitch-font (font-spec :family "Sarasa Mono SC" :size 14 :weight 'regular)))
 
  ((string-equal platform LINUX)
   (message "no implemented"))
 
  ((string-equal platform WSL)
-  (setq doom-font (font-spec :family "Fira Code" :size 18 :weight 'regular))
-  (setq doom-variable-pitch-font (font-spec :family "Sarasa Mono SC" :size 18 :weight 'regular))))
+  (setq doom-font (font-spec :family "Fira Code" :size 18 :weight 'regular))))
+  ;; (setq doom-variable-pitch-font (font-spec :family "Sarasa Mono SC" :size 18 :weight 'regular))))
 
 (setq fancy-splash-image (concat doom-private-dir "doom.jpg"))
 

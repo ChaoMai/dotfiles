@@ -65,6 +65,8 @@
 (package! separedit)
 (package! expand-region)
 (package! undohist)
+(package! valign-mode
+  :recipe (:host github :repo "casouri/valign"))
 
 ;;;;; org-mode
 (package! org-superstar)
