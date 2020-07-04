@@ -115,9 +115,6 @@
   (setq save-place t)
   (save-place-mode 1))
 
-;; (use-package! valign-mode
-;;   :demand t)
-
 (add-to-list 'default-frame-alist '(inhibit-double-buffering . t))
 
 (cond
@@ -365,51 +362,51 @@
   :config
   (global-evil-matchit-mode 1))
 
-(cond
- ((string-equal platform MACOS)
-  (defvar conda_home "/usr/local/Caskroom/miniconda/base/")
-  (defvar conda_env_home "/usr/local/Caskroom/miniconda/base/"))
+;; (cond
+;;  ((string-equal platform MACOS)
+;;   (defvar conda_home "/usr/local/Caskroom/miniconda/base/")
+;;   (defvar conda_env_home "/usr/local/Caskroom/miniconda/base/"))
 
- ((string-equal platform LINUX)
-  (message "no implemented"))
+;;  ((string-equal platform LINUX)
+;;   (message "no implemented"))
 
- ((string-equal platform WSL)
-  (defvar conda_home "/home/chaomai/Programs/opt/miniconda3/")
-  (defvar conda_env_home "/home/chaomai/Programs/opt/miniconda3/")))
+;;  ((string-equal platform WSL)
+;;   (defvar conda_home "/home/chaomai/Programs/opt/miniconda3/")
+;;   (defvar conda_env_home "/home/chaomai/Programs/opt/miniconda3/")))
 
-(use-package! conda
-  :defer t
-  :config
-  (setq conda-anaconda-home conda_home)
-  (setq conda-env-home-directory conda_env_home))
-  ;; (setq-default mode-line-format (cons '(:exec conda-env-current-name) mode-line-format)))
+;; (use-package! conda
+;;   :defer t
+;;   :config
+;;   (setq conda-anaconda-home conda_home)
+;;   (setq conda-env-home-directory conda_env_home))
+;;   ;; (setq-default mode-line-format (cons '(:exec conda-env-current-name) mode-line-format)))
 
-(cond
- ((string-equal platform MACOS)
-  (defvar clang-format_bin "clang-format"))
+;; (cond
+;;  ((string-equal platform MACOS)
+;;   (defvar clang-format_bin "clang-format"))
 
- ((string-equal platform LINUX)
-  (message "no implemented"))
+;;  ((string-equal platform LINUX)
+;;   (message "no implemented"))
 
- ((string-equal platform WSL)
-  (defvar clang-format_bin "clang-format-10")))
+;;  ((string-equal platform WSL)
+;;   (defvar clang-format_bin "clang-format-10")))
 
-(use-package! format
-  :defer t
-  :config
-  (set-formatter! 'clang-format
-    '(clang-format_bin
-      "-style={BasedOnStyle: Google, SortIncludes: false}"
-      ("-assume-filename=%S" (or buffer-file-name mode-result "")))
-    :modes
-    '((c-mode ".c")
-      (c++-mode ".cpp")
-      (java-mode ".java")
-      (objc-mode ".m")
-      (protobuf-mode ".proto")))
+;; (use-package! format
+;;   :defer t
+;;   :config
+;;   (set-formatter! 'clang-format
+;;     '(clang-format_bin
+;;       "-style={BasedOnStyle: Google, SortIncludes: false}"
+;;       ("-assume-filename=%S" (or buffer-file-name mode-result "")))
+;;     :modes
+;;     '((c-mode ".c")
+;;       (c++-mode ".cpp")
+;;       (java-mode ".java")
+;;       (objc-mode ".m")
+;;       (protobuf-mode ".proto")))
 
-  (set-formatter! 'black "black -q -"
-    :modes '(python-mode)))
+;;   (set-formatter! 'black "black -q -"
+;;     :modes '(python-mode)))
 
 (use-package! company
   :defer t
@@ -431,82 +428,82 @@
                            (company-dabbrev-code company-keywords)
                            company-dabbrev)))
 
-(use-package! lsp-mode
-  :defer t
-  :config
-  (setq read-process-output-max (* 1024 1024))
+;; (use-package! lsp-mode
+;;   :defer t
+;;   :config
+;;   (setq read-process-output-max (* 1024 1024))
 
-  (setq lsp-keymap-prefix "C-c l"
-        lsp-idle-delay 0.1                 ;; lazy refresh
-        lsp-log-io nil                     ;; enable log only for debug
-        lsp-enable-folding nil             ;; use `evil-matchit' instead
-        lsp-diagnostic-package :flycheck   ;; prefer flycheck
-        lsp-lens-auto-enable nil           ;; disable lens
-        lsp-flycheck-live-reporting nil    ;; obey `flycheck-check-syntax-automatically'
-        lsp-prefer-capf t                  ;; using `company-capf' by default
-        lsp-enable-snippet nil             ;; no snippet
-        lsp-enable-file-watchers nil       ;; turn off for better performance
-        lsp-enable-text-document-color nil ;; as above
-        lsp-enable-symbol-highlighting nil ;; as above
-        lsp-enable-indentation nil         ;; indent by ourself
-        lsp-enable-on-type-formatting nil  ;; disable formatting on the fly
-        lsp-auto-guess-root t              ;; auto guess root
-        lsp-keep-workspace-alive nil       ;; auto kill lsp server
-        lsp-enable-xref t
-        lsp-eldoc-enable-hover nil         ;; disable eldoc hover displays in minibuffer, lsp-ui shows it
-        lsp-signature-auto-activate t      ;; show function signature
-        lsp-signature-doc-lines 1)         ;; but dont take up more lines
-  (add-to-list 'exec-path (concat conda_home "envs/common_dev_python3.8/bin/")))
+;;   (setq lsp-keymap-prefix "C-c l"
+;;         lsp-idle-delay 0.1                 ;; lazy refresh
+;;         lsp-log-io nil                     ;; enable log only for debug
+;;         lsp-enable-folding nil             ;; use `evil-matchit' instead
+;;         lsp-diagnostic-package :flycheck   ;; prefer flycheck
+;;         lsp-lens-auto-enable nil           ;; disable lens
+;;         lsp-flycheck-live-reporting nil    ;; obey `flycheck-check-syntax-automatically'
+;;         lsp-prefer-capf t                  ;; using `company-capf' by default
+;;         lsp-enable-snippet nil             ;; no snippet
+;;         lsp-enable-file-watchers nil       ;; turn off for better performance
+;;         lsp-enable-text-document-color nil ;; as above
+;;         lsp-enable-symbol-highlighting nil ;; as above
+;;         lsp-enable-indentation nil         ;; indent by ourself
+;;         lsp-enable-on-type-formatting nil  ;; disable formatting on the fly
+;;         lsp-auto-guess-root t              ;; auto guess root
+;;         lsp-keep-workspace-alive nil       ;; auto kill lsp server
+;;         lsp-enable-xref t
+;;         lsp-eldoc-enable-hover nil         ;; disable eldoc hover displays in minibuffer, lsp-ui shows it
+;;         lsp-signature-auto-activate t      ;; show function signature
+;;         lsp-signature-doc-lines 1)         ;; but dont take up more lines
+;;   (add-to-list 'exec-path (concat conda_home "envs/common_dev_python3.8/bin/")))
 
-(use-package! lsp-ui
-  :after lsp-mode
-  :config
-  (setq lsp-ui-sideline-enable nil
-        lsp-ui-sideline-show-hover nil
-        lsp-ui-sideline-show-diagnostics nil
-        lsp-ui-sideline-ignore-duplicate t
-        lsp-ui-sideline-delay 0.1
+;; (use-package! lsp-ui
+;;   :after lsp-mode
+;;   :config
+;;   (setq lsp-ui-sideline-enable nil
+;;         lsp-ui-sideline-show-hover nil
+;;         lsp-ui-sideline-show-diagnostics nil
+;;         lsp-ui-sideline-ignore-duplicate t
+;;         lsp-ui-sideline-delay 0.1
 
-        lsp-ui-peek-enable nil
-        lsp-ui-peek-fontify 'always
+;;         lsp-ui-peek-enable nil
+;;         lsp-ui-peek-fontify 'always
 
-        lsp-ui-doc-enable nil
-        lsp-ui-doc-use-webkit nil
-        lsp-ui-doc-delay 0.1
-        lsp-ui-doc-include-signature t
-        lsp-ui-doc-position 'top
-        lsp-ui-doc-border (face-foreground 'default)
+;;         lsp-ui-doc-enable nil
+;;         lsp-ui-doc-use-webkit nil
+;;         lsp-ui-doc-delay 0.1
+;;         lsp-ui-doc-include-signature t
+;;         lsp-ui-doc-position 'top
+;;         lsp-ui-doc-border (face-foreground 'default)
 
-        lsp-ui-imenu-enable nil
-        lsp-ui-imenu-colors `(,(face-foreground 'font-lock-keyword-face)
-                              ,(face-foreground 'font-lock-string-face)
-                              ,(face-foreground 'font-lock-constant-face)
-                              ,(face-foreground 'font-lock-variable-name-face))))
+;;         lsp-ui-imenu-enable nil
+;;         lsp-ui-imenu-colors `(,(face-foreground 'font-lock-keyword-face)
+;;                               ,(face-foreground 'font-lock-string-face)
+;;                               ,(face-foreground 'font-lock-constant-face)
+;;                               ,(face-foreground 'font-lock-variable-name-face))))
 
-(use-package! lsp-treemacs
-  :after lsp-mode)
+;; (use-package! lsp-treemacs
+;;   :after lsp-mode)
 
-(use-package! ccls
-  :after lsp-mode
-  :config
-  (setq ccls-sem-highlight-method 'font-lock)
-  (add-hook 'lsp-after-open-hook #'ccls-code-lens-mode)
-  (ccls-use-default-rainbow-sem-highlight)
+;; (use-package! ccls
+;;   :after lsp-mode
+;;   :config
+;;   (setq ccls-sem-highlight-method 'font-lock)
+;;   (add-hook 'lsp-after-open-hook #'ccls-code-lens-mode)
+;;   (ccls-use-default-rainbow-sem-highlight)
 
-  (setq ccls-executable "~/Documents/workspace/github/ccls/Release/ccls"
-        ccls-args '("--log-file=/tmp/ccls-emacs.log")
-        ccls-initialization-options `(:capabilities (:foldingRangeProvider :json-false)
-                                                    :cache (:directory ".ccls-cache")
-                                                    :completion (:caseSensitivity 0)
-                                                    :compilationDatabaseDirectory "cmake-build"
-                                                    :codeLens (:localVariables :json-false)
-                                                    :client (:snippetSupport t)
-                                                    :diagnostics (:onChang 100
-                                                                           :onOpen 100
-                                                                           :onSave 100)
-                                                    :highlight (:lsRanges t)
-                                                    :index (:threads 5)))
-  (evil-set-initial-state 'ccls-tree-mode 'emacs))
+;;   (setq ccls-executable "~/Documents/workspace/github/ccls/Release/ccls"
+;;         ccls-args '("--log-file=/tmp/ccls-emacs.log")
+;;         ccls-initialization-options `(:capabilities (:foldingRangeProvider :json-false)
+;;                                                     :cache (:directory ".ccls-cache")
+;;                                                     :completion (:caseSensitivity 0)
+;;                                                     :compilationDatabaseDirectory "cmake-build"
+;;                                                     :codeLens (:localVariables :json-false)
+;;                                                     :client (:snippetSupport t)
+;;                                                     :diagnostics (:onChang 100
+;;                                                                            :onOpen 100
+;;                                                                            :onSave 100)
+;;                                                     :highlight (:lsRanges t)
+;;                                                     :index (:threads 5)))
+;;   (evil-set-initial-state 'ccls-tree-mode 'emacs))
 
 (use-package! modern-cpp-font-lock
   :after ccls
