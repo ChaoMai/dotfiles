@@ -483,6 +483,13 @@ example: `aa-bb-cc.org' then save image test.png to `aa-bb-cc_media/test.png'.
   :after org)
 #+END_SRC
 
+** valign
+#+BEGIN_SRC emacs-lisp
+(use-package! valign
+  :after org)
+(add-hook 'org-mode-hook #'valign-mode)
+#+END_SRC
+
 * evil
 ** basic
 #+BEGIN_SRC emacs-lisp

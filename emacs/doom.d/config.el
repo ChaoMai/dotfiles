@@ -342,6 +342,10 @@
 (use-package! ox-confluence
   :after org)
 
+(use-package! valign
+  :after org)
+(add-hook 'org-mode-hook #'valign-mode)
+
 (use-package! evil
   :defer t
   :bind (:map evil-normal-state-map

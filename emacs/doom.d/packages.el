@@ -53,6 +53,8 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; MELPA, ELPA or emacsmirror packages
 ;;;;; basic
 (package! benchmark-init)
+(package! valign
+  :recipe (:host github :repo "casouri/valign"))
 
 ;;;;; color scheme
 (package! spacemacs-theme)
