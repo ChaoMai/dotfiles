@@ -126,7 +126,7 @@
   (message "no implemented"))
 
  ((string-equal platform WSL)
-  (setq doom-font (font-spec :family "Fira Code" :size 18 :weight 'regular))))
+  (setq doom-font (font-spec :family "Fira Code" :size 14 :weight 'regular))))
   ;; (setq doom-variable-pitch-font (font-spec :family "Sarasa Mono SC" :size 18 :weight 'regular))))
 
 (setq fancy-splash-image (concat doom-private-dir "doom.jpg"))
