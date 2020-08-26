@@ -13,6 +13,7 @@
 	packedGitLimit = 512m
 	packedGitWindowSize = 512m
 	quotepath = false
+	excludesfile = /home/chaomai/.gitignore
 [pack]
 	deltaCacheSize = 2047m
 	packSizeLimit = 2047m

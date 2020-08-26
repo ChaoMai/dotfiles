@@ -29,7 +29,7 @@ alias ll="ls -al"
 alias rsync_common="rsync -uaihv --progress"
 
 ######################################## git
-function gi() { curl -L -s https://www.gitignore.io/api/$@ }
+function gi() { curl -sL https://www.toptal.com/developers/gitignore/api/\$@ ;}
 
 ######################################## tmux
 function t() { tmux new -A -s $@ }
