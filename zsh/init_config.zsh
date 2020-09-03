@@ -181,6 +181,7 @@ elif [[ $OSTYPE == "Linux" ]]; then
         local WSL2_LOCAL_IP=$(cat /etc/resolv.conf | grep nameserver | awk '{print $2}')
         export DISPLAY=$WSL2_LOCAL_IP:0
         export LIBGL_ALWAYS_INDIRECT=1
+        export NO_AT_BRIDGE=1
 
         export GTK_IM_MODULE=fcitx
         export QT_IM_MODULE=fcitx
