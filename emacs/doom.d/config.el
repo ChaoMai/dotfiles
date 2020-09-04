@@ -119,13 +119,13 @@
 
 (cond
  ((string-equal platform MACOS)
-  (setq doom-font (font-spec :family "Cascadia Code" :size 15 :weight 'regular)))
+  (setq doom-font (font-spec :family "Cascadia Code" :size 14 :weight 'regular)))
 
  ((string-equal platform LINUX)
   (message "no implemented"))
 
  ((string-equal platform WSL)
-  (setq doom-font (font-spec :family "Cascadia Code" :size 15 :weight 'regular))))
+  (setq doom-font (font-spec :family "Cascadia Code" :size 14 :weight 'regular))))
 
 (setq fancy-splash-image (concat doom-private-dir "doom.jpg"))
 
