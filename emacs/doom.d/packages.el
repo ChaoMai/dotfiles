@@ -71,6 +71,7 @@
 ;;;;; org-mode
 (package! org-superstar)
 (package! org-download)
+(package! org-ref)
 
 ;;;;; dev
 ;; (package! lsp-mode)

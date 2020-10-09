@@ -119,7 +119,7 @@
 
 (cond
  ((string-equal platform MACOS)
-  (setq doom-font (font-spec :family "Cascadia Code" :size 14 :weight 'regular)))
+  (setq doom-font (font-spec :family "Cascadia Code PL" :size 14 :weight 'regular)))
 
  ((string-equal platform LINUX)
   (message "no implemented"))
@@ -228,9 +228,8 @@
         org-enforce-todo-checkbox-dependencies t
         ;; org-ellipsis " -> "
         ;; gdt task status
-        org-todo-keywords '((sequence "TODO(t)" "INPROGRESS(i!)" "WAITTING(w!)" "SOMEDAY(s!)" "|" "DONE(d@/!)" "CANCELLED(a@/!)")
-                            (sequence "REPORT(r!)" "BUG(b!)" "KNOWNCAUSE(k!)" "|" "FIXED(f!)")
-                            (sequence "PINNED(p)" "|" "DONE(f@/!)"))
+        org-todo-keywords '((sequence "TODO(t)" "NEXT(n!)" "PROJ(p!)" "WAITING(w@/!)" "|" "INACTIVE(i@/!)" "CANCELLED(c@/!)" "DONE(d!)"))
+
         ;; log
         org-log-done 'time
         org-log-repeat 'time
@@ -507,9 +506,9 @@
 ;;                                                     :index (:threads 5)))
 ;;   (evil-set-initial-state 'ccls-tree-mode 'emacs))
 
-(use-package! modern-cpp-font-lock
-  :after ccls
-  :hook (c++-mode . modern-c++-font-lock-mode))
+;; (use-package! modern-cpp-font-lock
+;;   :after ccls
+;;   :hook (c++-mode . modern-c++-font-lock-mode))
 
 (use-package! pyim
   :demand t
@@ -573,7 +572,7 @@
          ("M-0" . awesome-tab-select-visible-tab))
   :config
   (awesome-tab-mode t)
-  (setq awesome-tab-height 100))
+  (setq awesome-tab-height 105))
 
 (use-package! posframe
   :demand t)

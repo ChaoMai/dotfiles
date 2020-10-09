@@ -187,7 +187,7 @@ They all accept either a font-spec, font string ("Input Mono-12"), or xlfd font 
 #+BEGIN_SRC emacs-lisp
 (cond
  ((string-equal platform MACOS)
-  (setq doom-font (font-spec :family "Cascadia Code" :size 14 :weight 'regular)))
+  (setq doom-font (font-spec :family "Cascadia Code PL" :size 14 :weight 'regular)))
 
  ((string-equal platform LINUX)
   (message "no implemented"))
@@ -338,9 +338,8 @@ There are two ways to load a theme. Both assume the theme is installed and avail
         org-enforce-todo-checkbox-dependencies t
         ;; org-ellipsis " -> "
         ;; gdt task status
-        org-todo-keywords '((sequence "TODO(t)" "INPROGRESS(i!)" "WAITTING(w!)" "SOMEDAY(s!)" "|" "DONE(d@/!)" "CANCELLED(a@/!)")
-                            (sequence "REPORT(r!)" "BUG(b!)" "KNOWNCAUSE(k!)" "|" "FIXED(f!)")
-                            (sequence "PINNED(p)" "|" "DONE(f@/!)"))
+        org-todo-keywords '((sequence "TODO(t)" "NEXT(n!)" "PROJ(p!)" "WAITING(w@/!)" "|" "INACTIVE(i@/!)" "CANCELLED(c@/!)" "DONE(d!)"))
+
         ;; log
         org-log-done 'time
         org-log-repeat 'time
@@ -698,9 +697,9 @@ Using [[https://github.com/maskray/ccls/][ccls]] as language protocol server.
 
 *** c/cpp-cpp-font-lock
 #+BEGIN_SRC emacs-lisp
-(use-package! modern-cpp-font-lock
-  :after ccls
-  :hook (c++-mode . modern-c++-font-lock-mode))
+;; (use-package! modern-cpp-font-lock
+;;   :after ccls
+;;   :hook (c++-mode . modern-c++-font-lock-mode))
 #+END_SRC
 
 * input method
@@ -781,7 +780,7 @@ Using [[https://github.com/maskray/ccls/][ccls]] as language protocol server.
          ("M-0" . awesome-tab-select-visible-tab))
   :config
   (awesome-tab-mode t)
-  (setq awesome-tab-height 100))
+  (setq awesome-tab-height 105))
 #+END_SRC
 
 ** posframe
