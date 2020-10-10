@@ -62,9 +62,9 @@ This function should only modify configuration layer settings."
      ;; spell-checking
      ;; syntax-checking
      ;; version-control
-     semantic
      tabs
-     treemacs
+     (treemacs :variables
+               treemacs-use-git-mode 'deferred)
      vimscript)
 
    ;; List of additional packages that will be installed without being
@@ -334,7 +334,7 @@ It should only modify the values of Spacemacs settings."
    ;; If non-nil the frame is maximized when Emacs starts up.
    ;; Takes effect only if `dotspacemacs-fullscreen-at-startup' is nil.
    ;; (default nil) (Emacs 24.4+ only)
-   dotspacemacs-maximized-at-startup t
+   dotspacemacs-maximized-at-startup nil
 
    ;; If non-nil the frame is undecorated when Emacs starts up. Combine this
    ;; variable with `dotspacemacs-maximized-at-startup' in OSX to obtain
@@ -539,21 +539,7 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
    ((string-equal platform WSL)
     (defvar conda_home "/home/chaomai/Programs/opt/miniconda3/")
     (defvar conda_env_home "/home/chaomai/Programs/opt/miniconda3/")))
-  )
 
-(defun dotspacemacs/user-load ()
-  "Library to load while dumping.
-This function is called only while dumping Spacemacs configuration. You can
-`require' or `load' the libraries of your choice that will be included in the
-dump."
-  )
-
-(defun dotspacemacs/user-config ()
-  "Configuration for user code:
-This function is called at the very end of Spacemacs startup, after layer
-configuration.
-Put your configuration code here, except for variables that should be set
-before packages are loaded."
   ;; wsl open
   (cond
    ((string-equal platform WSL)
@@ -580,6 +566,21 @@ before packages are loaded."
                                       :size 12.0
                                       :weight normal
                                       :width normal))))
+  )
+
+(defun dotspacemacs/user-load ()
+  "Library to load while dumping.
+This function is called only while dumping Spacemacs configuration. You can
+`require' or `load' the libraries of your choice that will be included in the
+dump."
+  )
+
+(defun dotspacemacs/user-config ()
+  "Configuration for user code:
+This function is called at the very end of Spacemacs startup, after layer
+configuration.
+Put your configuration code here, except for variables that should be set
+before packages are loaded."
 
   ;; line spacing
   (setq-default line-spacing 9)
@@ -812,7 +813,8 @@ before packages are loaded."
   ;;                               ,(face-foreground 'font-lock-variable-name-face))))
 
   ;; company-lsp
-  (use-package company-lsp :commands company-lsp)
+  (use-package company-lsp
+    :commands company-lsp)
 
   ;; ccls
   (use-package ccls
@@ -836,6 +838,10 @@ before packages are loaded."
                                                       :index (:threads 5)))
     (evil-set-initial-state 'ccls-tree-mode 'emacs))
 
+  ;; centaur-tabs
+  (use-package centaur-tabs
+    :config
+    (setq centaur-tabs-set-close-button nil))
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
@@ -852,7 +858,7 @@ This function is called at the very end of Spacemacs initialization."
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (vimrc-mode helm-gtags ggtags dactyl-mode counsel-gtags counsel swiper emmet-mode ivy company add-node-modules-path youdao-dictionary names chinese-word-at-point pos-tip pyim pyim-basedict xr pangu-spacing helpful elisp-refs dash-functional find-by-pinyin-dired chinese-conv ace-pinyin pinyinlib ws-butler writeroom-mode winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package undo-tree treemacs-projectile treemacs-persp treemacs-magit treemacs-icons-dired treemacs-evil toc-org symon symbol-overlay string-inflection spaceline-all-the-icons smeargle restart-emacs rainbow-delimiters popwin pcre2el password-generator paradox overseer orgit org-superstar org-rich-yank org-projectile org-present org-pomodoro org-mime org-download org-cliplink org-brain open-junk-file nameless move-text mmm-mode markdown-toc magit-svn magit-section magit-gitflow macrostep lorem-ipsum link-hint indent-guide hybrid-mode hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-xref helm-themes helm-swoop helm-purpose helm-projectile helm-org-rifle helm-org helm-mode-manager helm-make helm-ls-git helm-gitignore helm-git-grep helm-flx helm-descbinds helm-ag google-translate golden-ratio gnuplot gitignore-templates gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md font-lock+ flycheck-package flycheck-elsa flx-ido fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-textobj-line evil-surround evil-org evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-cleverparens evil-args evil-anzu eval-sexp-fu emr elisp-slime-nav editorconfig dumb-jump dotenv-mode diminish devdocs define-word column-enforce-mode clean-aindent-mode centered-cursor-mode auto-highlight-symbol auto-compile aggressive-indent ace-link ace-jump-helm-line)))
+    (dap-mode posframe bui vimrc-mode helm-gtags ggtags dactyl-mode counsel-gtags counsel swiper emmet-mode ivy company add-node-modules-path youdao-dictionary names chinese-word-at-point pos-tip pyim pyim-basedict xr pangu-spacing helpful elisp-refs dash-functional find-by-pinyin-dired chinese-conv ace-pinyin pinyinlib ws-butler writeroom-mode winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package undo-tree treemacs-projectile treemacs-persp treemacs-magit treemacs-icons-dired treemacs-evil toc-org symon symbol-overlay string-inflection spaceline-all-the-icons smeargle restart-emacs rainbow-delimiters popwin pcre2el password-generator paradox overseer orgit org-superstar org-rich-yank org-projectile org-present org-pomodoro org-mime org-download org-cliplink org-brain open-junk-file nameless move-text mmm-mode markdown-toc magit-svn magit-section magit-gitflow macrostep lorem-ipsum link-hint indent-guide hybrid-mode hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-xref helm-themes helm-swoop helm-purpose helm-projectile helm-org-rifle helm-org helm-mode-manager helm-make helm-ls-git helm-gitignore helm-git-grep helm-flx helm-descbinds helm-ag google-translate golden-ratio gnuplot gitignore-templates gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md font-lock+ flycheck-package flycheck-elsa flx-ido fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-textobj-line evil-surround evil-org evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-cleverparens evil-args evil-anzu eval-sexp-fu emr elisp-slime-nav editorconfig dumb-jump dotenv-mode diminish devdocs define-word column-enforce-mode clean-aindent-mode centered-cursor-mode auto-highlight-symbol auto-compile aggressive-indent ace-link ace-jump-helm-line)))
  '(pyim-dicts
    (quote
     ((:name "pyim-greatdict" :file "/home/chaomai/Documents/workspace/dotfiles/emacs/spacemacs.d/pyim-greatdict.pyim")))))
