@@ -425,7 +425,7 @@ org agenda 里面时间块彩色显示。
 Record the time
 
 #+BEGIN_SRC emacs-lisp
-(use-package org-clock
+(use-package! org-clock
   :after org
   :config
   (setq org-clock-in-resume t
