@@ -45,9 +45,11 @@ This function should only modify configuration layer settings."
      auto-completion
      better-defaults
      chinese
+     cmake
      conda
      copy-as-format
      csv
+     dap
      emacs-lisp
      git
      go
@@ -592,6 +594,12 @@ This function is called at the very end of Spacemacs startup, after layer
 configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
+  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; references
+  ;; https://practicalli.github.io/spacemacs/
+  ;; https://scarletsky.github.io/2017/09/29/org-mode-in-spacemacs/
+  ;; https://edward852.github.io/post/%E9%80%9A%E7%94%A8%E4%BB%A3%E7%A0%81%E7%BC%96%E8%BE%91%E5%99%A8spacemacs/
+  ;; https://emacs-lsp.github.io/lsp-mode/
+
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; basic
   ;; line spacing
   (setq-default line-spacing 9)
@@ -877,10 +885,11 @@ before packages are loaded."
     :after lsp-mode
     :config
     (setq lsp-ui-sideline-enable t
-          lsp-ui-sideline-show-hover t
-          lsp-ui-sideline-show-diagnostics t
-          lsp-ui-sideline-ignore-duplicate t
           lsp-ui-sideline-delay 0.1
+          lsp-ui-sideline-ignore-duplicate t
+          lsp-ui-sideline-show-code-actions nil
+          lsp-ui-sideline-show-diagnostics t
+          lsp-ui-sideline-show-hover nil
 
           lsp-ui-peek-enable nil
           lsp-ui-peek-fontify 'always
