@@ -74,7 +74,9 @@ This function should only modify configuration layer settings."
    ;; To use a local version of a package, use the `:location' property:
    ;; '(your-package :location "~/path/to/your-package/")
    ;; Also include the dependencies as they will not be resolved automatically.
-   dotspacemacs-additional-packages '()
+   dotspacemacs-additional-packages '(modern-cpp-font-lock
+                                      posframe
+                                      flycheck-posframe)
 
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
@@ -141,7 +143,7 @@ It should only modify the values of Spacemacs settings."
    ;; Setting this >= 1 MB should increase performance for lsp servers
    ;; in emacs 27.
    ;; (default (* 1024 1024))
-   dotspacemacs-read-process-output-max (* 1024 1024)
+   dotspacemacs-read-process-output-max (* 1024 4096)
 
    ;; If non-nil then Spacelpa repository is the primary source to install
    ;; a locked version of packages. If nil then Spacemacs will install the
@@ -587,12 +589,13 @@ before packages are loaded."
 
   ;; pyim
   (use-package pyim
+    :demand t
     :config
     (setq pyim-default-scheme 'quanpin
           default-input-method "pyim"
           ;; 开启拼音搜索功能
           ;; pyim-isearch-mode 1
-          pyim-page-tooltip 'popup
+          pyim-page-tooltip 'posframe
           pyim-page-length 5
           pyim-fuzzy-pinyin-alist '(("an" "ang")
                                     ("in" "ing")
@@ -614,12 +617,14 @@ before packages are loaded."
                                                           pyim-probe-punctuation-after-punctuation))
 
     :bind
-    (("C-;" . pyim-convert-string-at-point) ; 与 pyim-probe-dynamic-english 配合
+    (("C-;" . pyim-convert-string-at-point) ; 与 pyim-probe-dynamic-english
      ("C-<f1>" . pyim-delete-word-from-personal-buffer)))
 
   ;; pangu-spacing
   (use-package pangu-spacing
+    :demand t
     :config
+    (global-pangu-spacing-mode 1)
     (setq pangu-spacing-real-insert-separtor t))
 
   ;; projectile
@@ -637,6 +642,7 @@ before packages are loaded."
 
   ;; org-mode
   (use-package org
+    :defer t
     :init
     (setq org-directory org_dir)
     :config
@@ -762,10 +768,8 @@ before packages are loaded."
   (use-package lsp-mode
     :commands lsp
     :config
-    (setq read-process-output-max (* 1024 1024))
-
     (setq lsp-keymap-prefix "C-c l"
-          lsp-idle-delay 0.1                 ;; lazy refresh
+          lsp-idle-delay 0.500               ;; lazy refresh
           lsp-log-io nil                     ;; enable log only for debug
           lsp-enable-folding nil             ;; use `evil-matchit' instead
           lsp-diagnostic-package :flycheck   ;; prefer flycheck
@@ -812,15 +816,15 @@ before packages are loaded."
   ;;                               ,(face-foreground 'font-lock-constant-face)
   ;;                               ,(face-foreground 'font-lock-variable-name-face))))
 
-  ;; company-lsp
-  (use-package company-lsp
-    :commands company-lsp)
+  ;; lsp-treemacs
+  (use-package lsp-treemacs
+    :after lsp-mode)
 
   ;; ccls
   (use-package ccls
+    :after lsp-mode
     :config
     (setq ccls-sem-highlight-method 'font-lock)
-    ;; (add-hook 'lsp-after-open-hook #'ccls-code-lens-mode)
     (ccls-use-default-rainbow-sem-highlight)
 
     (setq ccls-executable "~/Documents/workspace/github/ccls/Release/ccls"
@@ -838,10 +842,25 @@ before packages are loaded."
                                                       :index (:threads 5)))
     (evil-set-initial-state 'ccls-tree-mode 'emacs))
 
+  ;; modern-cpp-font-lock
+  (use-package modern-cpp-font-lock
+    :after ccls
+    :config
+    (modern-c++-font-lock-global-mode t))
+
   ;; centaur-tabs
   (use-package centaur-tabs
     :config
     (setq centaur-tabs-set-close-button nil))
+
+  ;; posframe
+  (use-package posframe
+    :demand t)
+
+  ;; flycheck-posframe
+  (use-package flycheck-posframe
+    :after flycheck
+    :config (add-hook 'flycheck-mode-hook #'flycheck-posframe-mode))
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
@@ -857,11 +876,9 @@ This function is called at the very end of Spacemacs initialization."
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   (quote
-    (dap-mode posframe bui vimrc-mode helm-gtags ggtags dactyl-mode counsel-gtags counsel swiper emmet-mode ivy company add-node-modules-path youdao-dictionary names chinese-word-at-point pos-tip pyim pyim-basedict xr pangu-spacing helpful elisp-refs dash-functional find-by-pinyin-dired chinese-conv ace-pinyin pinyinlib ws-butler writeroom-mode winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package undo-tree treemacs-projectile treemacs-persp treemacs-magit treemacs-icons-dired treemacs-evil toc-org symon symbol-overlay string-inflection spaceline-all-the-icons smeargle restart-emacs rainbow-delimiters popwin pcre2el password-generator paradox overseer orgit org-superstar org-rich-yank org-projectile org-present org-pomodoro org-mime org-download org-cliplink org-brain open-junk-file nameless move-text mmm-mode markdown-toc magit-svn magit-section magit-gitflow macrostep lorem-ipsum link-hint indent-guide hybrid-mode hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-xref helm-themes helm-swoop helm-purpose helm-projectile helm-org-rifle helm-org helm-mode-manager helm-make helm-ls-git helm-gitignore helm-git-grep helm-flx helm-descbinds helm-ag google-translate golden-ratio gnuplot gitignore-templates gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md font-lock+ flycheck-package flycheck-elsa flx-ido fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-textobj-line evil-surround evil-org evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-cleverparens evil-args evil-anzu eval-sexp-fu emr elisp-slime-nav editorconfig dumb-jump dotenv-mode diminish devdocs define-word column-enforce-mode clean-aindent-mode centered-cursor-mode auto-highlight-symbol auto-compile aggressive-indent ace-link ace-jump-helm-line)))
+   '(vimrc-mode helm-gtags ggtags dactyl-mode counsel-gtags counsel swiper emmet-mode ivy company add-node-modules-path youdao-dictionary names chinese-word-at-point pos-tip pyim pyim-basedict xr pangu-spacing helpful elisp-refs dash-functional find-by-pinyin-dired chinese-conv ace-pinyin pinyinlib ws-butler writeroom-mode winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package undo-tree treemacs-projectile treemacs-persp treemacs-magit treemacs-icons-dired treemacs-evil toc-org symon symbol-overlay string-inflection spaceline-all-the-icons smeargle restart-emacs rainbow-delimiters popwin pcre2el password-generator paradox overseer orgit org-superstar org-rich-yank org-projectile org-present org-pomodoro org-mime org-download org-cliplink org-brain open-junk-file nameless move-text mmm-mode markdown-toc magit-svn magit-section magit-gitflow macrostep lorem-ipsum link-hint indent-guide hybrid-mode hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-xref helm-themes helm-swoop helm-purpose helm-projectile helm-org-rifle helm-org helm-mode-manager helm-make helm-ls-git helm-gitignore helm-git-grep helm-flx helm-descbinds helm-ag google-translate golden-ratio gnuplot gitignore-templates gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md font-lock+ flycheck-package flycheck-elsa flx-ido fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-textobj-line evil-surround evil-org evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-cleverparens evil-args evil-anzu eval-sexp-fu emr elisp-slime-nav editorconfig dumb-jump dotenv-mode diminish devdocs define-word column-enforce-mode clean-aindent-mode centered-cursor-mode auto-highlight-symbol auto-compile aggressive-indent ace-link ace-jump-helm-line))
  '(pyim-dicts
-   (quote
-    ((:name "pyim-greatdict" :file "/home/chaomai/Documents/workspace/dotfiles/emacs/spacemacs.d/pyim-greatdict.pyim")))))
+   '((:name "pyim-greatdict" :file "~/Documents/workspace/dotfiles/emacs/spacemacs.d/pyim-greatdict.pyim"))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
