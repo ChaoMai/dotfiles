@@ -40,32 +40,21 @@ This function should only modify configuration layer settings."
      ;; ----------------------------------------------------------------
      ;; auto-completion
      ;; better-defaults
-     (chinese :variables
-              chinese-enable-youdao-dict t)
-     copy-as-format
-     (c-c++ :variables
-            c-c++-backend 'lsp-ccls)
      emacs-lisp
-     git
-     html
+     ;; git
      helm
-     helpful
-     json
-     lsp
-     markdown
+     ;; lsp
+     ;; markdown
      multiple-cursors
-     org
-     quickurl
+     ;; org
      ;; (shell :variables
      ;;        shell-default-height 30
      ;;        shell-default-position 'bottom)
      ;; spell-checking
      ;; syntax-checking
      ;; version-control
-     tabs
-     (treemacs :variables
-               treemacs-use-git-mode 'deferred)
-     vimscript)
+     treemacs)
+
 
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
@@ -74,9 +63,7 @@ This function should only modify configuration layer settings."
    ;; To use a local version of a package, use the `:location' property:
    ;; '(your-package :location "~/path/to/your-package/")
    ;; Also include the dependencies as they will not be resolved automatically.
-   dotspacemacs-additional-packages '(modern-cpp-font-lock
-                                      posframe
-                                      flycheck-posframe)
+   dotspacemacs-additional-packages '()
 
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
@@ -143,7 +130,7 @@ It should only modify the values of Spacemacs settings."
    ;; Setting this >= 1 MB should increase performance for lsp servers
    ;; in emacs 27.
    ;; (default (* 1024 1024))
-   dotspacemacs-read-process-output-max (* 1024 4096)
+   dotspacemacs-read-process-output-max (* 1024 1024)
 
    ;; If non-nil then Spacelpa repository is the primary source to install
    ;; a locked version of packages. If nil then Spacemacs will install the
@@ -173,7 +160,7 @@ It should only modify the values of Spacemacs settings."
    ;; with `:variables' keyword (similar to layers). Check the editing styles
    ;; section of the documentation for details on available variables.
    ;; (default 'vim)
-   dotspacemacs-editing-style 'hybrid
+   dotspacemacs-editing-style 'vim
 
    ;; If non-nil show the version string in the Spacemacs buffer. It will
    ;; appear as (spacemacs version)@(emacs version)
@@ -232,8 +219,8 @@ It should only modify the values of Spacemacs settings."
    dotspacemacs-colorize-cursor-according-to-state t
 
    ;; Default font or prioritized list of fonts.
-   dotspacemacs-default-font '("Cascadia Code PL"
-                               :size 11.0
+   dotspacemacs-default-font '("Source Code Pro"
+                               :size 10.0
                                :weight normal
                                :width normal)
 
@@ -387,7 +374,7 @@ It should only modify the values of Spacemacs settings."
    ;;   :size-limit-kb 1000)
    ;; When used in a plist, `visual' takes precedence over `relative'.
    ;; (default nil)
-   dotspacemacs-line-numbers t
+   dotspacemacs-line-numbers nil
 
    ;; Code folding method. Possible values are `evil' and `origami'.
    ;; (default 'evil)
@@ -498,76 +485,6 @@ This function is called immediately after `dotspacemacs/init', before layer
 configuration.
 It is mostly for variables that should be set before packages are loaded.
 If you are unsure, try setting them in `dotspacemacs/user-config' first."
-
-  ;; check platform
-  (defconst MACOS "macos")
-  (defconst WSL "wsl")
-  (defconst LINUX "linux")
-
-  (cond
-   ((string-equal system-type "darwin")
-    (defvar platform MACOS))
-
-   ((string-match "microsoft"
-                  (with-temp-buffer (shell-command "uname -r" t)
-                                    (goto-char (point-max))
-                                    (delete-char -1)
-                                    (buffer-string)))
-    (defvar platform WSL))
-
-   ((string-equal system-type "gnu/linux")
-    (defvar platform LINUX)))
-
-  ;; org mode dir
-  (cond
-   ((string-equal platform MACOS)
-    (defvar org_dir "~/Documents/onedrive/Documents/workspace/chaomai.org/"))
-
-   ((string-equal platform LINUX)
-    (message "no implemented"))
-
-   ((string-equal platform WSL)
-    (defvar org_dir "/mnt/d/maichao/OneDrive/Documents/workspace/chaomai.org/")))
-
-  ;; conda home
-  (cond
-   ((string-equal platform MACOS)
-    (defvar conda_home "/usr/local/Caskroom/miniconda/base/")
-    (defvar conda_env_home "/usr/local/Caskroom/miniconda/base/"))
-
-   ((string-equal platform LINUX)
-    (message "no implemented"))
-
-   ((string-equal platform WSL)
-    (defvar conda_home "/home/chaomai/Programs/opt/miniconda3/")
-    (defvar conda_env_home "/home/chaomai/Programs/opt/miniconda3/")))
-
-  ;; wsl open
-  (cond
-   ((string-equal platform WSL)
-    (let ((cmd-exe "/mnt/c/Windows/System32/cmd.exe")
-          (cmd-args '("/c" "start")))
-      (when (file-exists-p cmd-exe)
-        (setq browse-url-generic-program  cmd-exe
-              browse-url-generic-args     cmd-args
-              browse-url-browser-function 'browse-url-generic)))))
-
-  ;; font
-  (cond
-   ((string-equal platform MACOS)
-    (setq dotspacemacs-default-font '("Cascadia Code PL"
-                                      :size 14.0
-                                      :weight normal
-                                      :width normal)))
-
-   ((string-equal platform LINUX)
-    (message "no implemented"))
-
-   ((string-equal platform WSL)
-    (setq dotspacemacs-default-font '("Cascadia Code PL"
-                                      :size 12.0
-                                      :weight normal
-                                      :width normal))))
   )
 
 (defun dotspacemacs/user-load ()
@@ -583,306 +500,7 @@ This function is called at the very end of Spacemacs startup, after layer
 configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
-
-  ;; line spacing
-  (setq-default line-spacing 9)
-
-  ;; pyim
-  (use-package pyim
-    :demand t
-    :config
-    (setq pyim-default-scheme 'quanpin
-          default-input-method "pyim"
-          ;; 开启拼音搜索功能
-          ;; pyim-isearch-mode 1
-          pyim-page-tooltip 'posframe
-          pyim-page-length 5
-          pyim-fuzzy-pinyin-alist '(("an" "ang")
-                                    ("in" "ing")
-                                    ("en" "eng")
-                                    ("uan" "uang"))
-
-          pyim-dcache-directory (concat spacemacs-cache-directory "pyim"))
-
-    ;; 设置 pyim 探针设置，这是 pyim 高级功能设置，可以实现 *无痛* 中英文切换 :-)
-    ;; 我自己使用的中英文动态切换规则是：
-    ;; 1. 光标只有在注释里面时，才可以输入中文。
-    ;; 2. 光标前是汉字字符时，才能输入中文。
-    ;; 3. 使用 C-; 快捷键，强制将光标前的拼音字符串转换为中文。
-    (setq-default pyim-english-input-switch-functions '(pyim-probe-dynamic-english
-                                                        pyim-probe-isearch-mode
-                                                        pyim-probe-program-mode
-                                                        pyim-probe-org-structure-template)
-                  pyim-punctuation-half-width-functions '(pyim-probe-punctuation-line-beginning
-                                                          pyim-probe-punctuation-after-punctuation))
-
-    :bind
-    (("C-;" . pyim-convert-string-at-point) ; 与 pyim-probe-dynamic-english
-     ("C-<f1>" . pyim-delete-word-from-personal-buffer)))
-
-  ;; pangu-spacing
-  (use-package pangu-spacing
-    :demand t
-    :config
-    (global-pangu-spacing-mode 1)
-    (setq pangu-spacing-real-insert-separtor t))
-
-  ;; projectile
-  ;; project root is same with vim's configuration
-  (use-package projectile
-    :config
-    (setq projectile-require-project-root t
-          projectile-project-root-files '(".ccls-root" ".idea" "go.mod" ".bzr" "_darcs"
-                                          "build.xml" ".project" ".root" ".svn" ".git"
-                                          "index.org" ".projectile")
-          projectile-project-root-files-functions '(projectile-root-top-down
-                                                    projectile-root-top-down-recurring
-                                                    projectile-root-bottom-up
-                                                    projectile-root-local)))
-
-  ;; org-mode
-  (use-package org
-    :defer t
-    :init
-    (setq org-directory org_dir)
-    :config
-    (setq org-agenda-files (list (concat org_dir "work/project.org")
-                                 (concat org_dir "home/project.org"))
-          org-tags-column 0
-          org-pretty-entities t
-          org-startup-indented t
-          org-image-actual-width nil
-          org-hide-leading-stars t
-          org-hide-emphasis-markers t
-          org-fontify-done-headline t
-          org-fontify-whole-heading-line t
-          org-fontify-quote-and-verse-blocks t
-          org-catch-invisible-edits 'smart
-          org-insert-heading-respect-content t
-          ;; block switching the parent to done state
-          org-enforce-todo-dependencies t
-          org-enforce-todo-checkbox-dependencies t
-          ;; org-ellipsis " -> "
-          ;; gdt task status
-          org-todo-keywords '((sequence "TODO(t)" "NEXT(n!)" "PROJ(p!)" "WAITING(w@/!)" "|" "INACTIVE(i@/!)" "CANCELLED(c@/!)" "DONE(d!)"))
-
-          ;; log
-          org-log-done 'time
-          org-log-repeat 'time
-          org-log-redeadline 'note
-          org-log-reschedule 'note
-          org-log-into-drawer t
-          org-log-state-notes-insert-after-drawers nil
-          ;; refile
-          org-refile-use-cache t
-          org-refile-targets '((org-agenda-files . (:maxlevel . 6)))
-          org-refile-use-outline-path t
-          org-outline-path-complete-in-steps nil
-          org-refile-allow-creating-parent-nodes 'confirm
-          ;; 配置归档文件的名称和 Headline 格式
-          org-archive-location "%s_archive::date-tree"))
-
-  ;; org-agenda
-  (defun org-agenda-time-grid-spacing ()
-    "Set different line spacing w.r.t. time duration."
-    (save-excursion
-      (let* ((background (alist-get 'background-mode (frame-parameters)))
-             (background-dark-p (string= background "dark"))
-             (colors (list "#1ABC9C" "#2ECC71" "#3498DB" "#9966ff"))
-             pos
-             duration)
-        (nconc colors colors)
-        (goto-char (point-min))
-        (while (setq pos (next-single-property-change (point) 'duration))
-          (goto-char pos)
-          (when (and (not (equal pos (point-at-eol)))
-                     (setq duration (org-get-at-bol 'duration)))
-            (let ((line-height (if (< duration 30) 1.0 (+ 0.5 (/ duration 60))))
-                  (ov (make-overlay (point-at-bol) (1+ (point-at-eol)))))
-              (overlay-put ov 'face `(:background ,(car colors)
-                                                  :foreground
-                                                  ,(if background-dark-p "black" "white")))
-              (setq colors (cdr colors))
-              (overlay-put ov 'line-height line-height)
-              (overlay-put ov 'line-spacing (1- line-height))))))))
-
-  (add-hook 'org-agenda-finalize-hook #'org-agenda-time-grid-spacing)
-
-  ;; org-src
-  (use-package org-src
-    :after org
-    :config
-    (setq org-src-fontify-natively t
-          org-src-tab-acts-natively t
-          org-src-preserve-indentation t
-          org-src-window-setup 'current-window
-          org-confirm-babel-evaluate t
-          org-edit-src-content-indentation 0
-          org-babel-load-languages '((shell . t)
-                                     (python . t)
-                                     (ocaml . t)
-                                     (emacs-lisp . t))))
-
-  ;; org-clock
-  (use-package org-clock
-    :after org
-    :config
-    (setq org-clock-in-resume t
-          org-clock-idle-time 10
-          org-clock-into-drawer t
-          org-clock-out-when-done t
-          org-clock-persist 'history
-          org-clock-history-length 10
-          org-clock-out-remove-zero-time-clocks t
-          org-clock-report-include-clocking-task t)
-    (org-clock-persistence-insinuate))
-
-  ;; org-superstar
-  (use-package org-superstar
-    :after org
-    :hook (org-mode . org-superstar-mode)
-    :config
-    (setq org-superstar-headline-bullets-list '("☰" "☱" "☲" "☳" "☴" "☵" "☶" "☷" "☷" "☷" "☷")))
-
-  ;; org-download
-  (use-package org-download
-    :after org
-    :hook ('dired-mode-hook 'org-download-enable)
-    :config
-    (defun my-org-download-method (link)
-      (let ((filename
-             (file-name-nondirectory
-              (car (url-path-and-query
-                    (url-generic-parse-url link)))))
-            (dirname (concat (file-name-sans-extension (buffer-name)) "_media")))
-        ;; if directory not exist, create it
-        (unless (file-exists-p dirname)
-          (make-directory dirname))
-        ;; return the path to save the download files
-        (expand-file-name filename dirname)))
-
-    (setq org-download-method 'my-org-download-method))
-
-  ;; lsp
-  ;; lsp-mode
-  (use-package lsp-mode
-    :commands lsp
-    :config
-    (setq lsp-keymap-prefix "C-c l"
-          lsp-idle-delay 0.500               ;; lazy refresh
-          lsp-log-io nil                     ;; enable log only for debug
-          lsp-enable-folding nil             ;; use `evil-matchit' instead
-          lsp-diagnostic-package :flycheck   ;; prefer flycheck
-          lsp-lens-auto-enable nil           ;; disable lens
-          lsp-flycheck-live-reporting nil    ;; obey `flycheck-check-syntax-automatically'
-          lsp-prefer-capf t                  ;; using `company-capf' by default
-          lsp-enable-snippet nil             ;; no snippet
-          lsp-enable-file-watchers nil       ;; turn off for better performance
-          lsp-enable-text-document-color nil ;; as above
-          lsp-enable-symbol-highlighting nil ;; as above
-          lsp-enable-indentation nil         ;; indent by ourself
-          lsp-enable-on-type-formatting nil  ;; disable formatting on the fly
-          lsp-auto-guess-root t              ;; auto guess root
-          lsp-keep-workspace-alive nil       ;; auto kill lsp server
-          lsp-enable-xref t
-          lsp-eldoc-enable-hover nil         ;; disable eldoc hover displays in minibuffer, lsp-ui shows it
-          lsp-signature-auto-activate t      ;; show function signature
-          lsp-signature-doc-lines 1)         ;; but dont take up more lines
-    (add-to-list 'exec-path (concat conda_home "envs/common_dev_python3.8/bin/")))
-
-  ;; lsp-ui
-  ;; (use-package lsp-ui
-  ;;   :commands lsp-ui-mode
-  ;;   :config
-  ;;   (setq lsp-ui-sideline-enable nil
-  ;;         lsp-ui-sideline-show-hover nil
-  ;;         lsp-ui-sideline-show-diagnostics nil
-  ;;         lsp-ui-sideline-ignore-duplicate t
-  ;;         lsp-ui-sideline-delay 0.1
-
-  ;;         lsp-ui-peek-enable nil
-  ;;         lsp-ui-peek-fontify 'always
-
-  ;;         lsp-ui-doc-enable nil
-  ;;         lsp-ui-doc-use-webkit nil
-  ;;         lsp-ui-doc-delay 0.1
-  ;;         lsp-ui-doc-include-signature t
-  ;;         lsp-ui-doc-position 'top
-  ;;         lsp-ui-doc-border (face-foreground 'default)
-
-  ;;         lsp-ui-imenu-enable nil
-  ;;         lsp-ui-imenu-colors `(,(face-foreground 'font-lock-keyword-face)
-  ;;                               ,(face-foreground 'font-lock-string-face)
-  ;;                               ,(face-foreground 'font-lock-constant-face)
-  ;;                               ,(face-foreground 'font-lock-variable-name-face))))
-
-  ;; lsp-treemacs
-  (use-package lsp-treemacs
-    :after lsp-mode)
-
-  ;; ccls
-  (use-package ccls
-    :after lsp-mode
-    :config
-    (setq ccls-sem-highlight-method 'font-lock)
-    (ccls-use-default-rainbow-sem-highlight)
-
-    (setq ccls-executable "~/Documents/workspace/github/ccls/Release/ccls"
-          ccls-args '("--log-file=/tmp/ccls-emacs.log")
-          ccls-initialization-options `(:capabilities (:foldingRangeProvider :json-false)
-                                                      :cache (:directory ".ccls-cache")
-                                                      :completion (:caseSensitivity 0)
-                                                      :compilationDatabaseDirectory "cmake-build"
-                                                      :codeLens (:localVariables :json-false)
-                                                      :client (:snippetSupport t)
-                                                      :diagnostics (:onChang 100
-                                                                             :onOpen 100
-                                                                             :onSave 100)
-                                                      :highlight (:lsRanges t)
-                                                      :index (:threads 5)))
-    (evil-set-initial-state 'ccls-tree-mode 'emacs))
-
-  ;; modern-cpp-font-lock
-  (use-package modern-cpp-font-lock
-    :after ccls
-    :config
-    (modern-c++-font-lock-global-mode t))
-
-  ;; centaur-tabs
-  (use-package centaur-tabs
-    :config
-    (setq centaur-tabs-set-close-button nil))
-
-  ;; posframe
-  (use-package posframe
-    :demand t)
-
-  ;; flycheck-posframe
-  (use-package flycheck-posframe
-    :after flycheck
-    :config (add-hook 'flycheck-mode-hook #'flycheck-posframe-mode))
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.
-(defun dotspacemacs/emacs-custom-settings ()
-  "Emacs custom settings.
-This is an auto-generated function, do not modify its content directly, use
-Emacs customize menu instead.
-This function is called at the very end of Spacemacs initialization."
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   '(vimrc-mode helm-gtags ggtags dactyl-mode counsel-gtags counsel swiper emmet-mode ivy company add-node-modules-path youdao-dictionary names chinese-word-at-point pos-tip pyim pyim-basedict xr pangu-spacing helpful elisp-refs dash-functional find-by-pinyin-dired chinese-conv ace-pinyin pinyinlib ws-butler writeroom-mode winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package undo-tree treemacs-projectile treemacs-persp treemacs-magit treemacs-icons-dired treemacs-evil toc-org symon symbol-overlay string-inflection spaceline-all-the-icons smeargle restart-emacs rainbow-delimiters popwin pcre2el password-generator paradox overseer orgit org-superstar org-rich-yank org-projectile org-present org-pomodoro org-mime org-download org-cliplink org-brain open-junk-file nameless move-text mmm-mode markdown-toc magit-svn magit-section magit-gitflow macrostep lorem-ipsum link-hint indent-guide hybrid-mode hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-xref helm-themes helm-swoop helm-purpose helm-projectile helm-org-rifle helm-org helm-mode-manager helm-make helm-ls-git helm-gitignore helm-git-grep helm-flx helm-descbinds helm-ag google-translate golden-ratio gnuplot gitignore-templates gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md font-lock+ flycheck-package flycheck-elsa flx-ido fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-textobj-line evil-surround evil-org evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-cleverparens evil-args evil-anzu eval-sexp-fu emr elisp-slime-nav editorconfig dumb-jump dotenv-mode diminish devdocs define-word column-enforce-mode clean-aindent-mode centered-cursor-mode auto-highlight-symbol auto-compile aggressive-indent ace-link ace-jump-helm-line))
- '(pyim-dicts
-   '((:name "pyim-greatdict" :file "~/Documents/workspace/dotfiles/emacs/spacemacs.d/pyim-greatdict.pyim"))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
-)
