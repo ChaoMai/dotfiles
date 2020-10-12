@@ -664,8 +664,8 @@ before packages are loaded."
                                                           pyim-probe-punctuation-after-punctuation))
 
     :bind
-    (("C-;" . pyim-convert-string-at-point) ; 与 pyim-probe-dynamic-english
-     ("C-<f1>" . pyim-delete-word-from-personal-buffer)))
+    (("C-;" . pyim-convert-string-at-point)) ; 与 pyim-probe-dynamic-english
+    )
 
   ;; pangu-spacing
   (use-package pangu-spacing
