@@ -5,6 +5,7 @@
 ### C ###
 # Prerequisites
 *.d
+!spacemacs.d
 
 # Object files
 *.o

@@ -574,7 +574,7 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
 
    ((string-equal platform WSL)
     (setq dotspacemacs-default-font '("Cascadia Code PL"
-                                      :size 12.0
+                                      :size 11.0
                                       :weight normal
                                       :width normal))))
 
