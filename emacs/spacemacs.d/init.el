@@ -38,11 +38,16 @@ This function should only modify configuration layer settings."
      ;; Uncomment some layer names and press `SPC f e R' (Vim style) or
      ;; `M-m f e R' (Emacs style) to install them.
      ;; ----------------------------------------------------------------
+     (auto-completion :variables
+                      auto-completion-enable-help-tooltip t
+                      auto-completion-enable-snippets-in-popup t)
      (c-c++ :variables
             c-c++-backend 'lsp-ccls)
      (python :variables
              python-backend 'lsp)
-     auto-completion
+     (version-control :variables
+                      version-control-diff-side 'left
+                      version-control-global-margin t)
      better-defaults
      chinese
      cmake
@@ -70,7 +75,6 @@ This function should only modify configuration layer settings."
      syntax-checking
      tabs
      treemacs
-     version-control
      vimscript)
 
 
@@ -201,8 +205,8 @@ It should only modify the values of Spacemacs settings."
    ;; `recents' `bookmarks' `projects' `agenda' `todos'.
    ;; List sizes may be nil, in which case
    ;; `spacemacs-buffer-startup-lists-length' takes effect.
-   dotspacemacs-startup-lists '((recents . 5)
-                                (projects . 7))
+   dotspacemacs-startup-lists '((recents . 10)
+                                (projects . 10))
 
    ;; True if the home buffer should respond to resize events. (default t)
    dotspacemacs-startup-buffer-responsive t
@@ -451,7 +455,7 @@ It should only modify the values of Spacemacs settings."
    ;; %z - mnemonics of buffer, terminal, and keyboard coding systems
    ;; %Z - like %z, but including the end-of-line format
    ;; (default "%I@%S")
-   dotspacemacs-frame-title-format "%a@%t@%b"
+   dotspacemacs-frame-title-format "%a@%t"
 
    ;; Format specification for setting the icon title format
    ;; (default nil - same as frame-title-format)
@@ -527,6 +531,13 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
    ((string-equal system-type "gnu/linux")
     (defvar platform LINUX)))
 
+  ;; disable double buffering in wsl
+  ;; https://github.com/hlissner/doom-emacs-private/blob/master/config.el
+  (cond
+   ((string-equal platform WSL)
+    (setq default-frame-alist
+          (append default-frame-alist '((inhibit-double-buffering . t))))))
+
   ;; org mode dir
   (cond
    ((string-equal platform MACOS)
@@ -561,22 +572,35 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
               browse-url-generic-args     cmd-args
               browse-url-browser-function 'browse-url-generic)))))
 
+  ;; clang-format
+  (cond
+   ((string-equal platform MACOS)
+    (defvar clang-format_bin "clang-format"))
+
+   ((string-equal platform LINUX)
+    (message "no implemented"))
+
+   ((string-equal platform WSL)
+    (defvar clang-format_bin "clang-format-10")))
+
   ;; font
   (cond
    ((string-equal platform MACOS)
     (setq dotspacemacs-default-font '("Cascadia Code PL"
                                       :size 14.0
                                       :weight normal
-                                      :width normal)))
+                                      :width normal)
+          dotspacemacs-mode-line-theme '(spacemacs :separator wave :separator-scale 1.5)))
 
    ((string-equal platform LINUX)
     (message "no implemented"))
 
    ((string-equal platform WSL)
     (setq dotspacemacs-default-font '("Cascadia Code PL"
-                                      :size 11.0
+                                      :size 12.0
                                       :weight normal
-                                      :width normal))))
+                                      :width normal)
+          dotspacemacs-mode-line-theme '(spacemacs :separator wave :separator-scale 1.5))))
 
   )
 
@@ -598,6 +622,13 @@ before packages are loaded."
   ;; https://scarletsky.github.io/2017/09/29/org-mode-in-spacemacs/
   ;; https://edward852.github.io/post/%E9%80%9A%E7%94%A8%E4%BB%A3%E7%A0%81%E7%BC%96%E8%BE%91%E5%99%A8spacemacs/
   ;; https://emacs-lsp.github.io/lsp-mode/
+  ;; https://www.gtrun.org/custom/init.html
+  ;; https://github.com/condy0919/emacs-newbie
+  ;; https://github.com/condy0919/.emacs.d
+  ;; https://alhassy.github.io/init/
+  ;; https://huadeyu.tech/tools/emacs-setup-notes.html
+  ;; https://emacs.nasy.moe/
+  ;; https://github.com/lujun9972/emacs-document
 
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; basic
   ;; line spacing
@@ -772,30 +803,32 @@ before packages are loaded."
           org-archive-location "%s_archive::date-tree"))
 
   ;; org-agenda
-  (defun org-agenda-time-grid-spacing ()
-    "Set different line spacing w.r.t. time duration."
-    (save-excursion
-      (let* ((background (alist-get 'background-mode (frame-parameters)))
-             (background-dark-p (string= background "dark"))
-             (colors (list "#1ABC9C" "#2ECC71" "#3498DB" "#9966ff"))
-             pos
-             duration)
-        (nconc colors colors)
-        (goto-char (point-min))
-        (while (setq pos (next-single-property-change (point) 'duration))
-          (goto-char pos)
-          (when (and (not (equal pos (point-at-eol)))
-                     (setq duration (org-get-at-bol 'duration)))
-            (let ((line-height (if (< duration 30) 1.0 (+ 0.5 (/ duration 60))))
-                  (ov (make-overlay (point-at-bol) (1+ (point-at-eol)))))
-              (overlay-put ov 'face `(:background ,(car colors)
-                                                  :foreground
-                                                  ,(if background-dark-p "black" "white")))
-              (setq colors (cdr colors))
-              (overlay-put ov 'line-height line-height)
-              (overlay-put ov 'line-spacing (1- line-height))))))))
+  ;; 1. https://emacs-china.org/t/org-agenda/8679/3
+  ;; 2. https://www.lijigang.com/blog/2018/08/08/%E7%A5%9E%E5%99%A8-org-mode/
+  ;; (defun org-agenda-time-grid-spacing ()
+  ;;   "Set different line spacing w.r.t. time duration."
+  ;;   (save-excursion
+  ;;     (let* ((background (alist-get 'background-mode (frame-parameters)))
+  ;;            (background-dark-p (string= background "dark"))
+  ;;            (colors (list "#1ABC9C" "#2ECC71" "#3498DB" "#9966ff"))
+  ;;            pos
+  ;;            duration)
+  ;;       (nconc colors colors)
+  ;;       (goto-char (point-min))
+  ;;       (while (setq pos (next-single-property-change (point) 'duration))
+  ;;         (goto-char pos)
+  ;;         (when (and (not (equal pos (point-at-eol)))
+  ;;                    (setq duration (org-get-at-bol 'duration)))
+  ;;           (let ((line-height (if (< duration 30) 1.0 (+ 0.5 (/ duration 60))))
+  ;;                 (ov (make-overlay (point-at-bol) (1+ (point-at-eol)))))
+  ;;             (overlay-put ov 'face `(:background ,(car colors)
+  ;;                                                 :foreground
+  ;;                                                 ,(if background-dark-p "black" "white")))
+  ;;             (setq colors (cdr colors))
+  ;;             (overlay-put ov 'line-height line-height)
+  ;;             (overlay-put ov 'line-spacing (1- line-height))))))))
 
-  (add-hook 'org-agenda-finalize-hook #'org-agenda-time-grid-spacing)
+  ;; (add-hook 'org-agenda-finalize-hook #'org-agenda-time-grid-spacing)
 
   ;; org-src
   (use-package org-src
@@ -834,6 +867,9 @@ before packages are loaded."
     (setq org-superstar-headline-bullets-list '("☰" "☱" "☲" "☳" "☴" "☵" "☶" "☷" "☷" "☷" "☷")))
 
   ;; org-download
+  ;; make drag-and-drop image save in the same name folder as org file.
+  ;; example: `aa-bb-cc.org' then save image test.png to `aa-bb-cc_media/test.png'.
+  ;; https://coldnew.github.io/hexo-org-example/2018/05/22/use-org-download-to-drag-image-to-emacs/
   (use-package org-download
     :after org
     :hook ('dired-mode-hook 'org-download-enable)
@@ -854,6 +890,8 @@ before packages are loaded."
 
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; lsp
   ;; lsp-mode
+  ;; 1. https://github.com/MaskRay/Config/blob/master/home/.config/doom/modules/private/my-cc/autoload.el
+  ;; 2. https://github.com/MaskRay/ccls/wiki/lsp-mode
   (use-package lsp-mode
     :commands lsp
     :config
@@ -934,6 +972,24 @@ before packages are loaded."
     :config
     (modern-c++-font-lock-global-mode t))
 
+  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; format
+  ;; (use-package format
+  ;;   :demand t
+  ;;   :config
+  ;;   (set-formatter! 'clang-format
+  ;;     '(clang-format_bin
+  ;;       "-style={BasedOnStyle: Google, SortIncludes: false}"
+  ;;       ("-assume-filename=%S" (or buffer-file-name mode-result "")))
+  ;;     :modes
+  ;;     '((c-mode ".c")
+  ;;       (c++-mode ".cpp")
+  ;;       (java-mode ".java")
+  ;;       (objc-mode ".m")
+  ;;       (protobuf-mode ".proto")))
+
+  ;;   (set-formatter! 'black "black -q -"
+  ;;     :modes '(python-mode)))
+
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; misc
   ;; posframe
   (use-package posframe
@@ -945,6 +1001,8 @@ before packages are loaded."
     :config (add-hook 'flycheck-mode-hook #'flycheck-posframe-mode))
 
 
+  ;; conda
+  ;; https://github.com/necaris/conda.el/issues/39#issuecomment-554802379
   (use-package conda
     :defer t
     :config
