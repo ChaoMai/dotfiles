@@ -177,6 +177,12 @@ elif [[ $OSTYPE == "Linux" ]]; then
 
     #################### wsl2
     if [[ $(uname -r) =~ 'microsoft' ]]; then
+        for i in $(pstree -np -s $$ | grep -o -E '[0-9]+'); do
+            if [[ -e "/run/WSL/${i}_interop" ]]; then
+                export WSL_INTEROP=/run/WSL/${i}_interop
+            fi
+        done
+
         # https://gist.github.com/necojackarc/02c3c81e1525bb5dc3561f378e921541
         local WSL2_LOCAL_IP=$(cat /etc/resolv.conf | grep nameserver | awk '{print $2}')
         export DISPLAY=$WSL2_LOCAL_IP:0
