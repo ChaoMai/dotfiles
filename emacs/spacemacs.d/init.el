@@ -68,6 +68,7 @@ This function should only modify configuration layer settings."
      markdown
      multiple-cursors
      org
+     protobuf
      quickurl
      rust
      shell-scripts
