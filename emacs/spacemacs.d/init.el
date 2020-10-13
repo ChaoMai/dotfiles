@@ -56,6 +56,7 @@ This function should only modify configuration layer settings."
      csv
      dap
      emacs-lisp
+     emoji
      git
      go
      graphviz
@@ -584,11 +585,15 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
    ((string-equal platform WSL)
     (defvar clang-format_bin "clang-format-10")))
 
+  ;; theme
+  (setq spacemacs-theme-comment-bg nil
+        spacemacs-theme-comment-italic t)
+
   ;; font
   (cond
    ((string-equal platform MACOS)
     (setq dotspacemacs-default-font '("Cascadia Code PL"
-                                      :size 14.0
+                                      :size 15.0
                                       :weight normal
                                       :width normal)
           dotspacemacs-mode-line-theme '(spacemacs :separator wave :separator-scale 1.5)))
@@ -602,6 +607,9 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
                                       :weight normal
                                       :width normal)
           dotspacemacs-mode-line-theme '(spacemacs :separator wave :separator-scale 1.5))))
+
+  ;; https://archive.casouri.cat/note/2019/emacs-%E5%AD%97%E4%BD%93%E4%B8%8E%E5%AD%97%E4%BD%93%E9%9B%86/
+  (set-fontset-font t 'han "Noto Serif CJK SC")
 
   )
 
