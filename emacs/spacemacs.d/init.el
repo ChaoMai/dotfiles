@@ -565,14 +565,27 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
     (defvar conda_env_home "/home/chaomai/Programs/opt/miniconda3/")))
 
   ;; wsl open
+  (defun wsl-browse-url (url &optional _new-window)
+    ;; new-window ignored
+    "Opens link via powershell.exe"
+    (interactive (browse-url-interactive-arg "URL: "))
+    (let ((quotedUrl (format "start '%s'" url)))
+      (apply 'call-process "/mnt/c/Windows/System32/WindowsPowerShell/v1.0/powershell.exe" nil
+             0 nil
+             (list "-Command" quotedUrl))))
+
   (cond
    ((string-equal platform WSL)
-    (let ((cmd-exe "/mnt/c/Windows/System32/cmd.exe")
-          (cmd-args '("/c" "start")))
-      (when (file-exists-p cmd-exe)
-        (setq browse-url-generic-program  cmd-exe
-              browse-url-generic-args     cmd-args
-              browse-url-browser-function 'browse-url-generic)))))
+  (setq-default browse-url-browser-function 'wsl-browse-url)))
+
+  ;; (cond
+  ;;  ((string-equal platform WSL)
+  ;;   (let ((cmd-exe "/mnt/c/Windows/System32/cmd.exe")
+  ;;         (cmd-args '("/c" "start")))
+  ;;     (when (file-exists-p cmd-exe)
+  ;;       (setq browse-url-generic-program  cmd-exe
+  ;;             browse-url-generic-args     cmd-args
+  ;;             browse-url-browser-function 'browse-url-generic)))))
 
   ;; clang-format
   (cond
