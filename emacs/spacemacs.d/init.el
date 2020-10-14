@@ -88,8 +88,7 @@ This function should only modify configuration layer settings."
    ;; To use a local version of a package, use the `:location' property:
    ;; '(your-package :location "~/path/to/your-package/")
    ;; Also include the dependencies as they will not be resolved automatically.
-   dotspacemacs-additional-packages '(flycheck-posframe
-                                      modern-cpp-font-lock
+   dotspacemacs-additional-packages '(modern-cpp-font-lock
                                       posframe)
 
    ;; A list of packages that cannot be updated.
@@ -1017,12 +1016,6 @@ before packages are loaded."
   ;; posframe
   (use-package posframe
     :demand t)
-
-  ;; flycheck-posframe
-  (use-package flycheck-posframe
-    :after flycheck
-    :config (add-hook 'flycheck-mode-hook #'flycheck-posframe-mode))
-
 
   ;; conda
   ;; https://github.com/necaris/conda.el/issues/39#issuecomment-554802379
