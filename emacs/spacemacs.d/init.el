@@ -75,7 +75,6 @@ This function should only modify configuration layer settings."
      shell-scripts
      sql
      syntax-checking
-     tabs
      treemacs
      vimscript
      xclipboard)
@@ -468,7 +467,7 @@ It should only modify the values of Spacemacs settings."
    ;; `trailing' to delete only the whitespace at end of lines, `changed' to
    ;; delete only whitespace for changed lines or `nil' to disable cleanup.
    ;; (default nil)
-   dotspacemacs-whitespace-cleanup 'changed
+   dotspacemacs-whitespace-cleanup 'nil
 
    ;; If non nil activate `clean-aindent-mode' which tries to correct
    ;; virtual indentation of simple modes. This can interfer with mode specific
@@ -690,10 +689,11 @@ before packages are loaded."
     )
 
   ;; pangu-spacing
+  ;; 默认禁用
   (use-package pangu-spacing
     :demand t
     :config
-    (global-pangu-spacing-mode 1)
+    (global-pangu-spacing-mode -1)
     (setq pangu-spacing-real-insert-separtor t))
 
   ;; projectile
@@ -710,16 +710,13 @@ before packages are loaded."
                                                     projectile-root-local)))
 
   ;; centaur-tabs
-  (use-package centaur-tabs
-    :config
-    (setq centaur-tabs-set-close-button nil))
+  ;; (use-package centaur-tabs
+  ;;   :config
+  ;;   (setq centaur-tabs-set-close-button nil))
 
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; evil
   (use-package evil
     :defer t
-    :bind (:map evil-normal-state-map
-                ("<backspace>" . evil-ex-nohighlight)
-                ("/" . swiper))
     :config
     (setq evil-want-fine-undo t
           evil-split-window-below t
