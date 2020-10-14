@@ -77,7 +77,8 @@ This function should only modify configuration layer settings."
      syntax-checking
      tabs
      treemacs
-     vimscript)
+     vimscript
+     xclipboard)
 
 
    ;; List of additional packages that will be installed without being
@@ -88,8 +89,8 @@ This function should only modify configuration layer settings."
    ;; '(your-package :location "~/path/to/your-package/")
    ;; Also include the dependencies as they will not be resolved automatically.
    dotspacemacs-additional-packages '(flycheck-posframe
-                                      posframe
-                                      modern-cpp-font-lock)
+                                      modern-cpp-font-lock
+                                      posframe)
 
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
@@ -567,16 +568,16 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
   ;; wsl open
   (defun wsl-browse-url (url &optional _new-window)
     ;; new-window ignored
-    "Opens link via powershell.exe"
     (interactive (browse-url-interactive-arg "URL: "))
     (let ((quotedUrl (format "start '%s'" url)))
       (apply 'call-process "/mnt/c/Windows/System32/WindowsPowerShell/v1.0/powershell.exe" nil
              0 nil
-             (list "-Command" quotedUrl))))
+             (list "-Command" quotedUrl)))
+    (message "open link via powershell"))
 
   (cond
    ((string-equal platform WSL)
-  (setq-default browse-url-browser-function 'wsl-browse-url)))
+  (setq browse-url-browser-function 'wsl-browse-url)))
 
   ;; (cond
   ;;  ((string-equal platform WSL)
