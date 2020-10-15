@@ -920,8 +920,7 @@ before packages are loaded."
   (use-package lsp-mode
     :commands lsp
     :config
-    (setq lsp-keymap-prefix "C-c l"
-          lsp-idle-delay 0.500               ;; lazy refresh
+    (setq lsp-idle-delay 0.500               ;; lazy refresh
           lsp-log-io nil                     ;; enable log only for debug
           lsp-enable-folding nil             ;; use `evil-matchit' instead
           lsp-diagnostic-package :flycheck   ;; prefer flycheck
@@ -943,7 +942,7 @@ before packages are loaded."
           lsp-signature-doc-lines 1          ;; but dont take up more lines
 
           ;; clangd
-          lsp-clients-clangd-args '("--compile-commands-dir=build"
+          lsp-clients-clangd-args '("--compile-commands-dir=cmake-build"
 
                                     "--background-index"
                                     "--clang-tidy"
