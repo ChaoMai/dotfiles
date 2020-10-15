@@ -41,8 +41,14 @@ This function should only modify configuration layer settings."
      (auto-completion :variables
                       auto-completion-enable-help-tooltip t
                       auto-completion-enable-snippets-in-popup t)
+     ;; ccls
+     ;; (c-c++ :variables
+     ;;        c-c++-backend 'lsp-ccls)
+
+     ;; clangd
      (c-c++ :variables
-            c-c++-backend 'lsp-ccls)
+            c-c++-backend 'lsp-clangd)
+
      (python :variables
              python-backend 'lsp)
      (version-control :variables
@@ -757,7 +763,8 @@ before packages are loaded."
     (setq swiper-action-recenter t))
 
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; company
-
+  ;; https://emacs.stackexchange.com/questions/15246/how-add-company-dabbrev-to-the-company-completion-popup
+  ;; https://phenix3443.github.io/notebook/emacs/modes/company-mode.html
   (use-package company
     :defer t
     :config
@@ -773,9 +780,8 @@ before packages are loaded."
           ;; make dabbrev case-sensitive
           company-dabbrev-ignore-case nil
           company-dabbrev-downcase nil
-          company-backends '(company-capf
+          company-backends '((company-capf company-dabbrev-code company-keywords)
                              company-files
-                             (company-dabbrev-code company-keywords)
                              company-dabbrev)))
 
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; org
@@ -934,7 +940,18 @@ before packages are loaded."
           lsp-headerline-breadcrumb-segments t
           lsp-eldoc-enable-hover nil         ;; disable eldoc hover displays in minibuffer
           lsp-signature-auto-activate t      ;; show function signature
-          lsp-signature-doc-lines 1)         ;; but dont take up more lines
+          lsp-signature-doc-lines 1          ;; but dont take up more lines
+
+          ;; clangd
+          lsp-clients-clangd-args '("--compile-commands-dir=build"
+
+                                    "--background-index"
+                                    "--clang-tidy"
+                                    "--completion-style=detailed"
+                                    "--suggest-missing-includes"
+
+                                    "-j=5"
+                                    "--pch-storage=memory"))
     (add-to-list 'exec-path (concat conda_home "envs/common_dev_python3.8/bin/")))
 
   (use-package lsp-ui
@@ -964,26 +981,26 @@ before packages are loaded."
                                 ,(face-foreground 'font-lock-variable-name-face))))
 
   ;; ccls
-  (use-package ccls
-    :after lsp-mode
-    :config
-    (setq ccls-sem-highlight-method 'font-lock)
-    (ccls-use-default-rainbow-sem-highlight)
+  ;; (use-package ccls
+  ;;   :after lsp-mode
+  ;;   :config
+  ;;   (setq ccls-sem-highlight-method 'font-lock)
+  ;;   (ccls-use-default-rainbow-sem-highlight)
 
-    (setq ccls-executable "~/Documents/workspace/github/ccls/Release/ccls"
-          ccls-args '("--log-file=/tmp/ccls-emacs.log")
-          ccls-initialization-options `(:capabilities (:foldingRangeProvider :json-false)
-                                                      :cache (:directory ".ccls-cache")
-                                                      :completion (:caseSensitivity 0)
-                                                      :compilationDatabaseDirectory "cmake-build"
-                                                      :codeLens (:localVariables :json-false)
-                                                      :client (:snippetSupport t)
-                                                      :diagnostics (:onChang 100
-                                                                             :onOpen 100
-                                                                             :onSave 100)
-                                                      :highlight (:lsRanges t)
-                                                      :index (:threads 5)))
-    (evil-set-initial-state 'ccls-tree-mode 'emacs))
+  ;;   (setq ccls-executable "~/Documents/workspace/github/ccls/Release/ccls"
+  ;;         ccls-args '("--log-file=/tmp/ccls-emacs.log")
+  ;;         ccls-initialization-options `(:capabilities (:foldingRangeProvider :json-false)
+  ;;                                                     :cache (:directory ".ccls-cache")
+  ;;                                                     :completion (:caseSensitivity 0)
+  ;;                                                     :compilationDatabaseDirectory "cmake-build"
+  ;;                                                     :codeLens (:localVariables :json-false)
+  ;;                                                     :client (:snippetSupport t)
+  ;;                                                     :diagnostics (:onChang 100
+  ;;                                                                            :onOpen 100
+  ;;                                                                            :onSave 100)
+  ;;                                                     :highlight (:lsRanges t)
+  ;;                                                     :index (:threads 5)))
+  ;;   (evil-set-initial-state 'ccls-tree-mode 'emacs))
 
   ;; modern-cpp-font-lock
   (use-package modern-cpp-font-lock
