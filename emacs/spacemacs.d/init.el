@@ -42,13 +42,11 @@ This function should only modify configuration layer settings."
                       auto-completion-enable-help-tooltip t
                       auto-completion-enable-snippets-in-popup t)
      ;; ccls
-     ;; (c-c++ :variables
-     ;;        c-c++-backend 'lsp-ccls)
-
-     ;; clangd
      (c-c++ :variables
-            c-c++-backend 'lsp-clangd)
-
+            c-c++-backend 'lsp-ccls)
+     ;; clangd
+     ;; (c-c++ :variables
+     ;;        c-c++-backend 'lsp-clangd)
      (python :variables
              python-backend 'lsp)
      (version-control :variables
@@ -323,7 +321,7 @@ It should only modify the values of Spacemacs settings."
 
    ;; Which-key delay in seconds. The which-key buffer is the popup listing
    ;; the commands bound to the current keystroke sequence. (default 0.4)
-   dotspacemacs-which-key-delay 0.2
+   dotspacemacs-which-key-delay 1
 
    ;; Which-key frame position. Possible values are `right', `bottom' and
    ;; `right-then-bottom'. right-then-bottom tries to display the frame to the
@@ -942,15 +940,16 @@ before packages are loaded."
           lsp-signature-doc-lines 1          ;; but dont take up more lines
 
           ;; clangd
-          lsp-clients-clangd-args '("--compile-commands-dir=cmake-build"
+          ;; lsp-clients-clangd-args '("--compile-commands-dir=cmake-build"
 
-                                    "--background-index"
-                                    "--clang-tidy"
-                                    "--completion-style=detailed"
-                                    "--suggest-missing-includes"
+          ;;                           "--background-index"
+          ;;                           "--clang-tidy"
+          ;;                           "--completion-style=detailed"
+          ;;                           "--suggest-missing-includes"
 
-                                    "-j=5"
-                                    "--pch-storage=memory"))
+          ;;                           "-j=5"
+          ;;                           "--pch-storage=memory")
+          )
     (add-to-list 'exec-path (concat conda_home "envs/common_dev_python3.8/bin/")))
 
   (use-package lsp-ui
@@ -980,26 +979,26 @@ before packages are loaded."
                                 ,(face-foreground 'font-lock-variable-name-face))))
 
   ;; ccls
-  ;; (use-package ccls
-  ;;   :after lsp-mode
-  ;;   :config
-  ;;   (setq ccls-sem-highlight-method 'font-lock)
-  ;;   (ccls-use-default-rainbow-sem-highlight)
+  (use-package ccls
+    :after lsp-mode
+    :config
+    (setq ccls-sem-highlight-method 'font-lock)
+    (ccls-use-default-rainbow-sem-highlight)
 
-  ;;   (setq ccls-executable "~/Documents/workspace/github/ccls/Release/ccls"
-  ;;         ccls-args '("--log-file=/tmp/ccls-emacs.log")
-  ;;         ccls-initialization-options `(:capabilities (:foldingRangeProvider :json-false)
-  ;;                                                     :cache (:directory ".ccls-cache")
-  ;;                                                     :completion (:caseSensitivity 0)
-  ;;                                                     :compilationDatabaseDirectory "cmake-build"
-  ;;                                                     :codeLens (:localVariables :json-false)
-  ;;                                                     :client (:snippetSupport t)
-  ;;                                                     :diagnostics (:onChang 100
-  ;;                                                                            :onOpen 100
-  ;;                                                                            :onSave 100)
-  ;;                                                     :highlight (:lsRanges t)
-  ;;                                                     :index (:threads 5)))
-  ;;   (evil-set-initial-state 'ccls-tree-mode 'emacs))
+    (setq ccls-executable "~/Documents/workspace/github/ccls/Release/ccls"
+          ccls-args '("--log-file=/tmp/ccls-emacs.log")
+          ccls-initialization-options `(:capabilities (:foldingRangeProvider :json-false)
+                                                      :cache (:directory ".ccls-cache")
+                                                      :completion (:caseSensitivity 0)
+                                                      :compilationDatabaseDirectory "cmake-build"
+                                                      :codeLens (:localVariables :json-false)
+                                                      :client (:snippetSupport t)
+                                                      :diagnostics (:onChang 100
+                                                                             :onOpen 100
+                                                                             :onSave 100)
+                                                      :highlight (:lsRanges t)
+                                                      :index (:threads 5)))
+    (evil-set-initial-state 'ccls-tree-mode 'emacs))
 
   ;; modern-cpp-font-lock
   (use-package modern-cpp-font-lock
