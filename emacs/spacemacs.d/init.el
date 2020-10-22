@@ -697,7 +697,7 @@ before packages are loaded."
   (use-package pangu-spacing
     :demand t
     :config
-    (global-pangu-spacing-mode -1)
+    (global-pangu-spacing-mode 1)
     (setq pangu-spacing-real-insert-separtor t))
 
   ;; projectile
