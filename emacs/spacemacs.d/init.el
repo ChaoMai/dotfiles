@@ -56,6 +56,7 @@ This function should only modify configuration layer settings."
      chinese
      cmake
      conda
+     confluence
      copy-as-format
      csv
      dap
