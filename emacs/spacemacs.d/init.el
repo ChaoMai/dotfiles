@@ -620,13 +620,13 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
 
    ((string-equal platform WSL)
     (setq dotspacemacs-default-font '("Cascadia Code PL"
-                                      :size 12.0
+                                      :size 11.0
                                       :weight normal
                                       :width normal)
           dotspacemacs-mode-line-theme '(spacemacs :separator wave :separator-scale 1.5))))
 
   ;; https://archive.casouri.cat/note/2019/emacs-%E5%AD%97%E4%BD%93%E4%B8%8E%E5%AD%97%E4%BD%93%E9%9B%86/
-  (set-fontset-font t 'han "Noto Serif CJK SC")
+  (set-fontset-font t 'han "Noto Sans CJK SC")
 
   )
 
@@ -824,7 +824,9 @@ before packages are loaded."
           org-outline-path-complete-in-steps nil
           org-refile-allow-creating-parent-nodes 'confirm
           ;; 配置归档文件的名称和 Headline 格式
-          org-archive-location "%s_archive::date-tree"))
+          org-archive-location "%s_archive::date-tree"
+          org-blank-before-new-entry '((heading . always)
+                                       (plain-list-item . nil))))
 
   ;; org-agenda
   ;; 1. https://emacs-china.org/t/org-agenda/8679/3
