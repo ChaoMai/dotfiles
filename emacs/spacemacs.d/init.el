@@ -953,7 +953,7 @@ before packages are loaded."
           ;;                           "-j=5"
           ;;                           "--pch-storage=memory")
           )
-    (add-to-list 'exec-path (concat conda_home "envs/common_dev_python3.8/bin/")))
+    (add-to-list 'exec-path (concat conda_home "envs/common_dev_python3.9/bin/")))
 
   (use-package lsp-ui
     :after lsp-mode

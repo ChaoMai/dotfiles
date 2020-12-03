@@ -50,8 +50,8 @@ bash Miniconda3-latest-Linux-x86_64.sh
 
 # cannot use conda at this moment, manually init it
 eval "$(~/Programs/opt/miniconda3/bin/conda shell.bash hook)"
-conda create --name vim_env_python3.8 python=3.8
-conda activate vim_env_python3.8
+conda create --name common_env_python3.9 python=3.9
+conda activate common_env_python3.9
 
 ln -s ~/Documents/workspace/dotfiles/pythonstartup .pythonstartup
 ```
@@ -79,15 +79,13 @@ make install
 ln -s ~/Documents/workspace/dotfiles/zsh/zshrc .zshrc
 ln -s ~/Documents/workspace/dotfiles/base16-shell .base16-shell
 
-curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash
+brew install nvm
 # cannot use nvm at this moment, manually init it
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 
 nvm install --lts
 npm install -g safe-rm
-
-#
 
 # get into zsh, do initialization
 zsh
@@ -235,7 +233,7 @@ cmake --build Release
 
 ```bash
 cd ~/.local/share/nvim/plugged/vimspector
-conda activate vim_env_python3.8
+conda activate common_env_python3.9
 ./install_gadget.py --enable-c --enable-python --enable-go
 conda deactivate
 ```
