@@ -92,8 +92,8 @@ if [[ $OSTYPE == "Darwin" ]]; then
     local check_nvim=$(command -v nvim >/dev/null 2>&1 || echo $?)
 
     if [[ $check_nvim -eq 1 ]]; then
-        alias vim="PYTHONPATH=/usr/local/Caskroom/miniconda/base/envs/common_dev_python3.9/lib/python3.9/site-packages vim"
-        alias v="PYTHONPATH=/usr/local/Caskroom/miniconda/base/envs/common_dev_python3.9/lib/python3.9/site-packages vim"
+        alias vim="PYTHONPATH=/usr/local/Caskroom/miniconda/base/envs/common_env_python3.9/lib/python3.9/site-packages vim"
+        alias v="PYTHONPATH=/usr/local/Caskroom/miniconda/base/envs/common_env_python3.9/lib/python3.9/site-packages vim"
     else
         alias vim="nvim"
         alias v="nvim"
@@ -152,8 +152,8 @@ elif [[ $OSTYPE == "Linux" ]]; then
     local check_nvim=$(command -v nvim >/dev/null 2>&1 || echo $?)
 
     if [[ $check_nvim -eq 1 ]]; then
-        alias vim="PYTHONPATH=$PROGRAMSPATH/opt/miniconda3/envs/common_dev_python3.9/lib/python3.9/site-packages vim"
-        alias v="PYTHONPATH=$PROGRAMSPATH/opt/miniconda3/envs/common_dev_python3.9/lib/python3.9/site-packages vim"
+        alias vim="PYTHONPATH=$PROGRAMSPATH/opt/miniconda3/envs/common_env_python3.9/lib/python3.9/site-packages vim"
+        alias v="PYTHONPATH=$PROGRAMSPATH/opt/miniconda3/envs/common_env_python3.9/lib/python3.9/site-packages vim"
     else
         alias vim="nvim"
         alias v="nvim"
