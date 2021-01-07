@@ -417,3 +417,6 @@ $RECYCLE.BIN/
 .ccls
 .ccls-cache/
 .ccls-root
+
+.calltree.*
+.cpptree.list
