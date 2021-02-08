@@ -27,7 +27,7 @@ apt install -y git curl wget
 # no installation privilege
 # setup $HOME
 # setup $PATH
-export PATH=/home/maichao/Programs/bin/:$PATH
+export PATH=/home/chaomai/.local/bin/:$PATH
 
 mkdir -p ~/Documents/workspace
 cd ~/Documents/workspace
@@ -42,14 +42,14 @@ brew cask install miniconda
 
 # debian
 # https://docs.conda.io/en/latest/miniconda.html#linux-installers
-mkdir -p ~/Programs/opt
+mkdir -p ~/.local/opt
 wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
 bash Miniconda3-latest-Linux-x86_64.sh
-# install into: ~/Programs/opt/miniconda3
+# install into: ~/.local/opt/miniconda3
 # don't run conda init
 
 # cannot use conda at this moment, manually init it
-eval "$(~/Programs/opt/miniconda3/bin/conda shell.bash hook)"
+eval "$(~/.local/opt/miniconda3/bin/conda shell.bash hook)"
 conda create --name common_env_python3.9 python=3.9
 conda activate common_env_python3.9
 
@@ -66,12 +66,12 @@ brew install exa bat lua zsh
 apt install -y exa bat lua5.3 zsh
 
 # no installation privilege
-./configure --prefix=/home/maichao/Programs
+./configure --prefix=/home/chaomai/.local
 make install
 
 # https://github.com/ogham/exa/releases
 # https://github.com/sharkdp/bat/releases
-# install at ~/Programs/
+# install at ~/.local/
 ```
 
 ## configuration
@@ -101,8 +101,8 @@ brew install tmux
 apt install -y tmux
 
 # no installation privilege
-./configure --prefix=~/Programs
-./configure --prefix=/home/maichao/Programs
+./configure --prefix=~/.local
+./configure --prefix=/home/chaomai/.local
 ```
 
 ## configuration
@@ -128,7 +128,7 @@ apt install -y neovim
 
 # no installation privilege
 # https://github.com/neovim/neovim/releases
-make -j 8 CMAKE_EXTRA_FLAGS="-DCMAKE_INSTALL_PREFIX=/home/maichao/Programs" CMAKE_BUILD_TYPE=Release
+make -j 8 CMAKE_EXTRA_FLAGS="-DCMAKE_INSTALL_PREFIX=/home/chaomai/.local" CMAKE_BUILD_TYPE=Release
 make install
 ```
 
@@ -254,7 +254,7 @@ git clean -fdx
 ./configure \
 --disable-silent-rules \
 --enable-locallisppath=/usr/local/share/emacs/site-lisp \
---prefix=${HOME}/Programs/ \
+--prefix=${HOME}/.local/ \
 --with-nativecomp \
 --with-ns \
 --disable-ns-self-contained
@@ -303,20 +303,20 @@ startxfce4
 * libevent
 
 ```bash
-./configure --prefix=/home/maichao/Programs
+./configure --prefix=/home/chaomai/.local
 ```
 
 * tmux
 
 ```bash
-./configure CFLAGS="-I../../Programs/include" LDFLAGS="-L../../Programs/lib" --prefix=/home/maichao/Programs
+./configure CFLAGS="-I../../.local/include" LDFLAGS="-L../../.local/lib" --prefix=/home/chaomai/.local
 ```
 
 # vim
 
 ```bash
-CFLAGS="-I../../Programs/include"
-LDFLAGS="-L../../Programs/lib"
+CFLAGS="-I../../.local/include"
+LDFLAGS="-L../../.local/lib"
 ./configure --with-features=huge \
             --enable-multibyte \
             --enable-rubyinterp=yes \
@@ -327,7 +327,7 @@ LDFLAGS="-L../../Programs/lib"
             --enable-luainterp=yes \
             --enable-gui=gtk2 \
             --enable-cscope \
-            --prefix=/home/maichao/Programs
+            --prefix=/home/chaomai/.local
 
 ./configure --with-features=huge \
             --enable-multibyte \
@@ -337,5 +337,5 @@ LDFLAGS="-L../../Programs/lib"
             --enable-luainterp=yes \
             --enable-gui=gtk2 \
             --enable-cscope \
-            --prefix=/home/dev/maichao/Programs
+            --prefix=/home/dev/chaomai/.local
 ```

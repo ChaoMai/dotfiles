@@ -42,8 +42,8 @@ function j() {
 local check_starship=$(command -v starship >/dev/null 2>&1 || echo $?)
 
 if [[ $check_starship -eq 1 ]]; then
-    mkdir -p $HOME/Programs/bin
-    curl -fsSL https://starship.rs/install.sh | bash -s -- -b $HOME/Programs/bin
+    mkdir -p $PROGRAMSPATH/bin
+    curl -fsSL https://starship.rs/install.sh | bash -s -- -b $PROGRAMSPATH/bin
 fi
 
 eval "$(starship init zsh)"

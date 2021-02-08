@@ -1,25 +1,12 @@
 ######################################## environment variables
 # export MANPATH="/usr/local/man:$MANPATH"
-export PROGRAMSPATH=$HOME/Programs
+export PROGRAMSPATH=$HOME/.local
 export GOPATH=$HOME/Documents/workspace/go
 export PATH=$GOPATH/bin:$PATH
 export PATH=$PROGRAMSPATH/bin:$GOPATH/bin:$PATH
 export PYTHONSTARTUP=$HOME/.pythonstartup
 export MAVEN_OPTS="-Xmx2g -XX:ReservedCodeCacheSize=512m"
 # export EMACS=$PROGRAMSPATH/bin/emacs
-
-#################### nvm
-export NVM_DIR="$HOME/.nvm"
-# this is slow
-# [ -s "/usr/local/opt/nvm/nvm.sh" ] && . "/usr/local/opt/nvm/nvm.sh"  # This loads nvm
-
-local DEFAULT_NODE_VER='default';
-while [ -s "$NVM_DIR/alias/$DEFAULT_NODE_VER" ]; do
-    local DEFAULT_NODE_VER="$(<$NVM_DIR/alias/$DEFAULT_NODE_VER)"
-done;
-
-export PATH="$NVM_DIR/versions/node/v${DEFAULT_NODE_VER#v}/bin:$PATH"
-alias nvm='unalias nvm; [ -s "/usr/local/opt/nvm/nvm.sh" ] && \. "/usr/local/opt/nvm/nvm.sh" --no-use; nvm'
 
 ######################################## alias
 DISABLE_LS_COLORS=true
@@ -129,6 +116,17 @@ if [[ $OSTYPE == "Darwin" ]]; then
     # unset __conda_setup
     # <<< conda initialize <<<
 
+    #################### nvm
+    export NVM_DIR="$HOME/.nvm"
+    [ -s "/usr/local/opt/nvm/nvm.sh" ] && . "/usr/local/opt/nvm/nvm.sh"  # This loads nvm
+
+    local DEFAULT_NODE_VER='default';
+    while [ -s "$NVM_DIR/alias/$DEFAULT_NODE_VER" ]; do
+        local DEFAULT_NODE_VER="$(<$NVM_DIR/alias/$DEFAULT_NODE_VER)"
+    done;
+
+    export DEFAULT_NODE_PATH="$NVM_DIR/versions/node/v${DEFAULT_NODE_VER#v}/bin"
+
 elif [[ $OSTYPE == "Linux" ]]; then
     #################### environment variables
     export CC=/usr/bin/clang
@@ -174,6 +172,17 @@ elif [[ $OSTYPE == "Linux" ]]; then
     # fi
     # unset __conda_setup
     # <<< conda initialize <<<
+    
+    #################### nvm
+    export NVM_DIR="$HOME/.nvm"
+    [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+
+    local DEFAULT_NODE_VER='default';
+    while [ -s "$NVM_DIR/alias/$DEFAULT_NODE_VER" ]; do
+        local DEFAULT_NODE_VER="$(<$NVM_DIR/alias/$DEFAULT_NODE_VER)"
+    done;
+
+    export DEFAULT_NODE_PATH="$NVM_DIR/versions/node/v${DEFAULT_NODE_VER#v}/bin"
 
     #################### wsl2
     if [[ $(uname -r) =~ 'microsoft' ]]; then
