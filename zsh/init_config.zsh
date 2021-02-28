@@ -64,7 +64,7 @@ if [[ $OSTYPE == "Darwin" ]]; then
     export GNUBIN_INETUTILS=/usr/local/opt/inetutils/libexec/gnubin
 
     #################### alias
-    alias ssproxy="export http_proxy=http://127.0.0.1:1087 https_proxy=http://127.0.0.1:1087"
+    alias ssproxy="export http_proxy=http://127.0.0.1:7890 https_proxy=http://127.0.0.1:7890"
     alias unproxy="unset http_proxy https_proxy"
 
     alias f="open ."
@@ -138,7 +138,7 @@ elif [[ $OSTYPE == "Linux" ]]; then
     # export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk-13.0.1.jdk/Contents/Home
 
     #################### alias
-    alias ssproxy="export http_proxy=http://127.0.0.1:1087 https_proxy=http://127.0.0.1:1087"
+    alias ssproxy="export http_proxy=http://127.0.0.1:7890 https_proxy=http://127.0.0.1:7890"
     alias unproxy="unset http_proxy https_proxy"
 
     alias rm="safe-rm"
@@ -203,7 +203,7 @@ elif [[ $OSTYPE == "Linux" ]]; then
         export XMODIFIERS=@im=fcitx
 
         # overwrite previous proxy alias
-        alias ssproxy="export http_proxy=http://$WSL2_LOCAL_IP:18081 https_proxy=http://$WSL2_LOCAL_IP:18081"
+        alias ssproxy="export http_proxy=http://$WSL2_LOCAL_IP:7890 https_proxy=http://$WSL2_LOCAL_IP:7890"
         alias unproxy="unset http_proxy https_proxy"
     fi
 fi
