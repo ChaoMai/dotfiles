@@ -42,43 +42,44 @@ This function should only modify configuration layer settings."
                       auto-completion-enable-help-tooltip t
                       auto-completion-enable-snippets-in-popup t)
      ;; ccls
-     (c-c++ :variables
-            c-c++-backend 'lsp-ccls)
+     ;; (c-c++ :variables
+     ;;        c-c++-backend 'lsp-ccls)
      ;; clangd
      ;; (c-c++ :variables
      ;;        c-c++-backend 'lsp-clangd)
-     (python :variables
-             python-backend 'lsp)
+     ;; (python :variables
+     ;;         python-backend 'lsp)
      (version-control :variables
                       version-control-diff-side 'left
                       version-control-global-margin t)
      better-defaults
      chinese
-     cmake
-     conda
-     confluence
+     ;; cmake
+     ;; conda
+     ;; confluence
      copy-as-format
      csv
-     dap
+     ;; dap
      emacs-lisp
      emoji
      git
-     go
+     ;; go
      graphviz
      helpful
-     html
+     ;; html
      ivy
      json
-     lsp
-     lua
+     ;; lsp
+     ;; lua
      markdown
      multiple-cursors
-     org
-     protobuf
+     (org :variables
+          org-enable-valign t)
+     ;; protobuf
      quickurl
-     rust
-     shell-scripts
-     sql
+     ;; rust
+     ;; shell-scripts
+     ;; sql
      syntax-checking
      treemacs
      vimscript
@@ -232,8 +233,9 @@ It should only modify the values of Spacemacs settings."
    ;; List of themes, the first of the list is loaded when spacemacs starts.
    ;; Press `SPC T n' to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
-   dotspacemacs-themes '(spacemacs-dark
-                         spacemacs-light)
+   dotspacemacs-themes '(spacemacs-light
+                         leuven
+                         spacemacs-dark)
 
    ;; Set the theme for the Spaceline. Supported themes are `spacemacs',
    ;; `all-the-icons', `custom', `doom', `vim-powerline' and `vanilla'. The
@@ -249,7 +251,7 @@ It should only modify the values of Spacemacs settings."
    dotspacemacs-colorize-cursor-according-to-state t
 
    ;; Default font or prioritized list of fonts.
-   dotspacemacs-default-font '("Source Code Pro"
+   dotspacemacs-default-font '("Fira Code"
                                :size 10.0
                                :weight normal
                                :width normal)
@@ -404,7 +406,7 @@ It should only modify the values of Spacemacs settings."
    ;;   :size-limit-kb 1000)
    ;; When used in a plist, `visual' takes precedence over `relative'.
    ;; (default nil)
-   dotspacemacs-line-numbers t
+   dotspacemacs-line-numbers nil
 
    ;; Code folding method. Possible values are `evil' and `origami'.
    ;; (default 'evil)
@@ -609,21 +611,19 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
   ;; font
   (cond
    ((string-equal platform MACOS)
-    (setq dotspacemacs-default-font '("Cascadia Code PL"
-                                      :size 15.0
+    (setq dotspacemacs-default-font '("Fira Code"
+                                      :size 13.0
                                       :weight normal
-                                      :width normal)
-          dotspacemacs-mode-line-theme '(spacemacs :separator wave :separator-scale 1.5)))
+                                      :width normal)))
 
    ((string-equal platform LINUX)
     (message "no implemented"))
 
    ((string-equal platform WSL)
-    (setq dotspacemacs-default-font '("Cascadia Code PL"
+    (setq dotspacemacs-default-font '("Fira Code"
                                       :size 11.0
                                       :weight normal
-                                      :width normal)
-          dotspacemacs-mode-line-theme '(spacemacs :separator wave :separator-scale 1.5))))
+                                      :width normal))))
 
   ;; https://archive.casouri.cat/note/2019/emacs-%E5%AD%97%E4%BD%93%E4%B8%8E%E5%AD%97%E4%BD%93%E9%9B%86/
   (set-fontset-font t 'han "Noto Sans CJK SC")
@@ -790,8 +790,7 @@ before packages are loaded."
     :init
     (setq org-directory org_dir)
     :config
-    (setq org-agenda-files (list (concat org_dir "work/project.org")
-                                 (concat org_dir "home/project.org"))
+    (setq org-agenda-files (list (concat org_dir "home/project.org"))
           org-tags-column 0
           org-pretty-entities t
           org-startup-indented t
@@ -826,7 +825,8 @@ before packages are loaded."
           ;; 配置归档文件的名称和 Headline 格式
           org-archive-location "%s_archive::date-tree"
           org-blank-before-new-entry '((heading . always)
-                                       (plain-list-item . nil))))
+                                       (plain-list-item . nil))
+          org-startup-truncated t))
 
   ;; org-agenda
   ;; 1. https://emacs-china.org/t/org-agenda/8679/3
@@ -915,99 +915,99 @@ before packages are loaded."
     (setq org-download-method 'my-org-download-method))
 
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; lsp
-  ;; lsp-mode
-  ;; 1. https://github.com/MaskRay/Config/blob/master/home/.config/doom/modules/private/my-cc/autoload.el
-  ;; 2. https://github.com/MaskRay/ccls/wiki/lsp-mode
-  (use-package lsp-mode
-    :commands lsp
-    :config
-    (setq lsp-idle-delay 0.500               ;; lazy refresh
-          lsp-log-io nil                     ;; enable log only for debug
-          lsp-enable-folding nil             ;; use `evil-matchit' instead
-          lsp-diagnostic-package :flycheck   ;; prefer flycheck
-          lsp-lens-auto-enable nil           ;; disable lens
-          lsp-flycheck-live-reporting nil    ;; obey `flycheck-check-syntax-automatically'
-          lsp-prefer-capf t                  ;; using `company-capf' by default
-          lsp-enable-snippet nil             ;; no snippet
-          lsp-enable-file-watchers nil       ;; turn off for better performance
-          lsp-enable-text-document-color nil ;; as above
-          lsp-enable-symbol-highlighting nil ;; as above
-          lsp-enable-indentation nil         ;; indent by ourself
-          lsp-enable-on-type-formatting nil  ;; disable formatting on the fly
-          lsp-auto-guess-root t              ;; auto guess root
-          lsp-keep-workspace-alive nil       ;; auto kill lsp server
-          lsp-enable-xref t
-          lsp-headerline-breadcrumb-segments t
-          lsp-eldoc-enable-hover nil         ;; disable eldoc hover displays in minibuffer
-          lsp-signature-auto-activate t      ;; show function signature
-          lsp-signature-doc-lines 1          ;; but dont take up more lines
+  ;; ;; lsp-mode
+  ;; ;; 1. https://github.com/MaskRay/Config/blob/master/home/.config/doom/modules/private/my-cc/autoload.el
+  ;; ;; 2. https://github.com/MaskRay/ccls/wiki/lsp-mode
+  ;; (use-package lsp-mode
+  ;;   :commands lsp
+  ;;   :config
+  ;;   (setq lsp-idle-delay 0.500               ;; lazy refresh
+  ;;         lsp-log-io nil                     ;; enable log only for debug
+  ;;         lsp-enable-folding nil             ;; use `evil-matchit' instead
+  ;;         lsp-diagnostic-package :flycheck   ;; prefer flycheck
+  ;;         lsp-lens-auto-enable nil           ;; disable lens
+  ;;         lsp-flycheck-live-reporting nil    ;; obey `flycheck-check-syntax-automatically'
+  ;;         lsp-prefer-capf t                  ;; using `company-capf' by default
+  ;;         lsp-enable-snippet nil             ;; no snippet
+  ;;         lsp-enable-file-watchers nil       ;; turn off for better performance
+  ;;         lsp-enable-text-document-color nil ;; as above
+  ;;         lsp-enable-symbol-highlighting nil ;; as above
+  ;;         lsp-enable-indentation nil         ;; indent by ourself
+  ;;         lsp-enable-on-type-formatting nil  ;; disable formatting on the fly
+  ;;         lsp-auto-guess-root t              ;; auto guess root
+  ;;         lsp-keep-workspace-alive nil       ;; auto kill lsp server
+  ;;         lsp-enable-xref t
+  ;;         lsp-headerline-breadcrumb-segments t
+  ;;         lsp-eldoc-enable-hover nil         ;; disable eldoc hover displays in minibuffer
+  ;;         lsp-signature-auto-activate t      ;; show function signature
+  ;;         lsp-signature-doc-lines 1          ;; but dont take up more lines
 
-          ;; clangd
-          ;; lsp-clients-clangd-args '("--compile-commands-dir=cmake-build"
+  ;;         ;; clangd
+  ;;         ;; lsp-clients-clangd-args '("--compile-commands-dir=cmake-build"
 
-          ;;                           "--background-index"
-          ;;                           "--clang-tidy"
-          ;;                           "--completion-style=detailed"
-          ;;                           "--suggest-missing-includes"
+  ;;         ;;                           "--background-index"
+  ;;         ;;                           "--clang-tidy"
+  ;;         ;;                           "--completion-style=detailed"
+  ;;         ;;                           "--suggest-missing-includes"
 
-          ;;                           "-j=5"
-          ;;                           "--pch-storage=memory")
-          )
-    (add-to-list 'exec-path (concat conda_home "envs/common_env_python3.9/bin/")))
+  ;;         ;;                           "-j=5"
+  ;;         ;;                           "--pch-storage=memory")
+  ;;         )
+  ;;   (add-to-list 'exec-path (concat conda_home "envs/common_env_python3.9/bin/")))
 
-  (use-package lsp-ui
-    :after lsp-mode
-    :config
-    (setq lsp-ui-sideline-enable t
-          lsp-ui-sideline-delay 0.1
-          lsp-ui-sideline-ignore-duplicate t
-          lsp-ui-sideline-show-code-actions nil
-          lsp-ui-sideline-show-diagnostics t
-          lsp-ui-sideline-show-hover nil
+  ;; (use-package lsp-ui
+  ;;   :after lsp-mode
+  ;;   :config
+  ;;   (setq lsp-ui-sideline-enable t
+  ;;         lsp-ui-sideline-delay 0.1
+  ;;         lsp-ui-sideline-ignore-duplicate t
+  ;;         lsp-ui-sideline-show-code-actions nil
+  ;;         lsp-ui-sideline-show-diagnostics t
+  ;;         lsp-ui-sideline-show-hover nil
 
-          lsp-ui-peek-enable nil
-          lsp-ui-peek-fontify 'always
+  ;;         lsp-ui-peek-enable nil
+  ;;         lsp-ui-peek-fontify 'always
 
-          lsp-ui-doc-enable nil
-          lsp-ui-doc-use-webkit nil
-          lsp-ui-doc-delay 0.1
-          lsp-ui-doc-include-signature t
-          lsp-ui-doc-position 'top
-          lsp-ui-doc-border (face-foreground 'default)
+  ;;         lsp-ui-doc-enable nil
+  ;;         lsp-ui-doc-use-webkit nil
+  ;;         lsp-ui-doc-delay 0.1
+  ;;         lsp-ui-doc-include-signature t
+  ;;         lsp-ui-doc-position 'top
+  ;;         lsp-ui-doc-border (face-foreground 'default)
 
-          lsp-ui-imenu-enable t
-          lsp-ui-imenu-colors `(,(face-foreground 'font-lock-keyword-face)
-                                ,(face-foreground 'font-lock-string-face)
-                                ,(face-foreground 'font-lock-constant-face)
-                                ,(face-foreground 'font-lock-variable-name-face))))
+  ;;         lsp-ui-imenu-enable t
+  ;;         lsp-ui-imenu-colors `(,(face-foreground 'font-lock-keyword-face)
+  ;;                               ,(face-foreground 'font-lock-string-face)
+  ;;                               ,(face-foreground 'font-lock-constant-face)
+  ;;                               ,(face-foreground 'font-lock-variable-name-face))))
 
-  ;; ccls
-  (use-package ccls
-    :after lsp-mode
-    :config
-    (setq ccls-sem-highlight-method 'font-lock)
-    (ccls-use-default-rainbow-sem-highlight)
+  ;; ;; ccls
+  ;; (use-package ccls
+  ;;   :after lsp-mode
+  ;;   :config
+  ;;   (setq ccls-sem-highlight-method 'font-lock)
+  ;;   (ccls-use-default-rainbow-sem-highlight)
 
-    (setq ccls-executable "~/Documents/workspace/github/ccls/Release/ccls"
-          ccls-args '("--log-file=/tmp/ccls-emacs.log")
-          ccls-initialization-options `(:capabilities (:foldingRangeProvider :json-false)
-                                                      :cache (:directory ".ccls-cache")
-                                                      :completion (:caseSensitivity 0)
-                                                      :compilationDatabaseDirectory "cmake-build"
-                                                      :codeLens (:localVariables :json-false)
-                                                      :client (:snippetSupport t)
-                                                      :diagnostics (:onChang 100
-                                                                             :onOpen 100
-                                                                             :onSave 100)
-                                                      :highlight (:lsRanges t)
-                                                      :index (:threads 5)))
-    (evil-set-initial-state 'ccls-tree-mode 'emacs))
+  ;;   (setq ccls-executable "~/Documents/workspace/github/ccls/Release/ccls"
+  ;;         ccls-args '("--log-file=/tmp/ccls-emacs.log")
+  ;;         ccls-initialization-options `(:capabilities (:foldingRangeProvider :json-false)
+  ;;                                                     :cache (:directory ".ccls-cache")
+  ;;                                                     :completion (:caseSensitivity 0)
+  ;;                                                     :compilationDatabaseDirectory "cmake-build"
+  ;;                                                     :codeLens (:localVariables :json-false)
+  ;;                                                     :client (:snippetSupport t)
+  ;;                                                     :diagnostics (:onChang 100
+  ;;                                                                            :onOpen 100
+  ;;                                                                            :onSave 100)
+  ;;                                                     :highlight (:lsRanges t)
+  ;;                                                     :index (:threads 5)))
+  ;;   (evil-set-initial-state 'ccls-tree-mode 'emacs))
 
-  ;; modern-cpp-font-lock
-  (use-package modern-cpp-font-lock
-    :after ccls
-    :config
-    (modern-c++-font-lock-global-mode t))
+  ;; ;; modern-cpp-font-lock
+  ;; (use-package modern-cpp-font-lock
+  ;;   :after ccls
+  ;;   :config
+  ;;   (modern-c++-font-lock-global-mode t))
 
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; format
   ;; (use-package format
