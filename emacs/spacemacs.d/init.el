@@ -82,7 +82,7 @@ This function should only modify configuration layer settings."
      ;; sql
      syntax-checking
      treemacs
-     vimscript
+     ;; vimscript
      xclipboard)
 
 
@@ -474,7 +474,7 @@ It should only modify the values of Spacemacs settings."
    ;; `trailing' to delete only the whitespace at end of lines, `changed' to
    ;; delete only whitespace for changed lines or `nil' to disable cleanup.
    ;; (default nil)
-   dotspacemacs-whitespace-cleanup 'nil
+   dotspacemacs-whitespace-cleanup 'all
 
    ;; If non nil activate `clean-aindent-mode' which tries to correct
    ;; virtual indentation of simple modes. This can interfer with mode specific
@@ -594,15 +594,15 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
   ;;             browse-url-browser-function 'browse-url-generic)))))
 
   ;; clang-format
-  (cond
-   ((string-equal platform MACOS)
-    (defvar clang-format_bin "clang-format"))
+  ;; (cond
+  ;;  ((string-equal platform MACOS)
+  ;;   (defvar clang-format_bin "clang-format"))
 
-   ((string-equal platform LINUX)
-    (message "no implemented"))
+  ;;  ((string-equal platform LINUX)
+  ;;   (message "no implemented"))
 
-   ((string-equal platform WSL)
-    (defvar clang-format_bin "clang-format-10")))
+  ;;  ((string-equal platform WSL)
+  ;;   (defvar clang-format_bin "clang-format-10")))
 
   ;; theme
   (setq spacemacs-theme-comment-bg nil
@@ -621,7 +621,7 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
 
    ((string-equal platform WSL)
     (setq dotspacemacs-default-font '("Fira Code"
-                                      :size 11.0
+                                      :size 10.0
                                       :weight normal
                                       :width normal))))
 
@@ -694,9 +694,7 @@ before packages are loaded."
     )
 
   ;; pangu-spacing
-  ;; 默认禁用
   (use-package pangu-spacing
-    :demand t
     :config
     (global-pangu-spacing-mode 1)
     (setq pangu-spacing-real-insert-separtor t))
@@ -807,7 +805,7 @@ before packages are loaded."
           org-enforce-todo-checkbox-dependencies t
           ;; org-ellipsis " -> "
           ;; gdt task status
-          org-todo-keywords '((sequence "TODO(t)" "NEXT(n!)" "PROJ(p!)" "WAITING(w@/!)" "|" "INACTIVE(i@/!)" "CANCELLED(c@/!)" "DONE(d!)"))
+          org-todo-keywords '((sequence "TODO(t)" "NEXT(n!)" "WAITING(w@/!)" "|" "INACTIVE(i@/!)" "CANCELLED(c@/!)" "DONE(d!)"))
 
           ;; log
           org-log-done 'time
@@ -905,7 +903,8 @@ before packages are loaded."
              (file-name-nondirectory
               (car (url-path-and-query
                     (url-generic-parse-url link)))))
-            (dirname (concat (file-name-sans-extension (buffer-name)) "_media")))
+            (dirname (concat (concat (file-name-sans-extension (buffer-name)) "_media/")
+                             (format-time-string "%Y-%m-%d"))))
         ;; if directory not exist, create it
         (unless (file-exists-p dirname)
           (make-directory dirname))
@@ -915,9 +914,9 @@ before packages are loaded."
     (setq org-download-method 'my-org-download-method))
 
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; lsp
-  ;; ;; lsp-mode
-  ;; ;; 1. https://github.com/MaskRay/Config/blob/master/home/.config/doom/modules/private/my-cc/autoload.el
-  ;; ;; 2. https://github.com/MaskRay/ccls/wiki/lsp-mode
+  ;; lsp-mode
+  ;; 1. https://github.com/MaskRay/Config/blob/master/home/.config/doom/modules/private/my-cc/autoload.el
+  ;; 2. https://github.com/MaskRay/ccls/wiki/lsp-mode
   ;; (use-package lsp-mode
   ;;   :commands lsp
   ;;   :config
@@ -981,7 +980,7 @@ before packages are loaded."
   ;;                               ,(face-foreground 'font-lock-constant-face)
   ;;                               ,(face-foreground 'font-lock-variable-name-face))))
 
-  ;; ;; ccls
+  ;; ccls
   ;; (use-package ccls
   ;;   :after lsp-mode
   ;;   :config
@@ -1003,7 +1002,7 @@ before packages are loaded."
   ;;                                                     :index (:threads 5)))
   ;;   (evil-set-initial-state 'ccls-tree-mode 'emacs))
 
-  ;; ;; modern-cpp-font-lock
+  ;; modern-cpp-font-lock
   ;; (use-package modern-cpp-font-lock
   ;;   :after ccls
   ;;   :config
