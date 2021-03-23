@@ -203,7 +203,7 @@ elif [[ $OSTYPE == "Linux" ]]; then
         export XMODIFIERS=@im=fcitx
 
         # overwrite previous proxy alias
-        alias ssproxy="export http_proxy=http://$WSL2_LOCAL_IP:7890 https_proxy=http://$WSL2_LOCAL_IP:7890"
+        alias ssproxy="export http_proxy=http://$WSL2_LOCAL_IP:7891 https_proxy=http://$WSL2_LOCAL_IP:7891"
         alias unproxy="unset http_proxy https_proxy"
     fi
 fi

@@ -49,9 +49,9 @@ This function should only modify configuration layer settings."
      ;;        c-c++-backend 'lsp-clangd)
      ;; (python :variables
      ;;         python-backend 'lsp)
-     (version-control :variables
-                      version-control-diff-side 'left
-                      version-control-global-margin t)
+     ;; (version-control :variables
+                      ;; version-control-diff-side 'left
+                      ;; version-control-global-margin t)
      better-defaults
      chinese
      ;; cmake
@@ -62,26 +62,26 @@ This function should only modify configuration layer settings."
      ;; dap
      emacs-lisp
      emoji
-     git
+     ;; git
      ;; go
      graphviz
-     helpful
+     ;; helpful
      ;; html
      ivy
-     json
+     ;; json
      ;; lsp
      ;; lua
      markdown
-     multiple-cursors
+     ;; multiple-cursors
      (org :variables
           org-enable-valign t)
      ;; protobuf
-     quickurl
+     ;; quickurl
      ;; rust
      ;; shell-scripts
      ;; sql
      syntax-checking
-     treemacs
+     ;; treemacs
      ;; vimscript
      xclipboard)
 
@@ -93,8 +93,7 @@ This function should only modify configuration layer settings."
    ;; To use a local version of a package, use the `:location' property:
    ;; '(your-package :location "~/path/to/your-package/")
    ;; Also include the dependencies as they will not be resolved automatically.
-   dotspacemacs-additional-packages '(modern-cpp-font-lock
-                                      posframe)
+   dotspacemacs-additional-packages '(modern-cpp-font-lock)
 
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
@@ -324,7 +323,7 @@ It should only modify the values of Spacemacs settings."
 
    ;; Which-key delay in seconds. The which-key buffer is the popup listing
    ;; the commands bound to the current keystroke sequence. (default 0.4)
-   dotspacemacs-which-key-delay 1.0
+   dotspacemacs-which-key-delay 0.5
 
    ;; Which-key frame position. Possible values are `right', `bottom' and
    ;; `right-then-bottom'. right-then-bottom tries to display the frame to the
@@ -668,8 +667,8 @@ before packages are loaded."
           default-input-method "pyim"
           ;; 开启拼音搜索功能
           ;; pyim-isearch-mode 1
-          pyim-page-tooltip 'posframe
-          pyim-page-length 5
+          pyim-page-tooltip 'popup
+          pyim-page-length 8
           pyim-fuzzy-pinyin-alist '(("an" "ang")
                                     ("in" "ing")
                                     ("en" "eng")
@@ -790,7 +789,7 @@ before packages are loaded."
     :config
     (setq org-agenda-files (list (concat org_dir "home/project.org"))
           org-tags-column 0
-          org-pretty-entities t
+          org-pretty-entities nil
           org-startup-indented t
           org-image-actual-width nil
           org-hide-leading-stars t
@@ -824,7 +823,7 @@ before packages are loaded."
           org-archive-location "%s_archive::date-tree"
           org-blank-before-new-entry '((heading . always)
                                        (plain-list-item . nil))
-          org-startup-truncated t))
+          org-startup-truncated nil))
 
   ;; org-agenda
   ;; 1. https://emacs-china.org/t/org-agenda/8679/3
@@ -1028,8 +1027,8 @@ before packages are loaded."
 
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; misc
   ;; posframe
-  (use-package posframe
-    :demand t)
+  ;; (use-package posframe
+  ;;   :demand t)
 
   ;; conda
   ;; https://github.com/necaris/conda.el/issues/39#issuecomment-554802379
