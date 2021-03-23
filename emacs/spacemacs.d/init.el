@@ -65,7 +65,7 @@ This function should only modify configuration layer settings."
      ;; git
      ;; go
      graphviz
-     ;; helpful
+     helpful
      ;; html
      ivy
      ;; json
@@ -84,7 +84,6 @@ This function should only modify configuration layer settings."
      ;; treemacs
      ;; vimscript
      xclipboard)
-
 
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
@@ -323,7 +322,7 @@ It should only modify the values of Spacemacs settings."
 
    ;; Which-key delay in seconds. The which-key buffer is the popup listing
    ;; the commands bound to the current keystroke sequence. (default 0.4)
-   dotspacemacs-which-key-delay 0.5
+   dotspacemacs-which-key-delay 0.1
 
    ;; Which-key frame position. Possible values are `right', `bottom' and
    ;; `right-then-bottom'. right-then-bottom tries to display the frame to the
