@@ -81,7 +81,8 @@ This function should only modify configuration layer settings."
      ;; shell-scripts
      ;; sql
      syntax-checking
-     ;; treemacs
+     (treemacs :variables
+               treemacs-use-follow-mode t)
      ;; vimscript
      xclipboard)
 
@@ -704,7 +705,7 @@ before packages are loaded."
     (setq projectile-require-project-root t
           projectile-project-root-files '(".ccls-root" ".idea" "go.mod" ".bzr" "_darcs"
                                           "build.xml" ".project" ".root" ".svn" ".git"
-                                          "index.org" ".projectile")
+                                          ".projectile")
           projectile-project-root-files-functions '(projectile-root-top-down
                                                     projectile-root-top-down-recurring
                                                     projectile-root-bottom-up
