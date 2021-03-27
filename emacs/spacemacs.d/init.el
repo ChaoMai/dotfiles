@@ -612,7 +612,7 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
   (cond
    ((string-equal platform MACOS)
     (setq dotspacemacs-default-font '("Fira Code"
-                                      :size 13.0
+                                      :size 14.0
                                       :weight normal
                                       :width normal)))
 
