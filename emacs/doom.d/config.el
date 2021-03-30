@@ -143,8 +143,8 @@
  ((string-equal platform WSL)
   (setq doom-font (font-spec :family "Fira Code" :size 15 :weight 'regular))))
 
-(setq line-spacing 5
-      display-line-numbers-type nil)
+(setq line-spacing 6
+      display-line-numbers-type t)
 
 (use-package! doom-themes
   :config
@@ -291,7 +291,7 @@
         ;; Easy navigation to candidates with M-<n>
         company-show-numbers t
         company-require-match nil
-        company-minimum-prefix-length 2
+        company-minimum-prefix-length 1
         company-tooltip-align-annotations t
         ;; complete `abbrev' only in current buffer
         company-dabbrev-other-buffers nil
@@ -429,6 +429,70 @@
       (protobuf-mode ".proto")))
   (set-formatter! 'black "black -q -"
     :modes '(python-mode)))
+
+;;;;;;;;;; lsp
+;; lsp-mode
+;; 1. https://github.com/MaskRay/Config/blob/master/home/.config/doom/modules/private/my-cc/autoload.el
+;; 2. https://github.com/MaskRay/ccls/wiki/lsp-mode
+(use-package! lsp-mode
+  :commands lsp
+  :hook (lsp-mode-hook . lsp-enable-which-key-integration)
+  :config
+  (setq lsp-idle-delay 0.1                 ;; lazy refresh
+        lsp-log-io nil                     ;; enable log only for debug
+        lsp-enable-file-watchers nil
+        lsp-headerline-breadcrumb-enable t)
+  (add-to-list 'exec-path (concat conda_home "envs/common_env_python3.9/bin/")))
+
+(use-package! lsp-ui
+  :after lsp-mode
+  :config
+  (setq lsp-ui-sideline-enable t
+        lsp-ui-sideline-delay 0.1
+        lsp-ui-sideline-ignore-duplicate t
+        lsp-ui-sideline-show-code-actions nil
+        lsp-ui-sideline-show-diagnostics t
+        lsp-ui-sideline-show-hover nil
+
+        lsp-ui-peek-enable nil
+        lsp-ui-peek-fontify 'always
+
+        lsp-ui-doc-enable nil
+        lsp-ui-doc-use-webkit nil
+        lsp-ui-doc-delay 0.1
+        lsp-ui-doc-include-signature t
+        lsp-ui-doc-position 'top
+
+        lsp-ui-imenu-enable t))
+
+;; ccls
+(use-package! ccls
+  :after lsp-mode
+  :config
+  ;; (setq ccls-sem-highlight-method 'font-lock)
+  ;; (ccls-use-default-rainbow-sem-highlight)
+
+  (setq ccls-executable "~/Documents/workspace/github/ccls/Release/ccls"
+        ccls-args '("--log-file=/tmp/ccls-emacs.log")
+        ccls-initialization-options `(:capabilities (:foldingRangeProvider :json-false)
+                                      :cache (:directory ".ccls-cache")
+                                      :completion (:caseSensitivity 0)
+                                      :compilationDatabaseDirectory "cmake-build"
+                                      :codeLens (:localVariables :json-false)
+                                      :client (:snippetSupport t)
+                                      :diagnostics (:onChang 100
+                                                    :onOpen 100
+                                                    :onSave 100)
+                                      :highlight (:lsRanges t)
+                                      :index (:threads 5)))
+  (evil-set-initial-state 'ccls-tree-mode 'emacs))
+
+;; modern-cpp-font-lock
+(use-package modern-cpp-font-lock
+  :after ccls
+  :config
+  (modern-c++-font-lock-global-mode t))
+
 
 ;;;;;;;;;; references
 ;; https://practicalli.github.io/spacemacs/
