@@ -53,7 +53,10 @@
 (package! valign
   :recipe (:host github :repo "casouri/valign"))
 
-;;;;; org-mode
+;;;;; ui
+(package! kaolin-themes)
+
+;;;;; org
 (package! org-superstar)
 (package! org-download)
 

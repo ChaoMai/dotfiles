@@ -146,19 +146,25 @@
 (setq line-spacing 6
       display-line-numbers-type t)
 
-(use-package! doom-themes
+;; (use-package! doom-themes
+;;   :config
+;;   (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
+;;         doom-themes-enable-italic t) ; if nil, italics is universally disabled
+;;   (load-theme 'tsdh-light t)
+
+;;   (doom-themes-visual-bell-config)
+
+;;   (setq doom-themes-treemacs-theme "doom-colors")
+;;   (doom-themes-treemacs-config)
+
+;;   ;; Corrects (and improves) org-mode's native fontification.
+;;   (doom-themes-org-config))
+
+(use-package! kaolin-themes
   :config
-  (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
-        doom-themes-enable-italic t) ; if nil, italics is universally disabled
-  (load-theme 'doom-one-light t)
-
-  (doom-themes-visual-bell-config)
-
-  (setq doom-themes-treemacs-theme "doom-colors")
-  (doom-themes-treemacs-config)
-
-  ;; Corrects (and improves) org-mode's native fontification.
-  (doom-themes-org-config))
+  (load-theme 'kaolin-breeze t)
+  (kaolin-treemacs-theme)
+  (setq kaolin-themes-italic-comments t))
 
 ;;;;;;;;;; basic
 ;; pyim
@@ -233,6 +239,45 @@
   (evil-disable-insert-state-bindings t)
   (evil-split-window-below t)
   (evil-vsplit-window-right t))
+
+;; centaur-tabs
+(use-package! centaur-tabs
+  :demand t
+  :init
+  (defun centaur-tabs-hide-tab (x)
+    "Do no to show buffer X in tabs."
+    (let ((name (format "%s" x)))
+      (or
+       ;; Current window is not dedicated window.
+       (window-dedicated-p (selected-window))
+
+       ;; Buffer name not match below blacklist.
+       (string-prefix-p "*epc" name)
+       (string-prefix-p "*helm" name)
+       (string-prefix-p "*Helm" name)
+       (string-prefix-p "*Compile-Log*" name)
+       (string-prefix-p "*lsp" name)
+       (string-prefix-p "*company" name)
+       (string-prefix-p "*Flycheck" name)
+       (string-prefix-p "*tramp" name)
+       (string-prefix-p " *Mini" name)
+       (string-prefix-p "*help" name)
+       (string-prefix-p "*straight" name)
+       (string-prefix-p " *temp" name)
+       (string-prefix-p "*Help" name)
+       (string-prefix-p "*mybuf" name)
+
+       ;; Is not magit buffer.
+       (and (string-prefix-p "magit" name)
+            (not (file-name-extension name)))
+       )))
+  :config
+  (centaur-tabs-headline-match)
+  (centaur-tabs-group-by-projectile-project)
+  (centaur-tabs-mode t)
+  (setq centaur-tabs-style "wave"
+        centaur-tabs-set-close-button nil
+        centaur-tabs-set-modified-marker t))
 
 (use-package! saveplace
   :demand t
