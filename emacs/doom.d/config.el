@@ -54,366 +54,381 @@
 ;; they are implemented.
 
 
-;; ;;;;;;;;;; env
-;; ;; https://github.com/hlissner/doom-emacs-private/blob/master/config.el
-;; (add-to-list 'default-frame-alist '(inhibit-double-buffering . t))
+;;;;;;;;;; env
+(setq default-frame-alist
+      (append default-frame-alist '((inhibit-double-buffering . t))))
 
-;; ;; check platform
-;; (defconst MACOS "macos")
-;; (defconst WSL "wsl")
-;; (defconst LINUX "linux")
+;; check platform
+(defconst MACOS "macos")
+(defconst WSL "wsl")
+(defconst LINUX "linux")
 
-;; (cond
-;;  ((string-equal system-type "darwin")
-;;   (defvar platform MACOS))
+(cond
+ ((string-equal system-type "darwin")
+  (defvar platform MACOS))
 
-;;  ((string-match "microsoft"
-;;                 (with-temp-buffer (shell-command "uname -r" t)
-;;                                   (goto-char (point-max))
-;;                                   (delete-char -1)
-;;                                   (buffer-string)))
-;;   (defvar platform WSL))
+ ((string-match "microsoft"
+                (with-temp-buffer (shell-command "uname -r" t)
+                                  (goto-char (point-max))
+                                  (delete-char -1)
+                                  (buffer-string)))
+  (defvar platform WSL))
 
-;;  ((string-equal system-type "gnu/linux")
-;;   (defvar platform LINUX)))
+ ((string-equal system-type "gnu/linux")
+  (defvar platform LINUX)))
 
-;; ;; disable double buffering in wsl
-;; ;; https://github.com/hlissner/doom-emacs-private/blob/master/config.el
-;; (cond
-;;  ((string-equal platform WSL)
-;;   (setq default-frame-alist
-;;         (append default-frame-alist '((inhibit-double-buffering . t))))))
+;; org mode dir
+(cond
+ ((string-equal platform MACOS)
+  (defvar org_dir "~/Documents/onedrive/Documents/workspace/chaomai.org/"))
 
-;; ;; org mode dir
-;; (cond
-;;  ((string-equal platform MACOS)
-;;   (defvar org_dir "~/Documents/onedrive/Documents/workspace/chaomai.org/"))
+ ((string-equal platform LINUX)
+  (message "no implemented"))
 
-;;  ((string-equal platform LINUX)
-;;   (message "no implemented"))
+ ((string-equal platform WSL)
+  (defvar org_dir "/mnt/d/maichao/OneDrive/Documents/workspace/chaomai.org/")))
 
-;;  ((string-equal platform WSL)
-;;   (defvar org_dir "/mnt/d/maichao/OneDrive/Documents/workspace/chaomai.org/")))
+;; conda home
+(cond
+ ((string-equal platform MACOS)
+  (defvar conda_home "/usr/local/Caskroom/miniconda/base/")
+  (defvar conda_env_home "/usr/local/Caskroom/miniconda/base/"))
 
-;; ;; conda home
-;; (cond
-;;  ((string-equal platform MACOS)
-;;   (defvar conda_home "/usr/local/Caskroom/miniconda/base/")
-;;   (defvar conda_env_home "/usr/local/Caskroom/miniconda/base/"))
+ ((string-equal platform LINUX)
+  (message "no implemented"))
 
-;;  ((string-equal platform LINUX)
-;;   (message "no implemented"))
+ ((string-equal platform WSL)
+  (defvar conda_home "/home/chaomai/Programs/opt/miniconda3/")
+  (defvar conda_env_home "/home/chaomai/Programs/opt/miniconda3/")))
 
-;;  ((string-equal platform WSL)
-;;   (defvar conda_home "/home/chaomai/Programs/opt/miniconda3/")
-;;   (defvar conda_env_home "/home/chaomai/Programs/opt/miniconda3/")))
+;; wsl open
+(defun wsl-browse-url (url &optional _new-window)
+  ;; new-window ignored
+  (interactive (browse-url-interactive-arg "URL: "))
+  (let ((quotedUrl (format "start '%s'" url)))
+    (apply 'call-process "/mnt/c/Windows/System32/WindowsPowerShell/v1.0/powershell.exe" nil
+           0 nil
+           (list "-Command" quotedUrl)))
+  (message "open link via powershell"))
 
-;; ;; wsl open
-;; (defun wsl-browse-url (url &optional _new-window)
-;;   ;; new-window ignored
-;;   (interactive (browse-url-interactive-arg "URL: "))
-;;   (let ((quotedUrl (format "start '%s'" url)))
-;;     (apply 'call-process "/mnt/c/Windows/System32/WindowsPowerShell/v1.0/powershell.exe" nil
-;;            0 nil
-;;            (list "-Command" quotedUrl)))
-;;   (message "open link via powershell"))
+(cond
+ ((string-equal platform WSL)
+  (setq browse-url-browser-function 'wsl-browse-url)))
 
-;; (cond
-;;  ((string-equal platform WSL)
-;;   (setq browse-url-browser-function 'wsl-browse-url)))
+;; clang-format
+(cond
+ ((string-equal platform MACOS)
+  (defvar clang-format_bin "clang-format"))
 
-;; ;; (cond
-;; ;;  ((string-equal platform WSL)
-;; ;;   (let ((cmd-exe "/mnt/c/Windows/System32/cmd.exe")
-;; ;;         (cmd-args '("/c" "start")))
-;; ;;     (when (file-exists-p cmd-exe)
-;; ;;       (setq browse-url-generic-program  cmd-exe
-;; ;;             browse-url-generic-args     cmd-args
-;; ;;             browse-url-browser-function 'browse-url-generic)))))
+ ((string-equal platform LINUX)
+  (message "no implemented"))
 
-;; ;; clang-format
-;; ;; (cond
-;; ;;  ((string-equal platform MACOS)
-;; ;;   (defvar clang-format_bin "clang-format"))
+ ((string-equal platform WSL)
+  (defvar clang-format_bin "clang-format-10")))
 
-;; ;;  ((string-equal platform LINUX)
-;; ;;   (message "no implemented"))
+(use-package! which-key
+  :config
+  (setq which-key-idle-delay 0.1))
 
-;; ;;  ((string-equal platform WSL)
-;; ;;   (defvar clang-format_bin "clang-format-10")))
+;;;;;;;;;; ui
+(setq fancy-splash-image (concat doom-private-dir "nerv_logo.png"))
 
-;; (use-package! which-key
-;;   :config
-;;   (setq which-key-idle-delay 0.1))
+(cond
+ ((string-equal platform MACOS)
+  (setq doom-font (font-spec :family "Fira Code" :size 14 :weight 'regular)))
 
-;; ;;;;;;;;;; ui
-;; (setq fancy-splash-image (concat doom-private-dir "nerv_logo.png"))
+ ((string-equal platform LINUX)
+  (message "no implemented"))
 
-;; (cond
-;;  ((string-equal platform MACOS)
-;;   (setq doom-font (font-spec :family "Fira Code" :size 14 :weight 'regular)))
+ ((string-equal platform WSL)
+  (setq doom-font (font-spec :family "Fira Code" :size 15 :weight 'regular))))
 
-;;  ((string-equal platform LINUX)
-;;   (message "no implemented"))
+(setq line-spacing 5
+      display-line-numbers-type nil)
 
-;;  ((string-equal platform WSL)
-;;   (setq doom-font (font-spec :family "Fira Code" :size 14 :weight 'regular))))
+(use-package! doom-themes
+  :config
+  (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
+        doom-themes-enable-italic t) ; if nil, italics is universally disabled
+  (load-theme 'doom-one-light t)
 
-;; (setq line-spacing 5
-;;       display-line-numbers-type nil)
+  (doom-themes-visual-bell-config)
 
-;; (use-package! doom-themes
-;;   :config
-;;   ;; Global settings (defaults)
-;;   (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
-;;         doom-themes-enable-italic t) ; if nil, italics is universally disabled
-;;   (load-theme 'doom-one-light t)
+  (setq doom-themes-treemacs-theme "doom-colors")
+  (doom-themes-treemacs-config)
 
-;;   ;; Enable flashing mode-line on errors
-;;   (doom-themes-visual-bell-config)
+  ;; Corrects (and improves) org-mode's native fontification.
+  (doom-themes-org-config))
 
-;;   ;; Enable custom neotree theme (all-the-icons must be installed!)
-;;   ;; (doom-themes-neotree-config)
-;;   ;; or for treemacs users
-;;   (setq doom-themes-treemacs-theme "doom-colors") ; use the colorful treemacs theme
-;;   (doom-themes-treemacs-config)
+;;;;;;;;;; basic
+;; pyim
+(use-package! pyim
+  :demand t
+  :config
+  (setq pyim-default-scheme 'quanpin
+        default-input-method "pyim"
+        ;; 开启拼音搜索功能
+        ;; pyim-isearch-mode 1
+        pyim-page-tooltip 'posframe
+        pyim-page-length 8
+        pyim-fuzzy-pinyin-alist '(("an" "ang")
+                                  ("in" "ing")
+                                  ("en" "eng")
+                                  ("uan" "uang"))
+        pyim-dcache-directory (concat doom-cache-dir "pyim"))
 
-;;   ;; Corrects (and improves) org-mode's native fontification.
-;;   (doom-themes-org-config))
+  ;; 设置 pyim 探针设置，这是 pyim 高级功能设置，可以实现 *无痛* 中英文切换 :-)
+  ;; 我自己使用的中英文动态切换规则是：
+  ;; 1. 光标只有在注释里面时，才可以输入中文。
+  ;; 2. 光标前是汉字字符时，才能输入中文。
+  ;; 3. 使用 C-; 快捷键，强制将光标前的拼音字符串转换为中文。
+  (setq-default pyim-english-input-switch-functions '(pyim-probe-dynamic-english
+                                                      pyim-probe-isearch-mode
+                                                      pyim-probe-program-mode
+                                                      pyim-probe-org-structure-template)
+                pyim-punctuation-half-width-functions '(pyim-probe-punctuation-line-beginning
+                                                        pyim-probe-punctuation-after-punctuation))
 
-;; ;;;;;;;;;; basic
-;; ;; pyim
-;; (use-package! pyim
-;;   :demand t
-;;   :config
-;;   (setq pyim-default-scheme 'quanpin
-;;         default-input-method "pyim"
-;;         ;; 开启拼音搜索功能
-;;         ;; pyim-isearch-mode 1
-;;         pyim-page-tooltip 'popup
-;;         pyim-page-length 8
-;;         pyim-fuzzy-pinyin-alist '(("an" "ang")
-;;                                   ("in" "ing")
-;;                                   ("en" "eng")
-;;                                   ("uan" "uang"))
+  :bind
+  (("C-;" . pyim-convert-string-at-point) ; 与 pyim-probe-dynamic-english 配合
+   ("C-<f1>" . pyim-delete-word-from-personal-buffer)))
 
-;;         pyim-dcache-directory (concat doom-cache-dir "pyim")))
+(use-package! pyim-basedict
+  :after pyim
+  :config
+  (pyim-basedict-enable))
 
-;; (use-package! pyim-basedict
-;;   :after pyim
-;;   :config
-;;   (pyim-basedict-enable))
+(use-package! pyim-greatdict
+  :after pyim
+  :config
+  (pyim-greatdict-enable))
 
-;; (use-package! pyim-greatdict
-;;   :after pyim
-;;   :config
-;;   (pyim-greatdict-enable))
+(use-package! pangu-spacing
+  :demand t
+  :config
+  (global-pangu-spacing-mode 1)
+  (setq pangu-spacing-real-insert-separtor t))
 
-;; (use-package! pangu-spacing
-;;   :demand t
-;;   :config
-;;   (global-pangu-spacing-mode 1)
-;;   (setq pangu-spacing-real-insert-separtor t))
+;; projectile
+;; project root is same with vim's configuration
+(use-package! projectile
+  :demand t
+  :config
+  (setq projectile-require-project-root t
+        projectile-project-root-files '(".ccls-root" ".idea" "go.mod" ".bzr" "_darcs"
+                                        "build.xml" ".project" ".root" ".svn" ".git"
+                                        ".projectile")
+        projectile-project-root-functions '(projectile-root-top-down
+                                            projectile-root-top-down-recurring
+                                            projectile-root-bottom-up
+                                            projectile-root-local)))
 
-;; ;; projectile
-;; ;; project root is same with vim's configuration
-;; (use-package! projectile
-;;   :config
-;;   (setq projectile-require-project-root t
-;;         projectile-project-root-files '(".ccls-root" ".idea" "go.mod" ".bzr" "_darcs"
-;;                                         "build.xml" ".project" ".root" ".svn" ".git"
-;;                                         ".projectile")
-;;         projectile-project-root-functions '(projectile-root-top-down
-;;                                             projectile-root-top-down-recurring
-;;                                             projectile-root-bottom-up
-;;                                             projectile-root-local)))
+;; evil
+(use-package! evil
+  :defer t
+  :config
+  (evil-ex-define-cmd "q[uit]" 'kill-this-buffer)
+  :custom
+  (evil-want-fine-undo t)
+  (evil-disable-insert-state-bindings t)
+  (evil-split-window-below t)
+  (evil-vsplit-window-right t))
 
-;; ;; evil
-;; (use-package! evil
-;;   :defer t
-;;   :config
-;;   (setq evil-want-fine-undo t
-;;         evil-disable-insert-state-bindings t
-;;         evil-split-window-below t
-;;         evil-vsplit-window-right t))
+(use-package! saveplace
+  :demand t
+  :config
+  (save-place-mode 1)
+  (setq save-place-mode t))
 
-;; ;;;;;;;;;; ivy
-;; (use-package! ivy
-;;   :defer t
-;;   :config
-;;   (setq ivy-display-style 'fancy
-;;         ivy-count-format "(%d/%d) "
-;;         ivy-use-virtual-buffers t
-;;         ivy-on-del-error-function 'ignore)
+(use-package! posframe
+  :demand t)
 
-;;   (defun eh-ivy-cregexp (str)
-;;     (let ((x (ivy--regex-plus str))
-;;           (case-fold-search nil))
-;;       (if (listp x)
-;;           (mapcar (lambda (y)
-;;                     (if (cdr y)
-;;                         (list (if (equal (car y) "")
-;;                                   ""
-;;                                 (pyim-cregexp-build (car y)))
-;;                               (cdr y))
-;;                       (list (pyim-cregexp-build (car y)))))
-;;                   x)
-;;         (pyim-cregexp-build x))))
+(use-package! flycheck-posframe
+  :after flycheck
+  :hook (flycheck-mode-hook . flycheck-posframe-mode))
 
-;;   (setq ivy-re-builders-alist '((t . eh-ivy-cregexp))))
+;;;;;;;;;; ivy
+(use-package! ivy
+  :defer t
+  :init
+  (defun eh-ivy-cregexp (str)
+    (let ((x (ivy--regex-plus str))
+          (case-fold-search nil))
+      (if (listp x)
+          (mapcar (lambda (y)
+                    (if (cdr y)
+                        (list (if (equal (car y) "")
+                                  ""
+                                (pyim-cregexp-build (car y)))
+                              (cdr y))
+                      (list (pyim-cregexp-build (car y)))))
+                  x)
+        (pyim-cregexp-build x))))
+  :config
+  (setq ivy-display-style 'fancy
+        ivy-count-format "(%d/%d) "
+        ivy-use-virtual-buffers t
+        ivy-on-del-error-function 'ignore
+        ivy-re-builders-alist '((t . eh-ivy-cregexp))))
 
-;; (use-package! counsel
-;;   :defer t
-;;   :hook (ivy-mode . counsel-mode))
+(use-package! counsel
+  :defer t
+  :hook (ivy-mode . counsel-mode))
 
-;; (use-package! swiper
-;;   :defer t
-;;   :config
-;;   (setq swiper-action-recenter t))
+(use-package! swiper
+  :defer t
+  :config
+  (setq swiper-action-recenter t))
 
-;; ;;;;;;;;;; company
-;; ;; https://emacs.stackexchange.com/questions/15246/how-add-company-dabbrev-to-the-company-completion-popup
-;; ;; https://phenix3443.github.io/notebook/emacs/modes/company-mode.html
-;; (use-package! company
-;;   :defer t
-;;   :config
-;;   (setq company-idle-delay 0.0
-;;         company-echo-delay 0.0
-;;         ;; Easy navigation to candidates with M-<n>
-;;         company-show-numbers t
-;;         company-require-match nil
-;;         company-minimum-prefix-length 2
-;;         company-tooltip-align-annotations t
-;;         ;; complete `abbrev' only in current buffer
-;;         company-dabbrev-other-buffers nil
-;;         ;; make dabbrev case-sensitive
-;;         company-dabbrev-ignore-case nil
-;;         company-dabbrev-downcase nil
-;;         company-backends '((company-capf company-dabbrev-code company-keywords)
-;;                            company-files
-;;                            company-dabbrev)))
+;;;;;;;;;; company
+;; https://emacs.stackexchange.com/questions/15246/how-add-company-dabbrev-to-the-company-completion-popup
+;; https://phenix3443.github.io/notebook/emacs/modes/company-mode.html
+(use-package! company
+  :defer t
+  :config
+  (setq company-idle-delay 0.0
+        company-echo-delay 0.0
+        ;; Easy navigation to candidates with M-<n>
+        company-show-numbers t
+        company-require-match nil
+        company-minimum-prefix-length 2
+        company-tooltip-align-annotations t
+        ;; complete `abbrev' only in current buffer
+        company-dabbrev-other-buffers nil
+        ;; make dabbrev case-sensitive
+        company-dabbrev-ignore-case nil
+        company-dabbrev-downcase nil
+        company-backends '((company-capf company-dabbrev-code company-keywords
+                                         company-files
+                                         company-dabbrev))))
 
-;; ;;;;;;;;;; org
-;; ;; org-mode
-;; (use-package! org
-;;   :defer t
-;;   :init
-;;   (setq org-directory org_dir)
-;;   :config
-;;   (setq org-agenda-files (list (concat org_dir "project.org"))
-;;         org-tags-column 0
-;;         org-pretty-entities nil
-;;         org-startup-indented t
-;;         org-image-actual-width nil
-;;         org-hide-leading-stars t
-;;         org-hide-emphasis-markers t
-;;         org-fontify-done-headline t
-;;         org-fontify-whole-heading-line t
-;;         org-fontify-quote-and-verse-blocks t
-;;         org-catch-invisible-edits 'smart
-;;         org-insert-heading-respect-content t
-;;         ;; block switching the parent to done state
-;;         org-enforce-todo-dependencies t
-;;         org-enforce-todo-checkbox-dependencies t
-;;         ;; org-ellipsis " -> "
-;;         ;; gdt task status
-;;         org-todo-keywords '((sequence "TODO(t)" "NEXT(n!)" "WAITING(w@/!)" "|" "INACTIVE(i@/!)" "CANCELLED(c@/!)" "DONE(d!)"))
+;;;;;;;;;; org
+;; org-mode
+(use-package! org
+  :defer t
+  :init
+  (setq org-directory org_dir)
+  :config
+  (setq org-agenda-files (list (concat org_dir "project.org"))
+        org-tags-column 0
+        org-pretty-entities nil
+        org-startup-indented t
+        org-image-actual-width nil
+        org-hide-leading-stars t
+        org-hide-emphasis-markers t
+        org-fontify-done-headline t
+        org-fontify-whole-heading-line t
+        org-fontify-quote-and-verse-blocks t
+        org-catch-invisible-edits 'smart
+        org-insert-heading-respect-content t
+        ;; block switching the parent to done state
+        org-enforce-todo-dependencies t
+        org-enforce-todo-checkbox-dependencies t
+        ;; org-ellipsis " -> "
+        ;; gdt task status
+        org-todo-keywords '((sequence "TODO(t)" "NEXT(n!)" "WAITING(w@/!)" "|" "INACTIVE(i@/!)" "CANCELLED(c@/!)" "DONE(d!)"))
 
-;;         ;; log
-;;         org-log-done 'time
-;;         org-log-repeat 'time
-;;         org-log-redeadline 'note
-;;         org-log-reschedule 'note
-;;         org-log-into-drawer t
-;;         org-log-state-notes-insert-after-drawers nil
-;;         ;; refile
-;;         org-refile-use-cache t
-;;         org-refile-targets '((org-agenda-files . (:maxlevel . 6)))
-;;         org-refile-use-outline-path t
-;;         org-outline-path-complete-in-steps nil
-;;         org-refile-allow-creating-parent-nodes 'confirm
-;;         ;; 配置归档文件的名称和 Headline 格式
-;;         org-archive-location "%s_archive::date-tree"
-;;         org-blank-before-new-entry '((heading . always)
-;;                                      (plain-list-item . nil))
-;;         org-startup-truncated nil))
+        ;; log
+        org-log-done 'time
+        org-log-repeat 'time
+        org-log-redeadline 'note
+        org-log-reschedule 'note
+        org-log-into-drawer t
+        org-log-state-notes-insert-after-drawers nil
+        ;; refile
+        org-refile-use-cache t
+        org-refile-targets '((org-agenda-files . (:maxlevel . 6)))
+        org-refile-use-outline-path t
+        org-outline-path-complete-in-steps nil
+        org-refile-allow-creating-parent-nodes 'confirm
+        ;; 配置归档文件的名称和 Headline 格式
+        org-archive-location "%s_archive::date-tree"
+        org-blank-before-new-entry '((heading . always)
+                                     (plain-list-item . nil))
+        org-startup-truncated nil))
 
-;; ;; org-src
-;; (use-package! org-src
-;;   :after org
-;;   :config
-;;   (setq org-src-fontify-natively t
-;;         org-src-tab-acts-natively t
-;;         org-src-preserve-indentation t
-;;         org-src-window-setup 'current-window
-;;         org-confirm-babel-evaluate t
-;;         org-edit-src-content-indentation 0
-;;         org-babel-load-languages '((shell . t)
-;;                                    (python . t)
-;;                                    (ocaml . t)
-;;                                    (emacs-lisp . t))))
+;; org-src
+(use-package! org-src
+  :after org
+  :config
+  (setq org-src-fontify-natively t
+        org-src-tab-acts-natively t
+        org-src-preserve-indentation t
+        org-src-window-setup 'current-window
+        org-confirm-babel-evaluate t
+        org-edit-src-content-indentation 0
+        org-babel-load-languages '((shell . t)
+                                   (python . t)
+                                   (ocaml . t)
+                                   (emacs-lisp . t))))
 
-;; ;; org-clock
-;; (use-package! org-clock
-;;   :after org
-;;   :config
-;;   (setq org-clock-in-resume t
-;;         org-clock-idle-time 10
-;;         org-clock-into-drawer t
-;;         org-clock-out-when-done t
-;;         org-clock-persist 'history
-;;         org-clock-history-length 10
-;;         org-clock-out-remove-zero-time-clocks t
-;;         org-clock-report-include-clocking-task t)
-;;   (org-clock-persistence-insinuate))
+;; org-clock
+(use-package! org-clock
+  :after org
+  :config
+  (org-clock-persistence-insinuate)
+  (setq org-clock-in-resume t
+        org-clock-idle-time 10
+        org-clock-into-drawer t
+        org-clock-out-when-done t
+        org-clock-persist 'history
+        org-clock-history-length 10
+        org-clock-out-remove-zero-time-clocks t
+        org-clock-report-include-clocking-task t))
 
-;; ;; org-superstar
-;; (use-package! org-superstar
-;;   :after org
-;;   :hook (org-mode . org-superstar-mode)
-;;   :config
-;;   (setq org-superstar-headline-bullets-list '("☰" "☱" "☲" "☳" "☴" "☵" "☶" "☷" "☷" "☷" "☷")))
+;; org-superstar
+(use-package! org-superstar
+  :after org
+  :hook (org-mode . org-superstar-mode)
+  :config
+  (setq org-superstar-headline-bullets-list '("☰" "☱" "☲" "☳" "☴" "☵" "☶" "☷" "☷" "☷" "☷")))
 
-;; ;; org-download
-;; ;; make drag-and-drop image save in the same name folder as org file.
-;; ;; example: `aa-bb-cc.org' then save image test.png to `aa-bb-cc_media/test.png'.
-;; ;; https://coldnew.github.io/hexo-org-example/2018/05/22/use-org-download-to-drag-image-to-emacs/
-;; (use-package! org-download
-;;   :after org
-;;   :hook ('dired-mode-hook 'org-download-enable)
-;;   :config
-;;   (defun my-org-download-method (link)
-;;     (let ((filename
-;;            (file-name-nondirectory
-;;             (car (url-path-and-query
-;;                   (url-generic-parse-url link)))))
-;;           (dirname (concat (concat (file-name-sans-extension (buffer-name)) "_media/")
-;;                            (format-time-string "%Y-%m-%d"))))
-;;       ;; if directory not exist, create it
-;;       (unless (file-exists-p dirname)
-;;         (make-directory dirname))
-;;       ;; return the path to save the download files
-;;       (expand-file-name filename dirname)))
+;; org-download
+;; make drag-and-drop image save in the same name folder as org file.
+;; example: `aa-bb-cc.org' then save image test.png to `aa-bb-cc_media/test.png'.
+;; https://coldnew.github.io/hexo-org-example/2018/05/22/use-org-download-to-drag-image-to-emacs/
+(use-package! org-download
+  :after org
+  :hook (dired-mode-hook . org-download-enable)
+  :init
+  (defun my-org-download-method (link)
+    (let ((filename
+           (file-name-nondirectory
+            (car (url-path-and-query
+                  (url-generic-parse-url link)))))
+          (dirname (concat (concat (file-name-sans-extension (buffer-name)) "_media/")
+                           (format-time-string "%Y-%m-%d"))))
+      ;; if directory not exist, create it
+      (unless (file-exists-p dirname)
+        (make-directory dirname))
+      ;; return the path to save the download files
+      (expand-file-name filename dirname)))
+  :config
+  (setq org-download-method 'my-org-download-method))
 
-;;   (setq org-download-method 'my-org-download-method))
+;; valign
+(use-package! valign
+  :after org
+  :hook (org-mode . valign-mode)
+  :config
+  (setq valign-fancy-bar t))
 
-;; ;; valign
-;; (use-package! valign
-;;   :after org
-;;   :hook (org-mode . valign-mode-hook))
-
-;;;;;;;;;; utils
-;; (use-package! undohist
-;;   :demand t
-;;   :config
-;;   (setq undohist-directory (concat doom-cache-dir "undohist"))
-;;   (undohist-initialize))
-
-;; (use-package! saveplace
-;;   :demand t
-;;   :config
-;;   (setq save-place-mode t)
-;;   (save-place-mode 1))
+;;;;;;;;;; dev
+(use-package! format
+  :demand t
+  :config
+  (set-formatter! 'clang-format
+    '(clang-format_bin
+      "-style={BasedOnStyle: Google, IndentWidth: 4, AlignTrailingComments: true, SortIncludes: false}"
+      ("-assume-filename=%S" (or buffer-file-name mode-result "")))
+    :modes
+    '((c-mode ".c")
+      (c++-mode ".cpp")
+      (java-mode ".java")
+      (objc-mode ".m")
+      (protobuf-mode ".proto")))
+  (set-formatter! 'black "black -q -"
+    :modes '(python-mode)))
 
 ;;;;;;;;;; references
 ;; https://practicalli.github.io/spacemacs/
