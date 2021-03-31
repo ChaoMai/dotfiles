@@ -243,7 +243,7 @@
 ;; centaur-tabs
 (use-package! centaur-tabs
   :demand t
-  :init
+  :config
   (defun centaur-tabs-hide-tab (x)
     "Do no to show buffer X in tabs."
     (let ((name (format "%s" x)))
@@ -271,7 +271,6 @@
        (and (string-prefix-p "magit" name)
             (not (file-name-extension name)))
        )))
-  :config
   (centaur-tabs-headline-match)
   (centaur-tabs-group-by-projectile-project)
   (centaur-tabs-mode t)
@@ -295,7 +294,7 @@
 ;;;;;;;;;; ivy
 (use-package! ivy
   :defer t
-  :init
+  :config
   (defun eh-ivy-cregexp (str)
     (let ((x (ivy--regex-plus str))
           (case-fold-search nil))
@@ -309,7 +308,6 @@
                       (list (pyim-cregexp-build (car y)))))
                   x)
         (pyim-cregexp-build x))))
-  :config
   (setq ivy-display-style 'fancy
         ivy-count-format "(%d/%d) "
         ivy-use-virtual-buffers t
@@ -433,9 +431,8 @@
 ;; example: `aa-bb-cc.org' then save image test.png to `aa-bb-cc_media/test.png'.
 ;; https://coldnew.github.io/hexo-org-example/2018/05/22/use-org-download-to-drag-image-to-emacs/
 (use-package! org-download
-  :after org
-  :hook (dired-mode-hook . org-download-enable)
-  :init
+  :hook (dired-mode . org-download-enable)
+  :config
   (defun my-org-download-method (link)
     (let ((filename
            (file-name-nondirectory
@@ -448,7 +445,6 @@
         (make-directory dirname))
       ;; return the path to save the download files
       (expand-file-name filename dirname)))
-  :config
   (setq org-download-method 'my-org-download-method))
 
 ;; valign

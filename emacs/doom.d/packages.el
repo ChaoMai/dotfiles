@@ -56,10 +56,6 @@
 ;;;;; ui
 (package! kaolin-themes)
 
-;;;;; org
-(package! org-superstar)
-(package! org-download)
-
 ;;;;; pinyin
 (package! pyim
   :recipe (:host github :repo "tumashu/pyim"))
