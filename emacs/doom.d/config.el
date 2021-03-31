@@ -58,6 +58,9 @@
 (setq default-frame-alist
       (append default-frame-alist '((inhibit-double-buffering . t))))
 
+;; check is gui
+(defvar is_gui (display-graphic-p))
+
 ;; check platform
 (defconst MACOS "macos")
 (defconst WSL "wsl")
@@ -128,7 +131,7 @@
 
 (use-package! which-key
   :config
-  (setq which-key-idle-delay 0.1))
+  (setq which-key-idle-delay 0.5))
 
 ;;;;;;;;;; ui
 (setq fancy-splash-image (concat doom-private-dir "nerv_logo.png"))
@@ -162,7 +165,10 @@
 
 (use-package! kaolin-themes
   :config
-  (load-theme 'kaolin-breeze t)
+
+  (if is_gui
+      (load-theme 'kaolin-breeze t)
+    (load-theme 'kaolin-galaxy t))
   (kaolin-treemacs-theme)
   (setq kaolin-themes-italic-comments t))
 
@@ -295,24 +301,11 @@
 (use-package! ivy
   :defer t
   :config
-  (defun eh-ivy-cregexp (str)
-    (let ((x (ivy--regex-plus str))
-          (case-fold-search nil))
-      (if (listp x)
-          (mapcar (lambda (y)
-                    (if (cdr y)
-                        (list (if (equal (car y) "")
-                                  ""
-                                (pyim-cregexp-build (car y)))
-                              (cdr y))
-                      (list (pyim-cregexp-build (car y)))))
-                  x)
-        (pyim-cregexp-build x))))
   (setq ivy-display-style 'fancy
         ivy-count-format "(%d/%d) "
         ivy-use-virtual-buffers t
         ivy-on-del-error-function 'ignore
-        ivy-re-builders-alist '((t . eh-ivy-cregexp))))
+        ivy-re-builders-alist '((t . pyim-ivy-cregexp))))
 
 (use-package! counsel
   :defer t
@@ -438,8 +431,7 @@
            (file-name-nondirectory
             (car (url-path-and-query
                   (url-generic-parse-url link)))))
-          (dirname (concat (concat (file-name-sans-extension (buffer-name)) "_media/")
-                           (format-time-string "%Y-%m-%d"))))
+          (dirname (concat (concat (file-name-sans-extension (buffer-name)) "_media/"))))
       ;; if directory not exist, create it
       (unless (file-exists-p dirname)
         (make-directory dirname))
