@@ -81,6 +81,8 @@
   (defvar platform LINUX)))
 
 ;; org mode dir
+(defvar org_notes_path "chaomai.org/notes/")
+
 (cond
  ((string-equal platform MACOS)
   (defvar org_dir "~/Documents/onedrive/Documents/workspace/chaomai.org/"))
@@ -345,7 +347,7 @@
   :init
   (setq org-directory org_dir)
   :config
-  (setq org-agenda-files (list (concat org_dir "project.org"))
+  (setq org-agenda-files (list (concat org_dir "project.org/"))
         org-tags-column 0
         org-pretty-entities nil
         org-startup-indented t
@@ -422,22 +424,34 @@
 ;; org-download
 ;; make drag-and-drop image save in the same name folder as org file.
 ;; example: `aa-bb-cc.org' then save image test.png to `aa-bb-cc_media/test.png'.
+;; if in notes folader, then save image to media folder.
 ;; https://coldnew.github.io/hexo-org-example/2018/05/22/use-org-download-to-drag-image-to-emacs/
 (use-package! org-download
   :hook (dired-mode . org-download-enable)
   :config
   (defun my-org-download-method (link)
+    (if (string-match-p (regexp-quote org_notes_path) (buffer-file-name))
+        (let ((filename
+               (file-name-nondirectory
+                (car (url-path-and-query
+                      (url-generic-parse-url link)))))
+              (dirname (concat org_dir "notes/media/" (format-time-string "%Y/%m/"))))
+          (unless (file-exists-p dirname)
+            (make-directory dirname))
+          (expand-file-name filename dirname))
+
     (let ((filename
            (file-name-nondirectory
             (car (url-path-and-query
                   (url-generic-parse-url link)))))
-          (dirname (concat (concat (file-name-sans-extension (buffer-name)) "_media/"))))
+          (dirname (concat (file-name-sans-extension (buffer-name)) "_media/")))
       ;; if directory not exist, create it
       (unless (file-exists-p dirname)
         (make-directory dirname))
       ;; return the path to save the download files
       (expand-file-name filename dirname)))
-  (setq org-download-method 'my-org-download-method))
+
+  (setq org-download-method 'my-org-download-method)))
 
 ;; valign
 (use-package! valign
