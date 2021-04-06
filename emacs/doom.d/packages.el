@@ -64,9 +64,6 @@
   :recipe (:host github :repo "tumashu/pyim-greatdict"))
 (package! pangu-spacing)
 
-;;;;; lsp
-(package! modern-cpp-font-lock)
-
 ;;;;; other
 (package! posframe)
 (package! flycheck-posframe)

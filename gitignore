@@ -453,3 +453,5 @@ $RECYCLE.BIN/
 
 .calltree.*
 .cpptree.list
+
+.clang-format

@@ -55,6 +55,8 @@
 
 
 ;;;;;;;;;; env
+(setq read-process-output-max (* 1024 1024 3))
+
 (setq default-frame-alist
       (append default-frame-alist '((inhibit-double-buffering . t))))
 
@@ -123,7 +125,7 @@
 ;; clang-format
 (cond
  ((string-equal platform MACOS)
-  (defvar clang-format_bin "clang-format"))
+  (defvar clang-format_bin "/usr/local/Cellar/llvm/11.1.0/bin/clang-format"))
 
  ((string-equal platform LINUX)
   (message "no implemented"))
@@ -464,9 +466,20 @@
 (use-package! format
   :demand t
   :config
+  (defun get-format-args (formatter)
+    (let ((confpath
+           (cond
+            ((string-equal formatter "clang-format")
+             (concat projectile-project-root ".clang-format"))
+            ((string-equal formatter "black")
+             (message "no implemented")))))
+      (if (file-exists-p confpath)
+          (concat "-style=" confpath)
+        "-style={BasedOnStyle: Google, IndentWidth: 4, AlignTrailingComments: true, SortIncludes: false}")))
+
   (set-formatter! 'clang-format
     '(clang-format_bin
-      "-style={BasedOnStyle: Google, IndentWidth: 4, AlignTrailingComments: true, SortIncludes: false}"
+      (get-format-args "clang-format")
       ("-assume-filename=%S" (or buffer-file-name mode-result "")))
     :modes
     '((c-mode ".c")
@@ -485,7 +498,7 @@
   :commands lsp
   :hook (lsp-mode-hook . lsp-enable-which-key-integration)
   :config
-  (setq lsp-idle-delay 0.1                 ;; lazy refresh
+  (setq lsp-idle-delay 0.5                 ;; lazy refresh
         lsp-log-io nil                     ;; enable log only for debug
         lsp-enable-file-watchers nil
         lsp-headerline-breadcrumb-enable t)
@@ -516,8 +529,8 @@
 (use-package! ccls
   :after lsp-mode
   :config
-  ;; (setq ccls-sem-highlight-method 'font-lock)
-  ;; (ccls-use-default-rainbow-sem-highlight)
+  (setq ccls-sem-highlight-method 'overlay)
+  (ccls-use-default-rainbow-sem-highlight)
 
   (setq ccls-executable "~/Documents/workspace/github/ccls/Release/ccls"
         ccls-args '("--log-file=/tmp/ccls-emacs.log")
@@ -533,13 +546,6 @@
                                       :highlight (:lsRanges t)
                                       :index (:threads 5)))
   (evil-set-initial-state 'ccls-tree-mode 'emacs))
-
-;; modern-cpp-font-lock
-(use-package modern-cpp-font-lock
-  :after ccls
-  :config
-  (modern-c++-font-lock-global-mode t))
-
 
 ;;;;;;;;;; references
 ;; https://practicalli.github.io/spacemacs/
