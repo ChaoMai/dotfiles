@@ -148,9 +148,9 @@
   (message "no implemented"))
 
  ((string-equal platform WSL)
-  (setq doom-font (font-spec :family "Fira Code" :size 16 :weight 'regular))))
+  (setq doom-font (font-spec :family "Fira Code" :size 15 :weight 'regular))))
 
-(setq line-spacing 6
+(setq line-spacing 8
       display-line-numbers-type t)
 
 ;; (use-package! doom-themes
@@ -349,7 +349,15 @@
   :init
   (setq org-directory org_dir)
   :config
-  (setq org-agenda-files (list (concat org_dir "project.org/"))
+  (setq org-agenda-files (list (concat org_dir "gdt/"))
+        org-capture-templates `(("t" "Todo" entry (file+headline ,(concat org_dir "gdt/inbox.org"))
+                                 "* TODO %?\n  %i\n  %a")
+                                ("i" "inbox" entry (file ,(concat org_dir "gdt/inbox.org"))
+                                 "* TODO %?")
+                                ("l" "link" entry (file ,(concat org_dir "gdt/inbox.org"))
+                                 "* TODO %(org-cliplink-capture)" :immediate-finish t)
+                                ("c" "org-protocol-capture" entry (file ,(concat org_dir "gdt/inbox.org"))
+                                 "* TODO [[%:link][%:description]]\n\n %i" :immediate-finish t))
         org-tags-column 0
         org-pretty-entities nil
         org-startup-indented t
@@ -470,7 +478,7 @@
     (let ((confpath
            (cond
             ((string-equal formatter "clang-format")
-             (concat projectile-project-root ".clang-format"))
+             (concat (projectile-project-root) ".clang-format"))
             ((string-equal formatter "black")
              (message "no implemented")))))
       (if (file-exists-p confpath)
