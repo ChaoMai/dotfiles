@@ -172,7 +172,7 @@
 
   (if is_gui
       (load-theme 'kaolin-breeze t)
-    (load-theme 'kaolin-galaxy t))
+    (load-theme 'kaolin-valley-dark t))
   (kaolin-treemacs-theme)
   (setq kaolin-themes-italic-comments t))
 
