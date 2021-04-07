@@ -361,6 +361,8 @@
         org-tags-column 0
         org-pretty-entities nil
         org-startup-indented t
+        org-startup-folded t
+        org-startup-truncated nil
         org-image-actual-width nil
         org-hide-leading-stars t
         org-hide-emphasis-markers t
@@ -372,9 +374,10 @@
         ;; block switching the parent to done state
         org-enforce-todo-dependencies t
         org-enforce-todo-checkbox-dependencies t
-        ;; org-ellipsis " -> "
+        org-ellipsis " ▼ "
         ;; gdt task status
-        org-todo-keywords '((sequence "TODO(t)" "NEXT(n!)" "WAITING(w@/!)" "|" "INACTIVE(i@/!)" "CANCELLED(c@/!)" "DONE(d!)"))
+        org-todo-keywords '((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d)")
+                            (sequence "WAITING(w@/!)" "HOLD(h@/!)" "|" "CANCELLED(c@/!)"))
 
         ;; log
         org-log-done 'time
@@ -392,8 +395,7 @@
         ;; 配置归档文件的名称和 Headline 格式
         org-archive-location "%s_archive::date-tree"
         org-blank-before-new-entry '((heading . always)
-                                     (plain-list-item . nil))
-        org-startup-truncated nil))
+                                     (plain-list-item . nil))))
 
 ;; org-src
 (use-package! org-src
@@ -567,3 +569,4 @@
 ;; https://huadeyu.tech/tools/emacs-setup-notes.html
 ;; https://emacs.nasy.moe/
 ;; https://github.com/lujun9972/emacs-document
+;; https://blog.jethro.dev/posts/org_mode_workflow_preview/
