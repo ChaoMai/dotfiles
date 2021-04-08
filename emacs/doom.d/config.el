@@ -142,7 +142,7 @@
 
 (cond
  ((string-equal platform MACOS)
-  (setq doom-font (font-spec :family "Fira Code" :size 14 :weight 'regular)))
+  (setq doom-font (font-spec :family "Fira Code" :size 13 :weight 'regular)))
 
  ((string-equal platform LINUX)
   (message "no implemented"))
@@ -336,7 +336,7 @@
         ;; complete `abbrev' only in current buffer
         company-dabbrev-other-buffers nil
         ;; make dabbrev case-sensitive
-        company-dabbrev-ignore-case nil
+        company-dabbrev-ignore-case t
         company-dabbrev-downcase nil
         company-backends '((company-capf company-dabbrev-code company-keywords
                                          company-files
@@ -350,10 +350,8 @@
   (setq org-directory org_dir)
   :config
   (setq org-agenda-files (list (concat org_dir "gdt/"))
-        org-capture-templates `(("t" "Todo" entry (file+headline ,(concat org_dir "gdt/inbox.org"))
-                                 "* TODO %?\n  %i\n  %a")
-                                ("i" "inbox" entry (file ,(concat org_dir "gdt/inbox.org"))
-                                 "* TODO %?")
+        org-capture-templates `(("i" "inbox" entry (file ,(concat org_dir "gdt/inbox.org"))
+                                 "* TODO %? \n\n %F \n")
                                 ("l" "link" entry (file ,(concat org_dir "gdt/inbox.org"))
                                  "* TODO %(org-cliplink-capture)" :immediate-finish t)
                                 ("c" "org-protocol-capture" entry (file ,(concat org_dir "gdt/inbox.org"))
@@ -376,8 +374,7 @@
         org-enforce-todo-checkbox-dependencies t
         org-ellipsis " ▼ "
         ;; gdt task status
-        org-todo-keywords '((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d)")
-                            (sequence "WAITING(w@/!)" "HOLD(h@/!)" "|" "CANCELLED(c@/!)"))
+        org-todo-keywords '((sequence "TODO(t)" "NEXT(n@/!)" "PROG(p@/!)" "|" "DONE(d@/!)" "HOLD(h@/!)" "CANCELLED(c@/!)"))
 
         ;; log
         org-log-done 'time
