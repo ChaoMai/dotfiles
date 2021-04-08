@@ -125,7 +125,7 @@
 ;; clang-format
 (cond
  ((string-equal platform MACOS)
-  (defvar clang-format_bin "/usr/local/Cellar/llvm/11.1.0/bin/clang-format"))
+  (defvar clang-format_bin "/usr/local/Cellar/llvm/11.1.0_1/bin/clang-format"))
 
  ((string-equal platform LINUX)
   (message "no implemented"))

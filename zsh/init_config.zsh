@@ -49,8 +49,8 @@ if [[ $OSTYPE == "Darwin" ]]; then
     # export HOMEBREW_BOTTLE_DOMAIN=https://mirrors.ustc.edu.cn/homebrew-bottles
     # export HOMEBREW_BOTTLE_DOMAIN=https://mirrors.tuna.tsinghua.edu.cn/homebrew-bottles
 
-    export CC=/usr/local/Cellar/llvm/11.1.0/bin/clang
-    export CXX=/usr/local/Cellar/llvm/11.1.0/bin/clang++
+    export CC=/usr/local/Cellar/llvm/11.1.0_1/bin/clang
+    export CXX=/usr/local/Cellar/llvm/11.1.0_1/bin/clang++
 
     export SHELL=/bin/zsh
     export EDITOR=/usr/local/bin/vim
