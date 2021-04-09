@@ -140,6 +140,19 @@
 ;;;;;;;;;; ui
 (setq fancy-splash-image (concat doom-private-dir "nerv_logo.png"))
 
+;; https://emacs-china.org/t/doom-emacs/9628/8?u=chaomai
+(defun better-font(size)
+  (interactive)
+  (if (display-graphic-p)
+      (progn
+        ;; english font
+        (set-face-attribute 'default nil :font (format "%s:pixelsize=%d" "Fira Code" size))
+        ;; chinese font
+        (dolist (charset '(kana han symbol cjk-misc bopomofo))
+          (set-fontset-font (frame-parameter nil 'font)
+                            charset
+                            (font-spec :family "Noto Sans CJK SC"))))))
+
 (cond
  ((string-equal platform MACOS)
   (setq doom-font (font-spec :family "Fira Code" :size 13 :weight 'regular)))
@@ -148,7 +161,8 @@
   (message "no implemented"))
 
  ((string-equal platform WSL)
-  (setq doom-font (font-spec :family "Fira Code" :size 15 :weight 'regular))))
+  (better-font 16)))
+
 
 (setq line-spacing 8
       display-line-numbers-type t)
