@@ -2,7 +2,6 @@
 # zmodload zsh/zprof
 
 # init_home.zsh: setup home
-# init_misc.zsh: add config to overwrite settings
 
 # setup HOME, for shared accout on server
 if [[ -s $ZSHRC_DIR/init_home.zsh ]]; then

@@ -6,5 +6,4 @@ vim/bundles/
 vim/cache/
 vim/tmp/
 zsh/init_home.zsh
-zsh/init_misc.zsh
 emacs/spacemacs.d/.spacemacs.env

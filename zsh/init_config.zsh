@@ -207,9 +207,3 @@ elif [[ $OSTYPE == "Linux" ]]; then
         alias unproxy="unset http_proxy https_proxy"
     fi
 fi
-
-######################################## config to overwrite default
-if [[ -s $ZSHRC_DIR/init_misc.zsh ]]; then
-    source $ZSHRC_DIR/init_misc.zsh
-fi
-
