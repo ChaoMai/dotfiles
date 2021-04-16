@@ -11,6 +11,11 @@ fi
 # detect os
 OSTYPE=$(uname)
 
+
+if [[ $(uname -r) =~ 'microsoft' ]]; then
+    OSTYPE="WSL"
+fi
+
 # get real path of zshrc
 if [[ $OSTYPE == "Darwin" ]]; then
     local cur_path=$(/usr/local/opt/coreutils/libexec/gnubin/readlink -f ${(%):-%x})

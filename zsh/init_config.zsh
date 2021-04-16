@@ -127,7 +127,7 @@ if [[ $OSTYPE == "Darwin" ]]; then
 
     export DEFAULT_NODE_PATH="$NVM_DIR/versions/node/v${DEFAULT_NODE_VER#v}/bin"
 
-elif [[ $OSTYPE == "Linux" ]]; then
+elif [[ $OSTYPE == "Linux" ]] || [[ $OSTYPE == "WSL" ]]; then
     #################### environment variables
     export CC=/usr/bin/clang
     export CXX=/usr/bin/clang++
@@ -185,7 +185,12 @@ elif [[ $OSTYPE == "Linux" ]]; then
     export DEFAULT_NODE_PATH="$NVM_DIR/versions/node/v${DEFAULT_NODE_VER#v}/bin"
 
     #################### wsl2
-    if [[ $(uname -r) =~ 'microsoft' ]]; then
+    if [[ $OSTYPE == "WSL" ]]; then
+        #################### environment variables
+        export CC=/usr/bin/clang-10
+        export CXX=/usr/bin/clang++-10
+
+        #################### other
         for i in $(pstree -np -s $$ | grep -o -E '[0-9]+'); do
             if [[ -e "/run/WSL/${i}_interop" ]]; then
                 export WSL_INTEROP=/run/WSL/${i}_interop
