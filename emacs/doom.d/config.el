@@ -185,8 +185,8 @@
   :config
 
   (if is_gui
-      (load-theme 'kaolin-breeze t)
-    (load-theme 'kaolin-light t))
+      (load-theme 'kaolin-bubblegum t)
+    (load-theme 'kaolin-bubblegum t))
   (kaolin-treemacs-theme)
   (setq kaolin-themes-italic-comments t))
 

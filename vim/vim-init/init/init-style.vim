@@ -100,8 +100,6 @@ highlight LineNr term=bold cterm=NONE ctermfg=DarkGrey ctermbg=NONE
 hi! Pmenu guibg=gray guifg=black ctermbg=gray ctermfg=black
 hi! PmenuSel guibg=gray guifg=brown ctermbg=brown ctermfg=gray
 
-hi Normal guibg=NONE ctermbg=NONE   
-
 
 "----------------------------------------------------------------------
 " 终端设置，隐藏行号和侧边栏

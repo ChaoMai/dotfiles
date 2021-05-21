@@ -163,6 +163,9 @@ if index(g:bundle_group, "enhanced") >= 0
     Plug 'rakr/vim-one'
     Plug 'ayu-theme/ayu-vim'
     Plug 'lifepillar/vim-solarized8'
+    Plug 'arcticicestudio/nord-vim'
+    Plug 'AlessandroYorba/Arcadia'
+    Plug 'AlessandroYorba/Sierra'
 
     " file type icons
     Plug 'ryanoasis/vim-devicons'
@@ -399,19 +402,19 @@ if index(g:bundle_group, "lightline") >= 0
     endfunction
 
     let g:lightline = {
-                \ "colorscheme": "PaperColor_light",
-                \ "active": {
-                \   "left": <SID>light_line_left(),
-                \   "right": <SID>light_line_right(),
-                \ },
-                \ "component_function": {
-                \   "filename": "LightlineFilename",
-                \   "gitbranch": "FugitiveHead",
-                \   "cocstatus": "coc#status",
-                \   "currentfunction": "CocCurrentFunction"
-                \ },
-                \ 'separator': { 'left': '', 'right': '' },
-                \ 'subseparator': { 'left': '│', 'right': '│' }
+                \     "colorscheme": "PaperColor_dark",
+                \     "active": {
+                \       "left": <SID>light_line_left(),
+                \       "right": <SID>light_line_right(),
+                \     },
+                \     "component_function": {
+                \       "filename": "LightlineFilename",
+                \       "gitbranch": "FugitiveHead",
+                \       "cocstatus": "coc#status",
+                \       "currentfunction": "CocCurrentFunction"
+                \     },
+                \     'separator': { 'left': '', 'right': '' },
+                \     'subseparator': { 'left': '│', 'right': '│' }
                 \ }
 endif
 
@@ -1348,37 +1351,55 @@ if (has("termguicolors"))
     set termguicolors
 endif
 
+hi Normal guibg=NONE ctermbg=NONE   
+
 "==================================================================
 " colorscheme onedark
 " let g:onedark_terminal_italics = 1
 
 "==================================================================
-" set background=light
+" set background=dark
 " colorscheme space_vim_theme
 
 "==================================================================
-" set background=light
-" colorscheme hybrid_material
-" let g:enable_bold_font = 1
-" let g:enable_italic_font = 1
-" let g:hybrid_transparent_background = 1
+set background=dark
+let g:enable_bold_font = 1
+let g:enable_italic_font = 1
+let g:hybrid_transparent_background = 0
+colorscheme hybrid_material
 
 "==================================================================
-" set background=light
+" set background=dark
 " colorscheme PaperColor
 
 "==================================================================
-" set background=light
 " let g:one_allow_italics = 1
 " colorscheme one
+" set background=dark
 
 "==================================================================
-" let ayucolor="light"  " for light version of theme
+" let ayucolor="light"
 " colorscheme ayu
 
 "==================================================================
-set background=light
-colorscheme solarized8
+" set background=light
+" colorscheme solarized8
+
+"==================================================================
+" colorscheme nord
+
+"==================================================================
+" let g:sierra_Sunset = 1
+" let g:sierra_Twilight = 1
+" let g:sierra_Midnight = 1
+" let g:sierra_Pitch = 1
+" colorscheme sierra 
+
+" let g:arcadia_Sunset = 1
+" let g:arcadia_Twilight = 1
+" let g:arcadia_Midnight = 1
+" let g:arcadia_Pitch = 1
+" colorscheme arcadia
 
 "==================================================================
 " vim-devicons
