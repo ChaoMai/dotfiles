@@ -1362,11 +1362,11 @@ hi Normal guibg=NONE ctermbg=NONE
 " colorscheme space_vim_theme
 
 "==================================================================
-" set background=dark
-" let g:enable_bold_font = 1
-" let g:enable_italic_font = 1
-" let g:hybrid_transparent_background = 1
-" colorscheme hybrid_material
+set background=dark
+let g:enable_bold_font = 1
+let g:enable_italic_font = 1
+let g:hybrid_transparent_background = 0
+colorscheme hybrid_material
 
 "==================================================================
 " set background=dark
@@ -1397,9 +1397,9 @@ hi Normal guibg=NONE ctermbg=NONE
 
 " let g:arcadia_Sunset = 1
 " let g:arcadia_Twilight = 1
-let g:arcadia_Midnight = 1
+" let g:arcadia_Midnight = 1
 " let g:arcadia_Pitch = 1
-colorscheme arcadia
+" colorscheme arcadia
 
 "==================================================================
 " vim-devicons
