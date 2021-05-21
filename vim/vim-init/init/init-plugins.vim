@@ -164,6 +164,8 @@ if index(g:bundle_group, "enhanced") >= 0
     Plug 'ayu-theme/ayu-vim'
     Plug 'lifepillar/vim-solarized8'
     Plug 'arcticicestudio/nord-vim'
+    Plug 'AlessandroYorba/Arcadia'
+    Plug 'AlessandroYorba/Sierra'
 
     " file type icons
     Plug 'ryanoasis/vim-devicons'
@@ -1360,11 +1362,11 @@ hi Normal guibg=NONE ctermbg=NONE
 " colorscheme space_vim_theme
 
 "==================================================================
-set background=dark
-let g:enable_bold_font = 1
-let g:enable_italic_font = 1
-let g:hybrid_transparent_background = 1
-colorscheme hybrid_material
+" set background=dark
+" let g:enable_bold_font = 1
+" let g:enable_italic_font = 1
+" let g:hybrid_transparent_background = 1
+" colorscheme hybrid_material
 
 "==================================================================
 " set background=dark
@@ -1385,6 +1387,19 @@ colorscheme hybrid_material
 
 "==================================================================
 " colorscheme nord
+
+"==================================================================
+" let g:sierra_Sunset = 1
+" let g:sierra_Twilight = 1
+" let g:sierra_Midnight = 1
+" let g:sierra_Pitch = 1
+" colorscheme sierra 
+
+" let g:arcadia_Sunset = 1
+" let g:arcadia_Twilight = 1
+let g:arcadia_Midnight = 1
+" let g:arcadia_Pitch = 1
+colorscheme arcadia
 
 "==================================================================
 " vim-devicons
