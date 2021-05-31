@@ -67,3 +67,4 @@
 ;;;;; other
 (package! posframe)
 (package! flycheck-posframe)
+(package! ox-gfm)
