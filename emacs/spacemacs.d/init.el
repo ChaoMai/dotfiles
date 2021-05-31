@@ -555,7 +555,7 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
     (message "no implemented"))
 
    ((string-equal platform WSL)
-    (defvar org_dir "/mnt/d/maichao/OneDrive/Documents/workspace/chaomai.org/")))
+    (defvar org_dir "/mnt/d/maichao/onedrive/Documents/workspace/chaomai.org/")))
 
   ;; conda home
   (cond

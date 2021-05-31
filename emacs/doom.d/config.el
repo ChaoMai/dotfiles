@@ -87,13 +87,13 @@
 
 (cond
  ((string-equal platform MACOS)
-  (defvar org_dir "~/Documents/OneDrive/Documents/workspace/chaomai.org/"))
+  (defvar org_dir "~/Documents/onedrive/Documents/workspace/chaomai.org/"))
 
  ((string-equal platform LINUX)
   (message "no implemented"))
 
  ((string-equal platform WSL)
-  (defvar org_dir "~/Documents/OneDrive/Documents/workspace/chaomai.org/")))
+  (defvar org_dir "~/Documents/onedrive/Documents/workspace/chaomai.org/")))
 
 ;; conda home
 (cond
