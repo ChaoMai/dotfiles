@@ -146,7 +146,7 @@
   (if (display-graphic-p)
       (progn
         ;; english font
-        (set-face-attribute 'default nil :font (format "%s:pixelsize=%d" "SF Mono" size))
+        (set-face-attribute 'default nil :font (format "%s:pixelsize=%d" "Fira Code" size))
         ;; chinese font
         (dolist (charset '(kana han symbol cjk-misc bopomofo))
           (set-fontset-font (frame-parameter nil 'font)
@@ -161,7 +161,7 @@
   (message "no implemented"))
 
  ((string-equal platform WSL)
-  (better-font 16)))
+  (better-font 17)))
 
 
 (setq line-spacing 8
@@ -263,6 +263,15 @@
   (evil-disable-insert-state-bindings t)
   (evil-split-window-below t)
   (evil-vsplit-window-right t))
+
+;; ;; iscroll
+;; (use-package! iscroll
+;;   :load-path (concat doom-private-dir "thirdparty/iimg.el")
+;;   :hook
+;;   (org-mode . iscroll-mode)
+;;   :config
+;;   (evil-define-key '(normal visual) 'global-map (kbd "j") 'iscroll-next-line)
+;;   (evil-define-key '(normal visual) 'global-map (kbd "k") 'iscroll-previous-line))
 
 ;; centaur-tabs
 (use-package! centaur-tabs

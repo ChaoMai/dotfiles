@@ -182,6 +182,9 @@ if index(g:bundle_group, "enhanced") >= 0
     " floaterm
     Plug 'voldikss/vim-floaterm'
 
+    " diffview
+    Plug 'sindrets/diffview.nvim', { 'branch': 'main' }
+
     "==================================================================
     " vim expand region 设置
     " ALT_+/- 用于按分隔符扩大缩小 v 选区
