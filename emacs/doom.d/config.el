@@ -146,7 +146,7 @@
   (if (display-graphic-p)
       (progn
         ;; english font
-        (set-face-attribute 'default nil :font (format "%s:pixelsize=%d" "Fira Code" size))
+        (set-face-attribute 'default nil :font (format "%s:pixelsize=%d" "Victor Mono" size))
         ;; chinese font
         (dolist (charset '(kana han symbol cjk-misc bopomofo))
           (set-fontset-font (frame-parameter nil 'font)
@@ -155,7 +155,7 @@
 
 (cond
  ((string-equal platform MACOS)
-  (setq doom-font (font-spec :family "SF Mono" :size 13 :weight 'regular)))
+  (setq doom-font (font-spec :family "Victor Mono" :size 14 :weight 'regular)))
 
  ((string-equal platform LINUX)
   (message "no implemented"))
