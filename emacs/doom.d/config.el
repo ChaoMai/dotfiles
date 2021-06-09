@@ -146,7 +146,7 @@
   (if (display-graphic-p)
       (progn
         ;; english font
-        (set-face-attribute 'default nil :font (format "%s:pixelsize=%d" "Victor Mono" size))
+        (set-face-attribute 'default nil :font (format "%s:pixelsize=%d" "Victor Mono" size) :weight 'Semibold)
         ;; chinese font
         (dolist (charset '(kana han symbol cjk-misc bopomofo))
           (set-fontset-font (frame-parameter nil 'font)
