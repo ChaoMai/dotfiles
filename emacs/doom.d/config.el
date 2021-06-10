@@ -155,7 +155,7 @@
 
 (cond
  ((string-equal platform MACOS)
-  (setq doom-font (font-spec :family "Victor Mono" :size 14 :weight 'regular)))
+  (setq doom-font (font-spec :family "Victor Mono" :size 14 :weight 'Regular)))
 
  ((string-equal platform LINUX)
   (message "no implemented"))
