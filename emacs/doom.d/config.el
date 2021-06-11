@@ -264,15 +264,6 @@
   (evil-split-window-below t)
   (evil-vsplit-window-right t))
 
-;; ;; iscroll
-;; (use-package! iscroll
-;;   :load-path (concat doom-private-dir "thirdparty/iimg.el")
-;;   :hook
-;;   (org-mode . iscroll-mode)
-;;   :config
-;;   (evil-define-key '(normal visual) 'global-map (kbd "j") 'iscroll-next-line)
-;;   (evil-define-key '(normal visual) 'global-map (kbd "k") 'iscroll-previous-line))
-
 ;; centaur-tabs
 (use-package! centaur-tabs
   :demand t
@@ -324,24 +315,24 @@
   :after flycheck
   :hook (flycheck-mode-hook . flycheck-posframe-mode))
 
-;; ;;;;;;;;;; ivy
-;; (use-package! ivy
-;;   :defer t
-;;   :config
-;;   (setq ivy-display-style 'fancy
-;;         ivy-count-format "(%d/%d) "
-;;         ivy-use-virtual-buffers t
-;;         ivy-on-del-error-function 'ignore
-;;         ivy-re-builders-alist '((t . pyim-ivy-cregexp))))
-;;
-;; (use-package! counsel
-;;   :defer t
-;;   :hook (ivy-mode . counsel-mode))
-;;
-;; (use-package! swiper
-;;   :defer t
-;;   :config
-;;   (setq swiper-action-recenter t))
+;;;;;;;;;; ivy
+(use-package! ivy
+  :defer t
+  :config
+  (setq ivy-display-style 'fancy
+        ivy-count-format "(%d/%d) "
+        ivy-use-virtual-buffers t
+        ivy-on-del-error-function 'ignore
+        ivy-re-builders-alist '((t . pyim-ivy-cregexp))))
+
+(use-package! counsel
+  :defer t
+  :hook (ivy-mode . counsel-mode))
+
+(use-package! swiper
+  :defer t
+  :config
+  (setq swiper-action-recenter t))
 
 ;;;;;;;;;; company
 ;; https://emacs.stackexchange.com/questions/15246/how-add-company-dabbrev-to-the-company-completion-popup
