@@ -163,7 +163,6 @@ if index(g:bundle_group, "enhanced") >= 0
     Plug 'rakr/vim-one'
     Plug 'ayu-theme/ayu-vim'
     Plug 'lifepillar/vim-solarized8'
-    Plug 'arcticicestudio/nord-vim'
     Plug 'AlessandroYorba/Arcadia'
     Plug 'AlessandroYorba/Sierra'
 
@@ -1365,11 +1364,11 @@ hi Normal guibg=NONE ctermbg=NONE
 " colorscheme space_vim_theme
 
 "==================================================================
-set background=dark
-let g:enable_bold_font = 1
-let g:enable_italic_font = 1
-let g:hybrid_transparent_background = 0
-colorscheme hybrid_material
+" set background=light
+" let g:enable_bold_font = 1
+" let g:enable_italic_font = 1
+" let g:hybrid_transparent_background = 0
+" colorscheme hybrid_material
 
 "==================================================================
 " set background=dark
@@ -1378,18 +1377,15 @@ colorscheme hybrid_material
 "==================================================================
 " let g:one_allow_italics = 1
 " colorscheme one
-" set background=dark
+" set background=light
 
 "==================================================================
-" let ayucolor="light"
-" colorscheme ayu
+let ayucolor="light"
+colorscheme ayu
 
 "==================================================================
 " set background=light
 " colorscheme solarized8
-
-"==================================================================
-" colorscheme nord
 
 "==================================================================
 " let g:sierra_Sunset = 1

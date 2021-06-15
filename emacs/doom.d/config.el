@@ -266,15 +266,6 @@
   (evil-split-window-below t)
   (evil-vsplit-window-right t))
 
-;; ;; iscroll
-;; (use-package! iscroll
-;;   :load-path (concat doom-private-dir "thirdparty/iimg.el")
-;;   :hook
-;;   (org-mode . iscroll-mode)
-;;   :config
-;;   (evil-define-key '(normal visual) 'global-map (kbd "j") 'iscroll-next-line)
-;;   (evil-define-key '(normal visual) 'global-map (kbd "k") 'iscroll-previous-line))
-
 ;; centaur-tabs
 (use-package! centaur-tabs
   :demand t
@@ -351,7 +342,8 @@
 (use-package! company
   :defer t
   :config
-  (setq company-idle-delay 0.0
+  (setq company-tooltip-limit 10
+        company-idle-delay 0.0
         company-echo-delay 0.0
         ;; Easy navigation to candidates with M-<n>
         company-show-numbers t
@@ -363,9 +355,11 @@
         ;; make dabbrev case-sensitive
         company-dabbrev-ignore-case t
         company-dabbrev-downcase nil
-        company-backends '((company-capf company-dabbrev-code company-keywords
-                                         company-files
-                                         company-dabbrev))))
+        company-backends '((company-capf
+                            company-dabbrev-code
+                            company-keywords
+                            company-files
+                            company-dabbrev))))
 
 ;;;;;;;;;; org
 ;; org-mode
@@ -522,62 +516,62 @@
   (set-formatter! 'black "black -q -"
     :modes '(python-mode)))
 
-;;;;;;;;;; lsp
-;; lsp-mode
-;; 1. https://github.com/MaskRay/Config/blob/master/home/.config/doom/modules/private/my-cc/autoload.el
-;; 2. https://github.com/MaskRay/ccls/wiki/lsp-mode
-(use-package! lsp-mode
-  :commands lsp
-  :hook (lsp-mode-hook . lsp-enable-which-key-integration)
-  :config
-  (setq lsp-idle-delay 0.5                 ;; lazy refresh
-        lsp-log-io nil                     ;; enable log only for debug
-        lsp-enable-file-watchers nil
-        lsp-headerline-breadcrumb-enable t)
-  (add-to-list 'exec-path (concat conda_home "envs/common_env_python3.9/bin/")))
-
-(use-package! lsp-ui
-  :after lsp-mode
-  :config
-  (setq lsp-ui-sideline-enable t
-        lsp-ui-sideline-delay 0.1
-        lsp-ui-sideline-ignore-duplicate t
-        lsp-ui-sideline-show-code-actions nil
-        lsp-ui-sideline-show-diagnostics t
-        lsp-ui-sideline-show-hover nil
-
-        lsp-ui-peek-enable nil
-        lsp-ui-peek-fontify 'always
-
-        lsp-ui-doc-enable nil
-        lsp-ui-doc-use-webkit nil
-        lsp-ui-doc-delay 0.1
-        lsp-ui-doc-include-signature t
-        lsp-ui-doc-position 'top
-
-        lsp-ui-imenu-enable t))
-
-;; ccls
-(use-package! ccls
-  :after lsp-mode
-  :config
-  (setq ccls-sem-highlight-method 'overlay)
-  (ccls-use-default-rainbow-sem-highlight)
-
-  (setq ccls-executable "~/Documents/workspace/github/ccls/Release/ccls"
-        ccls-args '("--log-file=/tmp/ccls-emacs.log")
-        ccls-initialization-options `(:capabilities (:foldingRangeProvider :json-false)
-                                      :cache (:directory ".ccls-cache")
-                                      :completion (:caseSensitivity 0)
-                                      :compilationDatabaseDirectory "cmake-build"
-                                      :codeLens (:localVariables :json-false)
-                                      :client (:snippetSupport t)
-                                      :diagnostics (:onChang 100
-                                                    :onOpen 100
-                                                    :onSave 100)
-                                      :highlight (:lsRanges t)
-                                      :index (:threads 5)))
-  (evil-set-initial-state 'ccls-tree-mode 'emacs))
+;; ;;;;;;;;;; lsp
+;; ;; lsp-mode
+;; ;; 1. https://github.com/MaskRay/Config/blob/master/home/.config/doom/modules/private/my-cc/autoload.el
+;; ;; 2. https://github.com/MaskRay/ccls/wiki/lsp-mode
+;; (use-package! lsp-mode
+;;   :commands lsp
+;;   :hook (lsp-mode-hook . lsp-enable-which-key-integration)
+;;   :config
+;;   (setq lsp-idle-delay 0.5                 ;; lazy refresh
+;;         lsp-log-io nil                     ;; enable log only for debug
+;;         lsp-enable-file-watchers nil
+;;         lsp-headerline-breadcrumb-enable t)
+;;   (add-to-list 'exec-path (concat conda_home "envs/common_env_python3.9/bin/")))
+;;
+;; (use-package! lsp-ui
+;;   :after lsp-mode
+;;   :config
+;;   (setq lsp-ui-sideline-enable t
+;;         lsp-ui-sideline-delay 0.1
+;;         lsp-ui-sideline-ignore-duplicate t
+;;         lsp-ui-sideline-show-code-actions nil
+;;         lsp-ui-sideline-show-diagnostics t
+;;         lsp-ui-sideline-show-hover nil
+;;
+;;         lsp-ui-peek-enable nil
+;;         lsp-ui-peek-fontify 'always
+;;
+;;         lsp-ui-doc-enable nil
+;;         lsp-ui-doc-use-webkit nil
+;;         lsp-ui-doc-delay 0.1
+;;         lsp-ui-doc-include-signature t
+;;         lsp-ui-doc-position 'top
+;;
+;;         lsp-ui-imenu-enable t))
+;;
+;; ;; ccls
+;; (use-package! ccls
+;;   :after lsp-mode
+;;   :config
+;;   (setq ccls-sem-highlight-method 'overlay)
+;;   (ccls-use-default-rainbow-sem-highlight)
+;;
+;;   (setq ccls-executable "~/Documents/workspace/github/ccls/Release/ccls"
+;;         ccls-args '("--log-file=/tmp/ccls-emacs.log")
+;;         ccls-initialization-options `(:capabilities (:foldingRangeProvider :json-false)
+;;                                       :cache (:directory ".ccls-cache")
+;;                                       :completion (:caseSensitivity 0)
+;;                                       :compilationDatabaseDirectory "cmake-build"
+;;                                       :codeLens (:localVariables :json-false)
+;;                                       :client (:snippetSupport t)
+;;                                       :diagnostics (:onChang 100
+;;                                                     :onOpen 100
+;;                                                     :onSave 100)
+;;                                       :highlight (:lsRanges t)
+;;                                       :index (:threads 5)))
+;;   (evil-set-initial-state 'ccls-tree-mode 'emacs))
 
 ;;;;;;;;;; references
 ;; https://practicalli.github.io/spacemacs/

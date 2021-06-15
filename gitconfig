@@ -17,13 +17,15 @@
 	deltaCacheSize = 2047m
 	packSizeLimit = 2047m
 	windowMemory = 2047m
-[diff]
-	tool = vimdiff
 [credential]
 	helper = store
-[difftool]
-	prompt = false
 [pull]
 	rebase = false
 [init]
 	defaultBranch = master
+[difftool]
+    prompt = true
+[diff]
+    tool = nvimdiff
+[difftool "nvimdiff"]
+    cmd = "nvim -d \"$LOCAL\" \"$REMOTE\""
