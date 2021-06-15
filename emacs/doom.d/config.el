@@ -140,55 +140,57 @@
 ;;;;;;;;;; ui
 (setq fancy-splash-image (concat doom-private-dir "nerv_logo.png"))
 
-;; https://emacs-china.org/t/doom-emacs/9628/8?u=chaomai
-(defun better-font(size)
-  (interactive)
-  (if (display-graphic-p)
-      (progn
-        ;; english font
-        (set-face-attribute 'default nil :font (format "%s:pixelsize=%d" "Victor Mono" size) :weight 'Semibold)
-        ;; chinese font
-        (dolist (charset '(kana han symbol cjk-misc bopomofo))
-          (set-fontset-font (frame-parameter nil 'font)
-                            charset
-                            (font-spec :family "Noto Sans CJK SC"))))))
+(setq line-spacing 8
+      display-line-numbers-type t)
 
 (cond
  ((string-equal platform MACOS)
-  (setq doom-font (font-spec :family "Victor Mono" :size 14 :weight 'Regular)))
+  (defvar font_size 15))
 
  ((string-equal platform LINUX)
   (message "no implemented"))
 
  ((string-equal platform WSL)
-  (better-font 17)))
+  (defvar font_size 17)))
 
+;; https://emacs-china.org/t/doom-emacs/9628/8?u=chaomai
+(defun +my/better-font(size)
+  (interactive)
+  (if (display-graphic-p)
+      (progn
+        ;; english font
+        ;; (set-face-attribute 'default nil :font (format "%s:pixelsize=%d" "Victor Mono" size) :weight 'Regular)
+        (set-face-attribute 'default nil :font (format "%s:pixelsize=%d" "Sarasa Mono SC" size) :weight 'Regular)
+        ;; chinese font
+        (dolist (charset '(kana han symbol cjk-misc bopomofo))
+          (set-fontset-font (frame-parameter nil 'font) charset
+                            (font-spec :family "Noto Serif CJK SC"))))))
 
-(setq line-spacing 8
-      display-line-numbers-type t)
+(defun +my|init-font(frame)
+  (with-selected-frame frame
+    (if (display-graphic-p)
+        (+my/better-font font_size))))
 
-;; (use-package! doom-themes
-;;   :config
-;;   (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
-;;         doom-themes-enable-italic t) ; if nil, italics is universally disabled
-;;   (load-theme 'tsdh-light t)
+(if (and (fboundp 'daemonp) (daemonp))
+    (add-hook 'after-make-frame-functions #'+my|init-font)
+  (+my/better-font font_size))
 
-;;   (doom-themes-visual-bell-config)
-
-;;   (setq doom-themes-treemacs-theme "doom-colors")
-;;   (doom-themes-treemacs-config)
-
-;;   ;; Corrects (and improves) org-mode's native fontification.
-;;   (doom-themes-org-config))
-
-(use-package! kaolin-themes
+(use-package! doom-themes
   :config
+  (if (display-graphic-p)
+      (load-theme 'doom-acario-light t)
+    (load-theme 'doom-acario-light t))
 
-  (if is_gui
-      (load-theme 'kaolin-bubblegum t)
-    (load-theme 'kaolin-bubblegum t))
-  (kaolin-treemacs-theme)
-  (setq kaolin-themes-italic-comments t))
+  (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
+        doom-themes-enable-italic t) ; if nil, italics is universally disabled
+
+  (doom-themes-visual-bell-config)
+
+  (setq doom-themes-treemacs-theme "doom-colors")
+  (doom-themes-treemacs-config)
+
+  ;; Corrects (and improves) org-mode's native fontification.
+  (doom-themes-org-config))
 
 ;;;;;;;;;; basic
 ;; pyim
@@ -386,7 +388,7 @@
         org-startup-truncated nil
         org-image-actual-width nil
         org-hide-leading-stars t
-        org-hide-emphasis-markers t
+        org-hide-emphasis-markers nil
         org-fontify-done-headline t
         org-fontify-whole-heading-line t
         org-fontify-quote-and-verse-blocks t

@@ -53,9 +53,6 @@
 (package! valign
   :recipe (:host github :repo "casouri/valign"))
 
-;;;;; ui
-(package! kaolin-themes)
-
 ;;;;; pinyin
 (package! pyim
   :recipe (:host github :repo "tumashu/pyim"))
