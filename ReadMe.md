@@ -38,7 +38,7 @@ git clone --recurse-submodules https://github.com/chaomai/dotfiles.git
 
 ```bash
 # macos
-brew cask install miniconda
+brew install miniconda
 
 # debian
 # https://docs.conda.io/en/latest/miniconda.html#linux-installers
