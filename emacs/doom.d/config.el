@@ -445,9 +445,9 @@
 ;; org-superstar
 (use-package! org-superstar
   :after org
-  :hook (org-mode . org-superstar-mode)
-  :config
-  (setq org-superstar-headline-bullets-list '("☰" "☱" "☲" "☳" "☴" "☵" "☶" "☷" "☷" "☷" "☷")))
+  :hook (org-mode . org-superstar-mode))
+  ;; :config
+  ;; (setq org-superstar-headline-bullets-list '("☰" "☱" "☲" "☳" "☴" "☵" "☶" "☷" "☷" "☷" "☷")))
 
 ;; org-download
 ;; make drag-and-drop image save in the same name folder as org file.
