@@ -18,6 +18,8 @@
 nnoremap <leader>w :w<cr>
 nnoremap <leader>q :q<cr>
 nnoremap <leader>ll :set list!<cr>
+noremap <c-k><c-k> zt
+noremap <c-j><c-j> z-
 
 function! ToggleMovement(firstOp, thenOp)
     let pos = getpos(".")
